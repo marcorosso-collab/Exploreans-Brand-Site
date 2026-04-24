@@ -1,0 +1,28 @@
+---
+seo_title: "About Us — Part of the Planhotel Family | Exploreans"
+seo_description: "Exploreans is one of three hospitality brands from Planhotel Hospitality Group — a Swiss-Italian independent headquartered in Lugano."
+eyebrow: "— Part of the Planhotel family"
+headline: "Italian <em>style,</em><br/>Swiss <em>service,</em><br/>local <em>culture.</em>"
+body: "Exploreans is one of three hospitality brands from Planhotel Hospitality Group — a Swiss-Italian independent headquartered in Lugano. Across the Indian Ocean and East Africa, we operate eleven properties under three distinct identities, each with its own soul, all held to one standard."
+values:
+  - value: "Passionate"
+  - value: "Limitless"
+  - value: "Authentic"
+  - value: "Now"
+sister_brands:
+  - name: "Diamonds"
+    description: "Treasured moments — refined, gracious hospitality in the Indian Ocean."
+    logo: "/images/sisterbrands/diamonds-logo.png"
+    logo_alt: "Diamonds Resorts logo"
+    href: "https://diamonds-resorts.com"
+  - name: "Sandies"
+    description: "Infinite inspirations — warm, all-inclusive, activity-rich island stays."
+    logo: "/images/sisterbrands/sandies-logo.png"
+    logo_alt: "Sandies Resorts logo"
+    href: "https://sandies-resorts.com"
+  - name: "Exploreans"
+    description: "Authentic by nature — intimate camps, lodges and retreats in remarkable landscapes."
+    logo: "/images/sisterbrands/exploreans-logo.png"
+    logo_alt: "Exploreans logo"
+    href: "https://exploreans.com"
+---
