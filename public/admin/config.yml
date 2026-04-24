@@ -1,7 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
   repo: marcorosso-collab/Exploreans-Brand-Site
   branch: main
+  base_url: https://openclaw.onrender.com
+  auth_endpoint: auth
 
 media_folder: "public/images"
 public_folder: "/images"
