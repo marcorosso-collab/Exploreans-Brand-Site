@@ -12,23 +12,317 @@ publish_mode: editorial_workflow
 
 site_url: https://exploreans.com
 display_url: https://exploreans.com
+logo_url: /images/og/exploreans-logo.png
 
 collections:
+
+  # ═══════════════════════════════════════════════════════════
+  # SITE SETTINGS — Global config, SEO, Nav, Footer
+  # ═══════════════════════════════════════════════════════════
   - name: "settings"
     label: "Site Settings"
+    description: "Global site settings — SEO, social, nav, footer"
     files:
       - name: "general"
         label: "General & SEO"
         file: "src/content/settings/general.md"
         fields:
-          - { name: "site_title", label: "Browser tab title", widget: "string" }
-          - { name: "meta_description", label: "SEO meta description", widget: "text" }
+          - { name: "site_title", label: "Browser tab title (<title>)", widget: "string" }
+          - { name: "meta_description", label: "Meta description (SEO)", widget: "text", hint: "150-160 characters recommended" }
+          - { name: "meta_keywords", label: "SEO keywords (comma separated)", widget: "string", required: false }
+          - { name: "og_title", label: "Social share title (Open Graph)", widget: "string" }
+          - { name: "og_description", label: "Social share description", widget: "text" }
+          - { name: "og_image", label: "Social share image (1200×630px)", widget: "image", required: false, hint: "Recommended: 1200×630px for best social preview" }
+          - { name: "twitter_card", label: "Twitter card type", widget: "select", options: ["summary", "summary_large_image"], default: "summary_large_image" }
 
+      - name: "nav"
+        label: "Navigation"
+        file: "src/content/settings/nav.md"
+        fields:
+          - name: "links"
+            label: "Top navigation links"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Link label", widget: "string" }
+              - { name: "href", label: "Link URL (#section or full URL)", widget: "string" }
+          - name: "properties_dropdown"
+            label: "Properties dropdown (manual override)"
+            widget: "list"
+            required: false
+            hint: "Leave empty to auto-populate from Properties collection"
+            fields:
+              - { name: "label", label: "Property name", widget: "string" }
+              - { name: "href", label: "Destination URL", widget: "string" }
+              - { name: "location", label: "Location subtitle", widget: "string", required: false }
+          - { name: "cta_label", label: "CTA button text", widget: "string", default: "Plan a stay" }
+          - { name: "cta_href", label: "CTA button link", widget: "string", default: "#places" }
+
+      - name: "footer"
+        label: "Footer"
+        file: "src/content/settings/footer.md"
+        fields:
+          - { name: "brand_description", label: "Footer brand description", widget: "text" }
+          - { name: "tagline", label: "Tagline", widget: "string", default: "— Authentic by nature." }
+          - name: "destinations_links"
+            label: "Destinations column links"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Link text", widget: "string" }
+              - { name: "href", label: "Link URL", widget: "string" }
+          - name: "collection_links"
+            label: "Collection column links"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Link text", widget: "string" }
+              - { name: "href", label: "Link URL", widget: "string" }
+          - name: "contact_links"
+            label: "Contact column links"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Link text", widget: "string" }
+              - { name: "href", label: "Link URL", widget: "string" }
+          - { name: "endorser_text", label: "Planhotel endorser line", widget: "string", default: "A brand of PLANHOTEL · Lugano, Switzerland" }
+          - { name: "copyright_year", label: "Copyright year", widget: "string", default: "MMXXVI" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Hero Section
+  # ═══════════════════════════════════════════════════════════
   - name: "hero"
-    label: "Homepage Hero"
+    label: "Homepage — Hero"
+    description: "Full-screen opening hero section"
     folder: "src/content/hero"
     create: false
-    slug: "{{slug}}"
+    delete: false
+    slug: "hero"
     fields:
-      - { name: "title", label: "Title", widget: "string" }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "title", label: "Hero headline (HTML allowed)", widget: "text", hint: "Use <em>...</em> for italics, <br/> for line breaks" }
+      - { name: "body", label: "Hero body text", widget: "markdown" }
+      - { name: "background_image", label: "Background image", widget: "image", required: false, hint: "Full-screen hero background" }
+      - { name: "background_image_alt", label: "Background image alt text (SEO)", widget: "string", required: false, hint: "Describe the image for accessibility" }
+      - { name: "scroll_indicator", label: "Scroll indicator text", widget: "string", default: "Scroll" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Philosophy Letter
+  # ═══════════════════════════════════════════════════════════
+  - name: "letter"
+    label: "Homepage — Philosophy Letter"
+    description: "Chapter I letter section"
+    folder: "src/content/letter"
+    create: false
+    delete: false
+    slug: "letter"
+    fields:
+      - { name: "chapter_label", label: "Chapter label", widget: "string", default: "Chapter I" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+      - { name: "lead", label: "Lead paragraph", widget: "text" }
+      - { name: "body", label: "Body paragraphs", widget: "markdown" }
+      - { name: "signature", label: "Signature line", widget: "string" }
+      - { name: "background_image", label: "Section background image", widget: "image", required: false }
+      - { name: "background_image_alt", label: "Background image alt text", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Brand Pillars Intro
+  # ═══════════════════════════════════════════════════════════
+  - name: "pillarsintro"
+    label: "Homepage — Pillars Intro"
+    description: "Three ideas we hold to — intro text"
+    folder: "src/content/pillarsintro"
+    create: false
+    delete: false
+    slug: "pillarsintro"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Brand Pillars (3 cards)
+  # ═══════════════════════════════════════════════════════════
+  - name: "pillars"
+    label: "Homepage — Brand Pillars"
+    description: "The 3 pillar cards"
+    folder: "src/content/pillars"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order", label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "title", label: "Pillar title", widget: "string" }
+      - { name: "subtitle", label: "Pillar subtitle", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "image", label: "Card image", widget: "image", required: false }
+      - { name: "image_alt", label: "Image alt text (SEO)", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Destinations Intro
+  # ═══════════════════════════════════════════════════════════
+  - name: "placesintro"
+    label: "Homepage — Destinations Intro"
+    description: "Two nature-led addresses — intro section"
+    folder: "src/content/placesintro"
+    create: false
+    delete: false
+    slug: "placesintro"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+      - { name: "body", label: "Body text", widget: "markdown" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Properties
+  # ═══════════════════════════════════════════════════════════
+  - name: "properties"
+    label: "Homepage — Properties"
+    description: "Property cards — also auto-populates nav dropdown"
+    folder: "src/content/properties"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "name"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order", label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "name", label: "Property name (HTML allowed)", widget: "text", hint: "Use <em>...</em> for italics" }
+      - { name: "short_name", label: "Short name (for nav dropdown)", widget: "string" }
+      - { name: "location", label: "Location", widget: "string" }
+      - { name: "tagline", label: "Tagline", widget: "string" }
+      - { name: "description", label: "Description", widget: "markdown" }
+      - { name: "hero_image", label: "Property hero image", widget: "image" }
+      - { name: "hero_image_alt", label: "Hero image alt text (SEO)", widget: "string", required: false }
+      - { name: "specs_label", label: "Specs section label", widget: "string", default: "At a glance" }
+      - name: "specs"
+        label: "Property specs (up to 6)"
+        widget: "list"
+        fields:
+          - { name: "label", label: "Spec label", widget: "string" }
+          - { name: "value", label: "Spec value", widget: "string" }
+      - { name: "cta_label", label: "CTA button text", widget: "string", default: "Explore" }
+      - { name: "cta_href", label: "CTA button link", widget: "string", hint: "e.g., https://mara.exploreans.com" }
+      - { name: "show_in_nav", label: "Show in nav dropdown", widget: "boolean", default: true }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Experiences Intro
+  # ═══════════════════════════════════════════════════════════
+  - name: "beyond"
+    label: "Homepage — Experiences Intro"
+    description: "Nature rewards the unhurried — intro section"
+    folder: "src/content/beyond"
+    create: false
+    delete: false
+    slug: "beyond"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+      - { name: "body", label: "Body text", widget: "markdown" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Experiences (6 cards)
+  # ═══════════════════════════════════════════════════════════
+  - name: "experiences"
+    label: "Homepage — Experiences"
+    description: "The 6 experience cards"
+    folder: "src/content/experiences"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order", label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "title", label: "Experience title", widget: "string" }
+      - { name: "subtitle", label: "Subtitle/description", widget: "text" }
+      - { name: "image", label: "Card image", widget: "image" }
+      - { name: "image_alt", label: "Image alt text (SEO)", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Field Notes Intro
+  # ═══════════════════════════════════════════════════════════
+  - name: "notesintro"
+    label: "Homepage — Field Notes Intro"
+    description: "Dispatches from the camps — intro"
+    folder: "src/content/notesintro"
+    create: false
+    delete: false
+    slug: "notesintro"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Field Notes Postcards
+  # ═══════════════════════════════════════════════════════════
+  - name: "fieldnotes"
+    label: "Homepage — Field Notes Postcards"
+    description: "The postcard wall"
+    folder: "src/content/fieldnotes"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order", label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "title", label: "Postcard title", widget: "string" }
+      - { name: "location", label: "Location", widget: "string" }
+      - { name: "date", label: "Date", widget: "string" }
+      - { name: "image", label: "Postcard image", widget: "image" }
+      - { name: "image_alt", label: "Image alt text (SEO)", widget: "string", required: false }
+      - { name: "href", label: "Link URL", widget: "string", required: false, hint: "Optional link when clicking postcard" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Planhotel Family Section
+  # ═══════════════════════════════════════════════════════════
+  - name: "group"
+    label: "Homepage — Planhotel Family"
+    description: "Group section — Planhotel endorsement"
+    folder: "src/content/group"
+    create: false
+    delete: false
+    slug: "group"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+      - { name: "body", label: "Body text", widget: "markdown" }
+      - { name: "values_label", label: "Values section label", widget: "string" }
+      - name: "values"
+        label: "Values list"
+        widget: "list"
+        fields:
+          - { name: "value", label: "Value text", widget: "string" }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Sister Brands (Diamonds, Sandies, Exploreans)
+  # ═══════════════════════════════════════════════════════════
+  - name: "sisterbrands"
+    label: "Homepage — Sister Brands"
+    description: "Sister brand cards in Planhotel family section"
+    folder: "src/content/sisterbrands"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order", label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "name", label: "Brand name", widget: "string" }
+      - { name: "mark", label: "Single letter mark (D, S, E)", widget: "string", pattern: ["^.{1}$", "One character only"] }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "href", label: "Link URL", widget: "string" }
+      - { name: "logo", label: "Brand logo", widget: "image", required: false }
+      - { name: "logo_alt", label: "Logo alt text (SEO)", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
+  # HOMEPAGE — Journal / Newsletter Section
+  # ═══════════════════════════════════════════════════════════
+  - name: "journal"
+    label: "Homepage — Journal / Newsletter"
+    description: "Newsletter signup section"
+    folder: "src/content/journal"
+    create: false
+    delete: false
+    slug: "journal"
+    fields:
+      - { name: "eyebrow", label: "Eyebrow text", widget: "string" }
+      - { name: "headline", label: "Headline (HTML allowed)", widget: "text" }
+      - { name: "supporting", label: "Supporting paragraph", widget: "text" }
+      - { name: "input_placeholder", label: "Email input placeholder", widget: "string", default: "your email address" }
+      - { name: "button_label", label: "Subscribe button label", widget: "string", default: "Subscribe →" }
+      - { name: "success_message", label: "Success message", widget: "string", default: "Thank you." }
+      - { name: "privacy_note", label: "Privacy note", widget: "text", required: false, hint: "Optional privacy text below form" }
