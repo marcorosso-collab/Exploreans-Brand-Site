@@ -95,8 +95,6 @@ collections:
   - name: "hero"
     label: "Homepage — Hero"
     description: "The full-screen opening hero section"
-    editor:
-      preview: false
     files:
       - name: "hero"
         label: "Hero content"
@@ -117,8 +115,6 @@ collections:
   - name: "letter"
     label: "Homepage — Philosophy Letter"
     description: "The editorial 'Chapter I' letter from the field"
-    editor:
-      preview: false
     files:
       - name: "letter"
         label: "Letter content"
@@ -141,8 +137,6 @@ collections:
   # ─── PILLARS SECTION INTRO ───
   - name: "pillarsintro"
     label: "Homepage — Pillars Intro"
-    editor:
-      preview: false
     files:
       - name: "pillarsintro"
         label: "Pillars section intro"
@@ -173,8 +167,6 @@ collections:
   # ─── PLACES / DESTINATIONS INTRO ───
   - name: "placesintro"
     label: "Homepage — Destinations Intro"
-    editor:
-      preview: false
     files:
       - name: "placesintro"
         label: "Destinations section intro"
@@ -221,8 +213,6 @@ collections:
   # ─── BEYOND / EXPERIENCES INTRO ───
   - name: "beyond"
     label: "Homepage — Experiences Intro"
-    editor:
-      preview: false
     files:
       - name: "beyond"
         label: "Experiences section intro"
@@ -252,8 +242,6 @@ collections:
   # ─── FIELD NOTES INTRO ───
   - name: "notesintro"
     label: "Homepage — Field Notes Intro"
-    editor:
-      preview: false
     files:
       - name: "notesintro"
         label: "Field Notes section intro"
@@ -285,8 +273,6 @@ collections:
   # ─── GROUP / PLANHOTEL FAMILY SECTION ───
   - name: "group"
     label: "Homepage — Planhotel Family"
-    editor:
-      preview: false
     files:
       - name: "group"
         label: "Planhotel family section"
@@ -323,8 +309,6 @@ collections:
   # ─── JOURNAL / NEWSLETTER SECTION ───
   - name: "journal"
     label: "Homepage — Journal / Newsletter"
-    editor:
-      preview: false
     files:
       - name: "journal"
         label: "Newsletter section"
