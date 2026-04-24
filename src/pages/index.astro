@@ -10,8 +10,13 @@ import FieldNotes from '../components/FieldNotes.astro';
 import Group from '../components/Group.astro';
 import Journal from '../components/Journal.astro';
 import Footer from '../components/Footer.astro';
+import { getEntry } from 'astro:content';
+
+// Load hero section for OG image
+const heroEntry = await getEntry('homepage', 'hero');
+const heroData = heroEntry?.data ?? {};
 ---
-<Layout>
+<Layout ogImage={heroData.background_image}>
   <Nav />
   <Hero />
   <Letter />

@@ -70,6 +70,8 @@ collections:
         label: "Hero Section"
         file: "src/content/homepage/hero.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string", hint: "Page title for search engines" }
+          - { name: "seo_description", label: "Meta Description", widget: "text", hint: "150-160 characters for search results" }
           - { name: "title", label: "Headline", widget: "text" }
           - { name: "body", label: "Body text", widget: "markdown" }
           - { name: "background_image", label: "Background image", widget: "image" }
@@ -79,6 +81,8 @@ collections:
         label: "Philosophy Letter"
         file: "src/content/homepage/letter.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "chapter_label", label: "Chapter label", widget: "string" }
           - { name: "headline", label: "Headline", widget: "text" }
           - { name: "lead", label: "Lead paragraph", widget: "text" }
@@ -89,6 +93,8 @@ collections:
         label: "Brand Pillars"
         file: "src/content/homepage/pillars.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
           - { name: "intro_headline", label: "Intro headline", widget: "text" }
           - name: "items"
@@ -105,6 +111,8 @@ collections:
         label: "Destinations"
         file: "src/content/homepage/destinations.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
           - { name: "intro_headline", label: "Intro headline", widget: "text" }
           - { name: "intro_body", label: "Intro body", widget: "markdown" }
@@ -113,6 +121,8 @@ collections:
         label: "Experiences"
         file: "src/content/homepage/experiences.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
           - { name: "intro_headline", label: "Intro headline", widget: "text" }
           - { name: "intro_body", label: "Intro body", widget: "markdown" }
@@ -129,6 +139,8 @@ collections:
         label: "Field Notes"
         file: "src/content/homepage/fieldnotes.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
           - { name: "intro_headline", label: "Intro headline", widget: "text" }
           - name: "postcards"
@@ -145,6 +157,8 @@ collections:
         label: "Planhotel Family"
         file: "src/content/homepage/planhotel.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "eyebrow", label: "Eyebrow", widget: "string" }
           - { name: "headline", label: "Headline", widget: "text" }
           - { name: "body", label: "Body", widget: "markdown" }
@@ -155,12 +169,15 @@ collections:
               - { name: "name", label: "Brand name", widget: "string" }
               - { name: "description", label: "Description", widget: "text" }
               - { name: "logo", label: "Logo", widget: "image" }
+              - { name: "logo_alt", label: "Logo alt text", widget: "string" }
               - { name: "href", label: "Link", widget: "string" }
 
       - name: "newsletter"
         label: "Newsletter"
         file: "src/content/homepage/newsletter.md"
         fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
           - { name: "eyebrow", label: "Eyebrow", widget: "string" }
           - { name: "headline", label: "Headline", widget: "text" }
           - { name: "supporting", label: "Supporting text", widget: "text" }
@@ -177,6 +194,8 @@ collections:
     delete: true
     slug: "{{slug}}"
     fields:
+      - { name: "seo_title", label: "SEO Title", widget: "string" }
+      - { name: "seo_description", label: "Meta Description", widget: "text" }
       - { name: "name", label: "Property name", widget: "string" }
       - { name: "location", label: "Location", widget: "string" }
       - { name: "tagline", label: "Tagline", widget: "string" }

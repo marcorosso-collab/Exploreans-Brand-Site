@@ -8,9 +8,18 @@ const g = general?.data ?? {};
 export interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title = g.site_title, description = g.meta_description } = Astro.props;
+// Use CMS values only - no hardcoded fallbacks
+const title = Astro.props.title ?? g.site_title ?? '';
+const description = Astro.props.description ?? g.meta_description ?? '';
+const ogImage = Astro.props.ogImage ?? g.og_image ?? '';
+const ogTitle = Astro.props.title ?? g.og_title ?? g.site_title ?? '';
+const ogDescription = Astro.props.description ?? g.og_description ?? g.meta_description ?? '';
+
+const siteUrl = 'https://exploreans.com';
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -20,10 +29,22 @@ const { title = g.site_title, description = g.meta_description } = Astro.props;
   <title>{title}</title>
   <meta name="description" content={description} />
   {g.meta_keywords && <meta name="keywords" content={g.meta_keywords} />}
-  <meta property="og:title" content={g.og_title ?? title} />
-  <meta property="og:description" content={g.og_description ?? description} />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalUrl} />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={ogDescription} />
   <meta property="og:type" content="website" />
-  {g.og_image && <meta property="og:image" content={g.og_image} />}
+  <meta property="og:url" content={canonicalUrl} />
+  {ogImage && <meta property="og:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />}
+  
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={ogTitle} />
+  <meta name="twitter:description" content={ogDescription} />
+  {ogImage && <meta name="twitter:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />}
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
