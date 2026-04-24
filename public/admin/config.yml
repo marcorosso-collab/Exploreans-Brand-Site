@@ -30,8 +30,6 @@ collections:
   - name: "settings"
     label: "Site Settings"
     description: "Global site settings — SEO, social, nav, footer"
-    editor:
-      preview: false
     files:
       - name: "general"
         label: "General & SEO"
