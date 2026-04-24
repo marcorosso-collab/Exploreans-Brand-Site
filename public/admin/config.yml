@@ -4,12 +4,9 @@
 # ─────────────────────────────────────────────────────────────
 
 backend:
-  name: github
+  name: git-gateway
   repo: marcorosso-collab/Exploreans-Brand-Site
   branch: main
-  # GitHub OAuth via OpenClaw (matches your Mara River Camp setup)
-  base_url: https://openclaw.onrender.com
-  auth_endpoint: auth
 
 # Where user-uploaded images land
 media_folder: "public/images"
