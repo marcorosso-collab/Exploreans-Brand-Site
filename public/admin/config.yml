@@ -76,6 +76,7 @@ collections:
           - { name: "body", label: "Body text", widget: "markdown" }
           - { name: "background_image", label: "Background image", widget: "image" }
           - { name: "background_image_alt", label: "Image alt text", widget: "string" }
+          - { name: "scroll_indicator", label: "Scroll indicator text", widget: "string" }
 
       - name: "letter"
         label: "Philosophy Letter"
