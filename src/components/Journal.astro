@@ -1,0 +1,20 @@
+---
+import { getEntry } from 'astro:content';
+const j = (await getEntry('journal', 'journal'))!.data;
+---
+<section class="journal" id="journal">
+  <div class="topo-bg"></div>
+  <div class="container reveal">
+    <span class="eyebrow">{j.eyebrow}</span>
+    <h2 set:html={j.headline}></h2>
+    <p>{j.supporting}</p>
+    <form
+      class="journal-form"
+      data-success-message={j.success_message}
+      onsubmit="event.preventDefault(); this.querySelector('button').textContent=this.dataset.successMessage;"
+    >
+      <input type="email" placeholder={j.input_placeholder} required />
+      <button type="submit">{j.button_label}</button>
+    </form>
+  </div>
+</section>

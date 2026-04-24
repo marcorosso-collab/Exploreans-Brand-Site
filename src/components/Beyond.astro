@@ -1,0 +1,24 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const intro = (await getEntry('beyond', 'beyond'))!.data;
+const experiences = (await getCollection('experiences')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="beyond" id="beyond">
+  <div class="topo-bg"></div>
+  <div class="container">
+    <div class="beyond-head reveal">
+      <h2 set:html={intro.headline}></h2>
+      <div class="aside">{intro.aside}</div>
+    </div>
+    <div class="experiences reveal">
+      {experiences.map((e) => (
+        <article class="exp">
+          <div class="exp-num">{e.data.number}</div>
+          <h4 set:html={e.data.title}></h4>
+          <p>{e.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const navSettings = await getEntry('settings', 'nav');
+const nav = navSettings?.data ?? { links: [], cta_label: 'Plan a stay', cta_href: '#places' };
+
+// Auto-populate Properties dropdown from the properties collection
+// (unless manual overrides were set in CMS)
+const properties = (await getCollection('properties'))
+  .filter(p => p.data.show_in_nav !== false)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.length > 0)
+  ? nav.properties_dropdown
+  : properties.map(p => ({
+      label: p.data.short_name,
+      href: p.data.cta_href,
+      location: p.data.location
+    }));
+---
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="/" class="wordmark">
+      <span class="wordmark-main">Exploreans</span>
+      <span class="wordmark-sub">Camps · Lodges · Retreats</span>
+    </a>
+
+    <ul class="nav-links">
+      {nav.links?.map((link) => {
+        const isProperties = link.label.toLowerCase() === 'properties';
+        if (isProperties && propertiesDropdown.length > 0) {
+          return (
+            <li class="has-dropdown">
+              <a href={link.href}>{link.label}</a>
+              <ul class="dropdown">
+                {propertiesDropdown.map((p) => (
+                  <li>
+                    <a href={p.href}>
+                      {p.label}
+                      {p.location && <span class="dd-location">{p.location}</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        }
+        return (
+          <li><a href={link.href}>{link.label}</a></li>
+        );
+      })}
+    </ul>
+
+    <a href={nav.cta_href} class="nav-cta"><span>{nav.cta_label}</span></a>
+  </div>
+</nav>

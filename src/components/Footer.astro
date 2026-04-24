@@ -1,0 +1,46 @@
+---
+import { getEntry } from 'astro:content';
+const f = (await getEntry('settings', 'footer'))!.data;
+---
+<footer class="footer">
+  <div class="topo-bg topo-bg--sage" style="opacity:0.08;"></div>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="wordmark-main">Exploreans</span>
+        <span class="wordmark-sub">Camps · Lodges · Retreats</span>
+        <p>{f.brand_description}</p>
+        <div class="tag-line">{f.tagline}</div>
+      </div>
+      <div>
+        <h6>Destinations</h6>
+        <ul>
+          {f.destinations_links?.map((l) => (<li><a href={l.href}>{l.label}</a></li>))}
+        </ul>
+      </div>
+      <div>
+        <h6>The Collection</h6>
+        <ul>
+          {f.collection_links?.map((l) => (<li><a href={l.href}>{l.label}</a></li>))}
+        </ul>
+      </div>
+      <div>
+        <h6>Contact</h6>
+        <ul>
+          {f.contact_links?.map((l) => (<li><a href={l.href}>{l.label}</a></li>))}
+        </ul>
+      </div>
+    </div>
+    <div class="footer-endorser">
+      <div class="endorser-mark">
+        <span set:html={f.endorser_text?.replace('PLANHOTEL', '<strong>PLANHOTEL</strong>')}></span>
+      </div>
+      <div class="footer-meta">
+        <span>© {f.copyright_year}</span>
+        <span>Privacy</span>
+        <span>Terms</span>
+        <span>Cookies</span>
+      </div>
+    </div>
+  </div>
+</footer>

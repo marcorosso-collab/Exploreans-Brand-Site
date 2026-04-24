@@ -1,0 +1,29 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const intro = (await getEntry('notesintro', 'notesintro'))!.data;
+const notes = (await getCollection('fieldnotes')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="notes">
+  <div class="topo-bg"></div>
+  <div class="container">
+    <div class="notes-head reveal">
+      <span class="eyebrow">{intro.eyebrow}</span>
+      <h2 set:html={intro.headline}></h2>
+      <p>{intro.supporting}</p>
+    </div>
+    <div class="postcards reveal">
+      {notes.map((n) => (
+        <figure class="postcard">
+          <div class="postcard-img">
+            <img src={n.data.image} alt={n.data.image_alt ?? n.data.caption} loading="lazy" />
+          </div>
+          <figcaption class="caption">
+            {n.data.caption}
+            {n.data.meta && <span class="caption-meta">{n.data.meta}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

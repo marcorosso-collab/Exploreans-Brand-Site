@@ -1,0 +1,343 @@
+# ─────────────────────────────────────────────────────────────
+# EXPLOREANS — Sveltia CMS Configuration
+# Each editable block on exploreans.com maps to a collection below.
+# ─────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: marcorosso-collab/Exploreans-Brand-Site
+  branch: main
+  # GitHub OAuth via OpenClaw (matches your Mara River Camp setup)
+  base_url: https://openclaw.onrender.com
+  auth_endpoint: auth
+
+# Where user-uploaded images land
+media_folder: "public/images"
+public_folder: "/images"
+
+# Preview before publishing
+publish_mode: editorial_workflow
+
+# Site URL for preview links
+site_url: https://exploreans.com
+display_url: https://exploreans.com
+logo_url: /images/og/exploreans-logo.png
+
+# ─────────────────────────────────────────────────────────────
+# COLLECTIONS
+# ─────────────────────────────────────────────────────────────
+
+collections:
+
+  # ─── SITE SETTINGS — global, nav, footer, SEO ───
+  - name: "settings"
+    label: "Site Settings"
+    description: "Global site settings — SEO, social, nav, footer"
+    editor:
+      preview: false
+    files:
+      - name: "general"
+        label: "General & SEO"
+        file: "src/content/settings/general.md"
+        fields:
+          - { name: "site_title",       label: "Browser tab title",       widget: "string" }
+          - { name: "meta_description", label: "SEO meta description",    widget: "text" }
+          - { name: "meta_keywords",    label: "SEO keywords (comma separated)", widget: "string", required: false }
+          - { name: "og_title",         label: "Social share title",      widget: "string" }
+          - { name: "og_description",   label: "Social share description", widget: "text" }
+          - { name: "og_image",         label: "Social share image (1200×630)", widget: "image", required: false }
+
+      - name: "nav"
+        label: "Navigation"
+        file: "src/content/settings/nav.md"
+        fields:
+          - name: "links"
+            label: "Top navigation links"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Label", widget: "string" }
+              - { name: "href",  label: "Link (#section or URL)", widget: "string" }
+          - name: "properties_dropdown"
+            label: "Properties dropdown (overrides auto-population if you want manual control)"
+            widget: "list"
+            required: false
+            fields:
+              - { name: "label",    label: "Property name",      widget: "string" }
+              - { name: "href",     label: "Destination URL",    widget: "string" }
+              - { name: "location", label: "Location (shown below name, optional)", widget: "string", required: false }
+          - { name: "cta_label", label: "CTA button label", widget: "string", default: "Plan a stay" }
+          - { name: "cta_href",  label: "CTA button link",  widget: "string", default: "#places" }
+
+      - name: "footer"
+        label: "Footer"
+        file: "src/content/settings/footer.md"
+        fields:
+          - { name: "brand_description", label: "Footer brand description", widget: "text" }
+          - { name: "tagline",           label: "Tagline",                  widget: "string", default: "— Authentic by nature." }
+          - name: "destinations_links"
+            label: "Destinations column"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Label", widget: "string" }
+              - { name: "href",  label: "Link",  widget: "string" }
+          - name: "collection_links"
+            label: "Collection column"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Label", widget: "string" }
+              - { name: "href",  label: "Link",  widget: "string" }
+          - name: "contact_links"
+            label: "Contact column"
+            widget: "list"
+            fields:
+              - { name: "label", label: "Label", widget: "string" }
+              - { name: "href",  label: "Link",  widget: "string" }
+          - { name: "endorser_text", label: "Planhotel endorser line", widget: "string", default: "A brand of PLANHOTEL · Lugano, Switzerland" }
+          - { name: "copyright_year", label: "Copyright year", widget: "string", default: "MMXXVI" }
+
+
+  # ─── HERO SECTION ───
+  - name: "hero"
+    label: "Homepage — Hero"
+    description: "The full-screen opening hero section"
+    editor:
+      preview: false
+    files:
+      - name: "hero"
+        label: "Hero content"
+        file: "src/content/hero/hero.md"
+        fields:
+          - { name: "volume_label",    label: "Top-left volume label",          widget: "string", default: "Vol. I · The Field Journal · A Planhotel Brand" }
+          - { name: "title_line_1",    label: "Headline — line 1",              widget: "string", default: "Authentic" }
+          - { name: "title_line_2",    label: "Headline — line 2 (italic)",     widget: "string", default: "by nature." }
+          - { name: "body_1",          label: "Body paragraph 1",               widget: "text" }
+          - { name: "body_2",          label: "Body paragraph 2",               widget: "text" }
+          - { name: "bottom_left",     label: "Bottom-left credit line",        widget: "string", default: "A Planhotel Collection · MMXXVI" }
+          - { name: "scroll_label",    label: "Scroll prompt label",            widget: "string", default: "Begin reading" }
+          - { name: "background_image", label: "Hero background image",         widget: "image" }
+          - { name: "background_alt",  label: "Hero image alt text (accessibility)", widget: "string", required: false }
+
+
+  # ─── LETTER / PHILOSOPHY SECTION ───
+  - name: "letter"
+    label: "Homepage — Philosophy Letter"
+    description: "The editorial 'Chapter I' letter from the field"
+    editor:
+      preview: false
+    files:
+      - name: "letter"
+        label: "Letter content"
+        file: "src/content/letter/letter.md"
+        fields:
+          - { name: "chapter_number", label: "Chapter number",        widget: "string",  default: "I." }
+          - { name: "chapter_label",  label: "Chapter label",         widget: "string",  default: "A Note From the Field" }
+          - { name: "dateline",       label: "Dateline (italic note)", widget: "string", default: "Written at first light, from one of our camps." }
+          - { name: "headline",       label: "Main headline (HTML — use <em>...</em> for italic emphasis)", widget: "text" }
+          - { name: "lead",           label: "Lead paragraph (has drop cap)", widget: "text" }
+          - name: "body_paragraphs"
+            label: "Additional paragraphs (in order)"
+            widget: "list"
+            fields:
+              - { name: "text", label: "Paragraph text", widget: "text" }
+          - { name: "signature_name", label: "Signature name",   widget: "string", default: "— The Exploreans Collection" }
+          - { name: "signature_role", label: "Signature role",   widget: "string", default: "Camps, Lodges & Retreats" }
+
+
+  # ─── PILLARS SECTION INTRO ───
+  - name: "pillarsintro"
+    label: "Homepage — Pillars Intro"
+    editor:
+      preview: false
+    files:
+      - name: "pillarsintro"
+        label: "Pillars section intro"
+        file: "src/content/pillarsintro/pillarsintro.md"
+        fields:
+          - { name: "headline",   label: "Section headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "supporting", label: "Supporting paragraph", widget: "text" }
+
+
+  # ─── THREE BRAND PILLARS (reorderable, add/remove) ───
+  - name: "pillars"
+    label: "Homepage — Brand Pillars"
+    description: "The three ideas: 'Nothing added, nothing taken away' etc."
+    folder: "src/content/pillars"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "phrase_line_1"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order",         label: "Display order (01, 02, 03...)", widget: "number", value_type: "int", min: 1 }
+      - { name: "numeral",       label: "Roman numeral label (i., ii., iii.)", widget: "string" }
+      - { name: "phrase_line_1", label: "Phrase line 1 (shown in italic)", widget: "string" }
+      - { name: "phrase_line_2", label: "Phrase line 2 (shown upright)",   widget: "string" }
+      - { name: "description",   label: "Description paragraph",           widget: "text" }
+
+
+  # ─── PLACES / DESTINATIONS INTRO ───
+  - name: "placesintro"
+    label: "Homepage — Destinations Intro"
+    editor:
+      preview: false
+    files:
+      - name: "placesintro"
+        label: "Destinations section intro"
+        file: "src/content/placesintro/placesintro.md"
+        fields:
+          - { name: "eyebrow",    label: "Eyebrow text",      widget: "string", default: "The Collection" }
+          - { name: "headline",   label: "Headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "supporting", label: "Supporting paragraph", widget: "text" }
+
+
+  # ─── PROPERTIES (destinations — Mara, Malaika, future) ───
+  - name: "properties"
+    label: "Homepage — Properties"
+    description: "Property cards on homepage. Each one also appears in the nav Properties dropdown."
+    folder: "src/content/properties"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "name"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order",       label: "Display order (01, 02...)",       widget: "number", value_type: "int", min: 1 }
+      - { name: "name",        label: "Property name (HTML — use <em>...</em>)", widget: "string" }
+      - { name: "short_name",  label: "Short name (for nav dropdown)",   widget: "string" }
+      - { name: "location",    label: "Location (e.g. 'Maasai Mara · Kenya')", widget: "string" }
+      - { name: "tagline",     label: "Italic tagline (below name)",     widget: "text" }
+      - { name: "description", label: "Description paragraph",           widget: "text" }
+      - { name: "image",       label: "Hero image",                      widget: "image" }
+      - { name: "image_alt",   label: "Image alt text (accessibility)",  widget: "string", required: false }
+      - { name: "tag_label",   label: "Tag label on image (e.g. 'Property 01')", widget: "string" }
+      - name: "specs"
+        label: "Specs (shown in row under tagline)"
+        widget: "list"
+        min: 1
+        max: 6
+        fields:
+          - { name: "label", label: "Spec label (e.g. 'Tents')", widget: "string" }
+          - { name: "value", label: "Spec value (e.g. '12')",    widget: "string" }
+      - { name: "cta_label",   label: "CTA button label",                widget: "string", default: "Visit" }
+      - { name: "cta_href",    label: "CTA destination URL (subdomain)", widget: "string" }
+      - { name: "show_in_nav", label: "Show in nav 'Properties' dropdown", widget: "boolean", default: true }
+
+
+  # ─── BEYOND / EXPERIENCES INTRO ───
+  - name: "beyond"
+    label: "Homepage — Experiences Intro"
+    editor:
+      preview: false
+    files:
+      - name: "beyond"
+        label: "Experiences section intro"
+        file: "src/content/beyond/beyond.md"
+        fields:
+          - { name: "headline", label: "Headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "aside",    label: "Italic aside (right column)",        widget: "text" }
+
+
+  # ─── EXPERIENCES (6 cards) ───
+  - name: "experiences"
+    label: "Homepage — Experiences"
+    description: "Experience cards under 'Nature rewards the unhurried'"
+    folder: "src/content/experiences"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "title"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order",       label: "Display order (01, 02...)", widget: "number", value_type: "int", min: 1 }
+      - { name: "number",      label: "Corner number (e.g. '01')", widget: "string" }
+      - { name: "title",       label: "Title (HTML — use <em>...</em>)", widget: "string" }
+      - { name: "description", label: "Description paragraph",   widget: "text" }
+
+
+  # ─── FIELD NOTES INTRO ───
+  - name: "notesintro"
+    label: "Homepage — Field Notes Intro"
+    editor:
+      preview: false
+    files:
+      - name: "notesintro"
+        label: "Field Notes section intro"
+        file: "src/content/notesintro/notesintro.md"
+        fields:
+          - { name: "eyebrow",    label: "Eyebrow text",      widget: "string", default: "Field Notes" }
+          - { name: "headline",   label: "Headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "supporting", label: "Supporting paragraph", widget: "text" }
+
+
+  # ─── FIELD NOTES POSTCARDS (rotating image wall) ───
+  - name: "fieldnotes"
+    label: "Homepage — Field Notes Postcards"
+    description: "Rotating postcard wall. Add, remove, reorder freely."
+    folder: "src/content/fieldnotes"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "caption"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order",     label: "Display order", widget: "number", value_type: "int", min: 1 }
+      - { name: "image",     label: "Image",         widget: "image" }
+      - { name: "image_alt", label: "Image alt text", widget: "string", required: false }
+      - { name: "caption",   label: "Italic caption (main line)", widget: "string" }
+      - { name: "meta",      label: "Meta line (tracked caps, below caption)", widget: "string", required: false }
+
+
+  # ─── GROUP / PLANHOTEL FAMILY SECTION ───
+  - name: "group"
+    label: "Homepage — Planhotel Family"
+    editor:
+      preview: false
+    files:
+      - name: "group"
+        label: "Planhotel family section"
+        file: "src/content/group/group.md"
+        fields:
+          - { name: "label",     label: "Label text", widget: "string", default: "— Part of the Planhotel family" }
+          - { name: "headline",  label: "Headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "body",      label: "Description paragraph", widget: "text" }
+          - name: "values"
+            label: "Group values (shown as italic list)"
+            widget: "list"
+            fields:
+              - { name: "value", label: "Value", widget: "string" }
+
+
+  # ─── SISTER BRANDS (Diamonds, Sandies, Exploreans) ───
+  - name: "sisterbrands"
+    label: "Homepage — Sister Brands"
+    description: "Sister brand cards in the Planhotel family section"
+    folder: "src/content/sisterbrands"
+    create: true
+    delete: true
+    slug: "{{order}}-{{slug}}"
+    identifier_field: "name"
+    sortable_fields: ["order"]
+    fields:
+      - { name: "order",       label: "Display order",       widget: "number", value_type: "int", min: 1 }
+      - { name: "name",        label: "Brand name",          widget: "string" }
+      - { name: "mark",        label: "Single letter mark (D, S, E)", widget: "string", pattern: ["^.{1}$", "One character only"] }
+      - { name: "description", label: "Description",         widget: "text" }
+      - { name: "href",        label: "Link",                widget: "string" }
+
+
+  # ─── JOURNAL / NEWSLETTER SECTION ───
+  - name: "journal"
+    label: "Homepage — Journal / Newsletter"
+    editor:
+      preview: false
+    files:
+      - name: "journal"
+        label: "Newsletter section"
+        file: "src/content/journal/journal.md"
+        fields:
+          - { name: "eyebrow",     label: "Eyebrow text",     widget: "string", default: "The Exploreans Journal" }
+          - { name: "headline",    label: "Headline (HTML — use <em>...</em>)", widget: "text" }
+          - { name: "supporting",  label: "Supporting paragraph", widget: "text" }
+          - { name: "input_placeholder", label: "Email input placeholder", widget: "string", default: "your email address" }
+          - { name: "button_label", label: "Subscribe button label", widget: "string", default: "Subscribe →" }
+          - { name: "success_message", label: "Success message after submit", widget: "string", default: "Thank you." }

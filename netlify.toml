@@ -1,0 +1,34 @@
+# Exploreans — Netlify build configuration
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Ensure Sveltia CMS admin loads cleanly
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+# Property subdomains — future-proofing in case you want to redirect
+# e.g. exploreans.com/properties/mara -> mara.exploreans.com
+# Uncomment and adjust when ready:
+# [[redirects]]
+#   from = "/properties/mara"
+#   to = "https://mara.exploreans.com"
+#   status = 301
+#
+# [[redirects]]
+#   from = "/properties/malaika"
+#   to = "https://malaika.exploreans.com"
+#   status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

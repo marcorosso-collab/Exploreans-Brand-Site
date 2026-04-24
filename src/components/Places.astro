@@ -1,0 +1,46 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const intro = (await getEntry('placesintro', 'placesintro'))!.data;
+const properties = (await getCollection('properties')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="places" id="places">
+  <div class="topo-bg"></div>
+  <div class="container">
+    <div class="places-head reveal">
+      <span class="eyebrow">{intro.eyebrow}</span>
+      <h2 set:html={intro.headline}></h2>
+      <p>{intro.supporting}</p>
+    </div>
+
+    {properties.map((prop) => {
+      const p = prop.data;
+      return (
+        <article class="place-card reveal">
+          <div class="place-img">
+            <img src={p.image} alt={p.image_alt ?? p.short_name} loading="lazy" />
+            <div class="tag">{p.tag_label}</div>
+          </div>
+          <div class="place-body">
+            <div class="place-locale">{p.location}</div>
+            <h3 set:html={p.name}></h3>
+            <div class="tagline" set:html={p.tagline}></div>
+            <p set:html={p.description}></p>
+            <div class="place-specs">
+              {p.specs.map((s) => (
+                <div class="spec">
+                  <div class="spec-label">{s.label}</div>
+                  <div class="spec-val">{s.value}</div>
+                </div>
+              ))}
+            </div>
+            <a href={p.cta_href} class="place-cta">
+              <span>{p.cta_label}</span>
+              <span class="arr">→</span>
+            </a>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>

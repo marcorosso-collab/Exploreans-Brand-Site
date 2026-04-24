@@ -1,0 +1,7 @@
+Placeholder — replace with real hero photography.
+
+This is a .txt placeholder. Before deploying:
+1. Add a real JPG at: public/images/hero/hero-default.jpg
+2. Or upload via Sveltia CMS: Homepage — Hero → Hero background image
+3. Recommended: 2400×1600px, landscape, moody/desaturated, no crowds
+4. Brand book calls for: no stock photography, muted earthy warm grading

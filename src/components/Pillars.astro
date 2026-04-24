@@ -1,0 +1,25 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const intro = (await getEntry('pillarsintro', 'pillarsintro'))!.data;
+const pillars = (await getCollection('pillars')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="pillars">
+  <div class="topo-bg topo-bg--sage"></div>
+  <div class="container">
+    <div class="pillars-intro reveal">
+      <h2 set:html={intro.headline}></h2>
+      <p>{intro.supporting}</p>
+    </div>
+    <div class="pillar-grid reveal">
+      {pillars.map((p) => (
+        <article class="pillar">
+          <div class="num">{p.data.numeral}</div>
+          <h3 class="phrase"><em>{p.data.phrase_line_1}</em><br />{p.data.phrase_line_2}</h3>
+          <div class="pill-rule"></div>
+          <p class="desc">{p.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

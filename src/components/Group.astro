@@ -1,0 +1,36 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+
+const g = (await getEntry('group', 'group'))!.data;
+const sisters = (await getCollection('sisterbrands')).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="group" id="group">
+  <div class="topo-bg topo-bg--sage"></div>
+  <div class="container group-inner">
+    <div class="reveal">
+      <div class="group-label">{g.label}</div>
+      <h2 class="group-title" set:html={g.headline}></h2>
+      <p>{g.body}</p>
+      <div class="group-values">
+        {g.values.map((v, i) => (
+          <>
+            <span class="val">{v.value}</span>
+            {i < g.values.length - 1 && <span class="sep">·</span>}
+          </>
+        ))}
+      </div>
+    </div>
+    <div class="sister-brands reveal">
+      {sisters.map((s) => (
+        <a href={s.data.href} class="sister">
+          <div class="sister-mark">{s.data.mark}</div>
+          <div class="sister-body">
+            <h5>{s.data.name}</h5>
+            <p>{s.data.description}</p>
+          </div>
+          <div class="sister-arrow">→</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+---
+order: 2
+name: "<em>Malaika</em>"
+short_name: "Malaika"
+location: "Kenya"
+tagline: "Intimate. Quietly built. A slower rhythm altogether."
+description: "Malaika — Swahili for <em>angel</em> — is our more contemplative address. Thoughtfully designed in rhythm with its landscape, it favours unhurried days, long lunches, walking, reading, and the slow business of paying attention. It's where guests come to exhale."
+image: "/images/properties/malaika.jpg"
+image_alt: "Malaika — intimate, nature-led retreat"
+tag_label: "Property 02"
+specs:
+  - { label: "Suites",   value: "Intimate" }
+  - { label: "Setting",  value: "Nature-led" }
+  - { label: "Known for", value: "Slow travel" }
+  - { label: "Pace",     value: "Unhurried" }
+cta_label: "Visit Malaika"
+cta_href: "https://malaika.exploreans.com"
+show_in_nav: true
+---

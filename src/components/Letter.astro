@@ -1,0 +1,25 @@
+---
+import { getEntry } from 'astro:content';
+const letterEntry = await getEntry('letter', 'letter');
+const l = letterEntry!.data;
+---
+<section class="letter" id="letter">
+  <div class="topo-bg"></div>
+  <div class="container letter-grid">
+    <aside class="letter-meta reveal">
+      <div class="chapter-num">{l.chapter_number}</div>
+      <div class="chapter-label">{l.chapter_label}</div>
+      <div class="chapter-rule"></div>
+      <div class="dateline">{l.dateline}</div>
+    </aside>
+    <div class="letter-body reveal">
+      <h2 set:html={l.headline}></h2>
+      <p class="lead">{l.lead}</p>
+      {l.body_paragraphs?.map((p) => (<p>{p.text}</p>))}
+      <div class="letter-sig">
+        <div class="sig-name">{l.signature_name}</div>
+        <div class="sig-role">{l.signature_role}</div>
+      </div>
+    </div>
+  </div>
+</section>
