@@ -1,11 +1,9 @@
 ---
-volume_label: "Vol. I · The Field Journal · A Planhotel Brand"
-title_line_1: "Authentic"
-title_line_2: "by nature."
-body_1: "A small collection of intimate, nature-led camps, lodges and retreats — set thoughtfully in some of the world's most remarkable landscapes."
-body_2: "Nothing added. Nothing taken away."
-bottom_left: "A Planhotel Collection · MMXXVI"
-scroll_label: "Begin reading"
+seo_title: "Exploreans — Authentic by Nature | Luxury Safari Camps & Lodges"
+seo_description: "A collection of intimate, nature-led camps and lodges in the world's most remarkable landscapes. Nothing added, nothing taken away."
+title: "Authentic<br/>by nature."
+body: "A small collection of intimate, nature-led camps, lodges and retreats — set thoughtfully in some of the world's most remarkable landscapes.\n\nNothing added. Nothing taken away."
 background_image: "/images/hero/hero-default.jpg"
-background_alt: "A dawn landscape at one of the Exploreans camps"
+background_image_alt: "A dawn landscape at one of the Exploreans camps"
+scroll_indicator: "Begin reading"
 ---

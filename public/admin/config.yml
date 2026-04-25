@@ -66,7 +66,7 @@ collections:
   
   - name: "hero"
     label: "Homepage — Hero"
-    folder: "src/content/homepage"
+    folder: "src/content/hero"
     create: false
     delete: false
     slug: "hero"
@@ -81,7 +81,7 @@ collections:
 
   - name: "letter"
     label: "Homepage — Philosophy Letter"
-    folder: "src/content/homepage"
+    folder: "src/content/letter"
     create: false
     delete: false
     slug: "letter"
@@ -96,7 +96,7 @@ collections:
 
   - name: "pillars"
     label: "Homepage — Brand Pillars"
-    folder: "src/content/homepage"
+    folder: "src/content/pillars"
     create: false
     delete: false
     slug: "pillars"
@@ -117,7 +117,7 @@ collections:
 
   - name: "destinations"
     label: "Homepage — Destinations"
-    folder: "src/content/homepage"
+    folder: "src/content/destinations"
     create: false
     delete: false
     slug: "destinations"
@@ -130,7 +130,7 @@ collections:
 
   - name: "experiences"
     label: "Homepage — Experiences"
-    folder: "src/content/homepage"
+    folder: "src/content/experiences"
     create: false
     delete: false
     slug: "experiences"
@@ -151,7 +151,7 @@ collections:
 
   - name: "fieldnotes"
     label: "Homepage — Field Notes"
-    folder: "src/content/homepage"
+    folder: "src/content/fieldnotes"
     create: false
     delete: false
     slug: "fieldnotes"
@@ -172,7 +172,7 @@ collections:
 
   - name: "planhotel"
     label: "Homepage — Planhotel Family"
-    folder: "src/content/homepage"
+    folder: "src/content/planhotel"
     create: false
     delete: false
     slug: "planhotel"
@@ -199,7 +199,7 @@ collections:
 
   - name: "newsletter"
     label: "Homepage — Newsletter"
-    folder: "src/content/homepage"
+    folder: "src/content/newsletter"
     create: false
     delete: false
     slug: "newsletter"
