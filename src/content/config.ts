@@ -32,9 +32,9 @@ const hero = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    title: z.string(),
-    body: z.string(),
-    background_image: z.string(),
+    title: z.string().optional(),
+    body: z.string().optional(),
+    background_image: z.string().optional(),
     background_image_alt: z.string().optional(),
     scroll_indicator: z.string().optional()
   })
@@ -46,11 +46,11 @@ const letter = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    chapter_label: z.string(),
-    headline: z.string(),
-    lead: z.string(),
-    body: z.string(),
-    signature: z.string()
+    chapter_label: z.string().optional(),
+    headline: z.string().optional(),
+    lead: z.string().optional(),
+    body: z.string().optional(),
+    signature: z.string().optional()
   })
 });
 
@@ -60,15 +60,15 @@ const pillars = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
+    intro_eyebrow: z.string().optional(),
+    intro_headline: z.string().optional(),
     items: z.array(z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      description: z.string(),
-      image: z.string(),
+      title: z.string().optional(),
+      subtitle: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
       image_alt: z.string().optional()
-    }))
+    })).optional()
   })
 });
 
@@ -78,9 +78,9 @@ const destinations = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    intro_body: z.string()
+    intro_eyebrow: z.string().optional(),
+    intro_headline: z.string().optional(),
+    intro_body: z.string().optional()
   })
 });
 
@@ -90,15 +90,15 @@ const experiences = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    intro_body: z.string(),
+    intro_eyebrow: z.string().optional(),
+    intro_headline: z.string().optional(),
+    intro_body: z.string().optional(),
     items: z.array(z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      image: z.string(),
+      title: z.string().optional(),
+      subtitle: z.string().optional(),
+      image: z.string().optional(),
       image_alt: z.string().optional()
-    }))
+    })).optional()
   })
 });
 
@@ -108,15 +108,15 @@ const fieldnotes = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
+    intro_eyebrow: z.string().optional(),
+    intro_headline: z.string().optional(),
     postcards: z.array(z.object({
-      title: z.string(),
-      location: z.string(),
-      date: z.string(),
-      image: z.string(),
+      title: z.string().optional(),
+      location: z.string().optional(),
+      date: z.string().optional(),
+      image: z.string().optional(),
       image_alt: z.string().optional()
-    }))
+    })).optional()
   })
 });
 
@@ -126,17 +126,17 @@ const planhotel = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    eyebrow: z.string(),
-    headline: z.string(),
-    body: z.string(),
-    values: z.array(z.object({ value: z.string() })),
+    eyebrow: z.string().optional(),
+    headline: z.string().optional(),
+    body: z.string().optional(),
+    values: z.array(z.object({ value: z.string().optional() })).optional(),
     sister_brands: z.array(z.object({
-      name: z.string(),
-      description: z.string(),
+      name: z.string().optional(),
+      description: z.string().optional(),
       logo: z.string().optional(),
       logo_alt: z.string().optional(),
-      href: z.string()
-    }))
+      href: z.string().optional()
+    })).optional()
   })
 });
 
@@ -146,10 +146,10 @@ const newsletter = defineCollection({
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    eyebrow: z.string(),
-    headline: z.string(),
-    supporting: z.string(),
-    button_label: z.string()
+    eyebrow: z.string().optional(),
+    headline: z.string().optional(),
+    supporting: z.string().optional(),
+    button_label: z.string().optional()
   })
 });
 

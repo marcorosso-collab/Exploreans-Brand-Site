@@ -16,9 +16,6 @@ logo_url: /images/og/exploreans-logo.png
 
 collections:
 
-  # ═══════════════════════════════════════════════════════════
-  # SITE SETTINGS
-  # ═══════════════════════════════════════════════════════════
   - name: "settings"
     label: "Site Settings"
     description: "Global site settings — SEO, social, nav, footer"
@@ -60,160 +57,133 @@ collections:
               - { name: "label", label: "Label", widget: "string" }
               - { name: "href", label: "Link", widget: "string" }
 
-  # ═══════════════════════════════════════════════════════════
-  # HOMEPAGE SECTIONS
-  # ═══════════════════════════════════════════════════════════
-  
-  - name: "hero"
-    label: "Homepage — Hero"
-    folder: "src/content/hero"
-    create: false
-    delete: false
-    slug: "hero"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "title", label: "Headline", widget: "text" }
-      - { name: "body", label: "Body text", widget: "markdown" }
-      - { name: "background_image", label: "Background image", widget: "image" }
-      - { name: "background_image_alt", label: "Image alt text", widget: "string" }
-      - { name: "scroll_indicator", label: "Scroll indicator text", widget: "string" }
-
-  - name: "letter"
-    label: "Homepage — Philosophy Letter"
-    folder: "src/content/letter"
-    create: false
-    delete: false
-    slug: "letter"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "chapter_label", label: "Chapter label", widget: "string" }
-      - { name: "headline", label: "Headline", widget: "text" }
-      - { name: "lead", label: "Lead paragraph", widget: "text" }
-      - { name: "body", label: "Body", widget: "markdown" }
-      - { name: "signature", label: "Signature", widget: "string" }
-
-  - name: "pillars"
-    label: "Homepage — Brand Pillars"
-    folder: "src/content/pillars"
-    create: false
-    delete: false
-    slug: "pillars"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
-      - { name: "intro_headline", label: "Intro headline", widget: "text" }
-      - name: "items"
-        label: "Pillar cards"
-        widget: "list"
+  - name: "homepage"
+    label: "Homepage"
+    description: "All homepage sections"
+    files:
+      - name: "hero"
+        label: "Hero Section"
+        file: "src/content/homepage/hero.md"
         fields:
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "subtitle", label: "Subtitle", widget: "string" }
-          - { name: "description", label: "Description", widget: "text" }
-          - { name: "image", label: "Image", widget: "image" }
-          - { name: "image_alt", label: "Image alt", widget: "string" }
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "title", label: "Headline", widget: "text" }
+          - { name: "body", label: "Body text", widget: "markdown" }
+          - { name: "background_image", label: "Background image", widget: "image" }
+          - { name: "background_image_alt", label: "Image alt text", widget: "string" }
+          - { name: "scroll_indicator", label: "Scroll indicator text", widget: "string" }
 
-  - name: "destinations"
-    label: "Homepage — Destinations"
-    folder: "src/content/destinations"
-    create: false
-    delete: false
-    slug: "destinations"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
-      - { name: "intro_headline", label: "Intro headline", widget: "text" }
-      - { name: "intro_body", label: "Intro body", widget: "markdown" }
-
-  - name: "experiences"
-    label: "Homepage — Experiences"
-    folder: "src/content/experiences"
-    create: false
-    delete: false
-    slug: "experiences"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
-      - { name: "intro_headline", label: "Intro headline", widget: "text" }
-      - { name: "intro_body", label: "Intro body", widget: "markdown" }
-      - name: "items"
-        label: "Experience cards"
-        widget: "list"
+      - name: "letter"
+        label: "Philosophy Letter"
+        file: "src/content/homepage/letter.md"
         fields:
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "subtitle", label: "Subtitle", widget: "string" }
-          - { name: "image", label: "Image", widget: "image" }
-          - { name: "image_alt", label: "Image alt", widget: "string" }
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "chapter_label", label: "Chapter label", widget: "string" }
+          - { name: "headline", label: "Headline", widget: "text" }
+          - { name: "lead", label: "Lead paragraph", widget: "text" }
+          - { name: "body", label: "Body", widget: "markdown" }
+          - { name: "signature", label: "Signature", widget: "string" }
 
-  - name: "fieldnotes"
-    label: "Homepage — Field Notes"
-    folder: "src/content/fieldnotes"
-    create: false
-    delete: false
-    slug: "fieldnotes"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
-      - { name: "intro_headline", label: "Intro headline", widget: "text" }
-      - name: "postcards"
-        label: "Postcards"
-        widget: "list"
+      - name: "pillars"
+        label: "Brand Pillars"
+        file: "src/content/homepage/pillars.md"
         fields:
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "location", label: "Location", widget: "string" }
-          - { name: "date", label: "Date", widget: "string" }
-          - { name: "image", label: "Image", widget: "image" }
-          - { name: "image_alt", label: "Image alt", widget: "string" }
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
+          - { name: "intro_headline", label: "Intro headline", widget: "text" }
+          - name: "items"
+            label: "Pillar cards"
+            widget: "list"
+            fields:
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "subtitle", label: "Subtitle", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
+              - { name: "image", label: "Image", widget: "image" }
+              - { name: "image_alt", label: "Image alt", widget: "string" }
 
-  - name: "planhotel"
-    label: "Homepage — Planhotel Family"
-    folder: "src/content/planhotel"
-    create: false
-    delete: false
-    slug: "planhotel"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "eyebrow", label: "Eyebrow", widget: "string" }
-      - { name: "headline", label: "Headline", widget: "text" }
-      - { name: "body", label: "Body", widget: "markdown" }
-      - name: "values"
-        label: "Values"
-        widget: "list"
+      - name: "destinations"
+        label: "Destinations"
+        file: "src/content/homepage/destinations.md"
         fields:
-          - { name: "value", label: "Value", widget: "string" }
-      - name: "sister_brands"
-        label: "Sister brands"
-        widget: "list"
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
+          - { name: "intro_headline", label: "Intro headline", widget: "text" }
+          - { name: "intro_body", label: "Intro body", widget: "markdown" }
+
+      - name: "experiences"
+        label: "Experiences"
+        file: "src/content/homepage/experiences.md"
         fields:
-          - { name: "name", label: "Brand name", widget: "string" }
-          - { name: "description", label: "Description", widget: "text" }
-          - { name: "logo", label: "Logo", widget: "image" }
-          - { name: "logo_alt", label: "Logo alt", widget: "string" }
-          - { name: "href", label: "Link", widget: "string" }
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
+          - { name: "intro_headline", label: "Intro headline", widget: "text" }
+          - { name: "intro_body", label: "Intro body", widget: "markdown" }
+          - name: "items"
+            label: "Experience cards"
+            widget: "list"
+            fields:
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "subtitle", label: "Subtitle", widget: "string" }
+              - { name: "image", label: "Image", widget: "image" }
+              - { name: "image_alt", label: "Image alt", widget: "string" }
 
-  - name: "newsletter"
-    label: "Homepage — Newsletter"
-    folder: "src/content/newsletter"
-    create: false
-    delete: false
-    slug: "newsletter"
-    fields:
-      - { name: "seo_title", label: "SEO Title", widget: "string" }
-      - { name: "seo_description", label: "Meta Description", widget: "text" }
-      - { name: "eyebrow", label: "Eyebrow", widget: "string" }
-      - { name: "headline", label: "Headline", widget: "text" }
-      - { name: "supporting", label: "Supporting text", widget: "text" }
-      - { name: "button_label", label: "Button label", widget: "string" }
+      - name: "fieldnotes"
+        label: "Field Notes"
+        file: "src/content/homepage/fieldnotes.md"
+        fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "intro_eyebrow", label: "Intro eyebrow", widget: "string" }
+          - { name: "intro_headline", label: "Intro headline", widget: "text" }
+          - name: "postcards"
+            label: "Postcards"
+            widget: "list"
+            fields:
+              - { name: "title", label: "Title", widget: "string" }
+              - { name: "location", label: "Location", widget: "string" }
+              - { name: "date", label: "Date", widget: "string" }
+              - { name: "image", label: "Image", widget: "image" }
+              - { name: "image_alt", label: "Image alt", widget: "string" }
 
-  # ═══════════════════════════════════════════════════════════
-  # PROPERTIES
-  # ═══════════════════════════════════════════════════════════
+      - name: "planhotel"
+        label: "Planhotel Family"
+        file: "src/content/homepage/planhotel.md"
+        fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "eyebrow", label: "Eyebrow", widget: "string" }
+          - { name: "headline", label: "Headline", widget: "text" }
+          - { name: "body", label: "Body", widget: "markdown" }
+          - name: "values"
+            label: "Values"
+            widget: "list"
+            fields:
+              - { name: "value", label: "Value", widget: "string" }
+          - name: "sister_brands"
+            label: "Sister brands"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Brand name", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
+              - { name: "logo", label: "Logo", widget: "image" }
+              - { name: "logo_alt", label: "Logo alt", widget: "string" }
+              - { name: "href", label: "Link", widget: "string" }
+
+      - name: "newsletter"
+        label: "Newsletter"
+        file: "src/content/homepage/newsletter.md"
+        fields:
+          - { name: "seo_title", label: "SEO Title", widget: "string" }
+          - { name: "seo_description", label: "Meta Description", widget: "text" }
+          - { name: "eyebrow", label: "Eyebrow", widget: "string" }
+          - { name: "headline", label: "Headline", widget: "text" }
+          - { name: "supporting", label: "Supporting text", widget: "text" }
+          - { name: "button_label", label: "Button label", widget: "string" }
+
   - name: "properties"
     label: "Properties"
     description: "Property pages — auto-populates nav dropdown"
