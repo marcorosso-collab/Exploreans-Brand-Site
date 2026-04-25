@@ -1,0 +1,12 @@
+{
+  "links": [
+    { "label": "The Camp", "href": "#camp" },
+    { "label": "Stay", "href": "#stay" },
+    { "label": "When to Visit", "href": "#when-to-visit" },
+    { "label": "Experiences", "href": "#experiences" },
+    { "label": "Journal", "href": "#journal" }
+  ],
+  "cta_label": "Plan a stay",
+  "cta_href": "#places",
+  "properties_dropdown": []
+}

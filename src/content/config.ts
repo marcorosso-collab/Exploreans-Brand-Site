@@ -178,7 +178,32 @@ const journal = defineCollection({
   })
 });
 
+// ─── Settings ───
+const settings = defineCollection({
+  type: 'data',
+  schema: z.object({
+    // nav.json fields
+    links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
+    cta_label: z.string().optional(),
+    cta_href: z.string().optional(),
+    properties_dropdown: z.array(z.object({
+      label: z.string(),
+      href: z.string(),
+      location: z.string().optional()
+    })).optional(),
+    // footer.json fields
+    brand_description: z.string().optional(),
+    tagline: z.string().optional(),
+    destinations_links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
+    collection_links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
+    contact_links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
+    endorser_text: z.string().optional(),
+    copyright_year: z.string().optional()
+  })
+});
+
 export const collections = {
+  settings,
   hero,
   letter,
   pillarsintro,
