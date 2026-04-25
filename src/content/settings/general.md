@@ -1,8 +1,0 @@
----
-site_title: "Exploreans — Camps, Lodges & Retreats · Authentic by Nature"
-meta_description: "Exploreans — a small collection of intimate, nature-led camps, lodges and retreats in some of the world's most remarkable landscapes. Nothing added, nothing taken away."
-meta_keywords: "nature-led lodges, intimate camps, boutique nature retreats, slow travel, conservation travel, remote lodges, authentic nature retreats, Exploreans"
-og_title: "Exploreans — Authentic by Nature"
-og_description: "Intimate, nature-led camps, lodges and retreats. A quieter way to be somewhere."
-og_image: "/images/og/exploreans-og.jpg"
----
