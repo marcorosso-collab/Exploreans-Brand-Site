@@ -1,7 +1,0 @@
----
-seo_title: "Our Destinations — Nature-Led Safari Camps | Exploreans"
-seo_description: "Two nature-led addresses. One philosophy. Each Exploreans property is its own chapter — its own landscape, its own character."
-intro_eyebrow: "The Collection"
-intro_headline: "Two <em>nature-led</em> addresses."
-intro_body: "Each Exploreans property is its own chapter — its own landscape, its own character, its own way of letting the place in. Pick the one that calls to you."
----

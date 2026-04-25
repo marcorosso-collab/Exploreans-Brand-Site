@@ -1,8 +1,0 @@
----
-seo_title: "The Exploreans Journal — Subscribe to Our Newsletter"
-seo_description: "Four or five times a year — a short letter from one of our camps. Something seen. Something learned. No promotions. No tricks."
-eyebrow: "The Exploreans Journal"
-headline: "Occasional dispatches.<br/><em>Never noise.</em>"
-supporting: "Four or five times a year — a short letter from one of our camps. Something seen. Something learned. A dish worth writing down. No promotions. No tricks. Unsubscribe whenever the feeling takes you."
-button_label: "Subscribe →"
----
