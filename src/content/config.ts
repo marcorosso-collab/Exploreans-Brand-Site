@@ -1,78 +1,105 @@
 import { defineCollection, z } from 'astro:content';
 
-// ─── Site settings ───
-const settings = defineCollection({
-  type: 'data',
-  schema: z.object({
-    site_title: z.string().optional(),
-    meta_description: z.string().optional(),
-    meta_keywords: z.string().optional(),
-    og_title: z.string().optional(),
-    og_description: z.string().optional(),
-    og_image: z.string().optional(),
-    nav_links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
-    cta_label: z.string().optional(),
-    cta_href: z.string().optional(),
-    brand_description: z.string().optional(),
-    tagline: z.string().optional()
-  })
-});
-
 // ─── Hero ───
 const hero = defineCollection({
   type: 'data',
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    title: z.string(),
-    body: z.string(),
+    volume_label: z.string(),
+    title_line_1: z.string(),
+    title_line_2: z.string(),
+    body_1: z.string(),
+    body_2: z.string(),
+    bottom_left: z.string(),
+    scroll_label: z.string(),
     background_image: z.string(),
-    background_image_alt: z.string().optional(),
-    scroll_indicator: z.string().optional()
+    background_alt: z.string().optional()
   })
 });
 
-// ─── Philosophy Letter ───
+// ─── Letter ───
 const letter = defineCollection({
   type: 'data',
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
+    chapter_number: z.string(),
     chapter_label: z.string(),
+    dateline: z.string(),
     headline: z.string(),
     lead: z.string(),
-    body: z.string(),
-    signature: z.string()
+    body_paragraphs: z.array(z.object({ text: z.string() })),
+    signature_name: z.string(),
+    signature_role: z.string()
   })
 });
 
-// ─── Brand Pillars ───
+// ─── Pillars Intro ───
+const pillarsintro = defineCollection({
+  type: 'data',
+  schema: z.object({
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    headline: z.string(),
+    supporting: z.string()
+  })
+});
+
+// ─── Pillars ───
 const pillars = defineCollection({
   type: 'data',
   schema: z.object({
-    seo_title: z.string().optional(),
-    seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    pillars: z.array(z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      description: z.string(),
-      image: z.string(),
-      image_alt: z.string().optional()
-    }))
+    order: z.number(),
+    numeral: z.string(),
+    phrase_line_1: z.string(),
+    phrase_line_2: z.string(),
+    description: z.string()
   })
 });
 
-// ─── Destinations ───
-const destinations = defineCollection({
+// ─── Places Intro ───
+const placesintro = defineCollection({
   type: 'data',
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    intro_body: z.string()
+    eyebrow: z.string(),
+    headline: z.string(),
+    supporting: z.string()
+  })
+});
+
+// ─── Properties ───
+const properties = defineCollection({
+  type: 'data',
+  schema: z.object({
+    order: z.number(),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    name: z.string(),
+    short_name: z.string(),
+    location: z.string(),
+    tagline: z.string(),
+    description: z.string(),
+    image: z.string(),
+    image_alt: z.string().optional(),
+    tag_label: z.string(),
+    specs: z.array(z.object({ label: z.string(), value: z.string() })),
+    cta_label: z.string(),
+    cta_href: z.string(),
+    show_in_nav: z.boolean().default(true)
+  })
+});
+
+// ─── Beyond ───
+const beyond = defineCollection({
+  type: 'data',
+  schema: z.object({
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    headline: z.string(),
+    aside: z.string()
   })
 });
 
@@ -80,17 +107,22 @@ const destinations = defineCollection({
 const experiences = defineCollection({
   type: 'data',
   schema: z.object({
+    order: z.number(),
+    number: z.string(),
+    title: z.string(),
+    description: z.string()
+  })
+});
+
+// ─── Notes Intro ───
+const notesintro = defineCollection({
+  type: 'data',
+  schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    intro_body: z.string(),
-    experiences: z.array(z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      image: z.string(),
-      image_alt: z.string().optional()
-    }))
+    eyebrow: z.string(),
+    headline: z.string(),
+    supporting: z.string()
   })
 });
 
@@ -98,41 +130,40 @@ const experiences = defineCollection({
 const fieldnotes = defineCollection({
   type: 'data',
   schema: z.object({
-    seo_title: z.string().optional(),
-    seo_description: z.string().optional(),
-    intro_eyebrow: z.string(),
-    intro_headline: z.string(),
-    postcards: z.array(z.object({
-      title: z.string(),
-      location: z.string(),
-      date: z.string(),
-      image: z.string(),
-      image_alt: z.string().optional()
-    }))
+    order: z.number(),
+    image: z.string(),
+    image_alt: z.string().optional(),
+    caption: z.string(),
+    meta: z.string().optional()
   })
 });
 
-// ─── Planhotel Family ───
-const planhotel = defineCollection({
+// ─── Group ───
+const group = defineCollection({
   type: 'data',
   schema: z.object({
     seo_title: z.string().optional(),
     seo_description: z.string().optional(),
-    eyebrow: z.string(),
+    label: z.string(),
     headline: z.string(),
     body: z.string(),
-    values: z.array(z.object({ value: z.string() })),
-    sister_brands: z.array(z.object({
-      name: z.string(),
-      description: z.string(),
-      logo: z.string().optional(),
-      logo_alt: z.string().optional(),
-      href: z.string()
-    }))
+    values: z.array(z.object({ value: z.string() }))
   })
 });
 
-// ─── Journal / Newsletter ───
+// ─── Sister Brands ───
+const sisterbrands = defineCollection({
+  type: 'data',
+  schema: z.object({
+    order: z.number(),
+    mark: z.string(),
+    name: z.string(),
+    description: z.string(),
+    href: z.string()
+  })
+});
+
+// ─── Journal ───
 const journal = defineCollection({
   type: 'data',
   schema: z.object({
@@ -141,40 +172,24 @@ const journal = defineCollection({
     eyebrow: z.string(),
     headline: z.string(),
     supporting: z.string(),
-    button_label: z.string()
-  })
-});
-
-// ─── Properties ───
-const properties = defineCollection({
-  type: 'data',
-  schema: z.object({
-    seo_title: z.string().optional(),
-    seo_description: z.string().optional(),
-    name: z.string(),
-    short_name: z.string(),
-    location: z.string(),
-    tagline: z.string(),
-    description: z.string(),
-    hero_image: z.string(),
-    hero_image_alt: z.string().optional(),
-    specs_label: z.string().optional(),
-    specs: z.array(z.object({ label: z.string(), value: z.string() })),
-    cta_label: z.string(),
-    cta_href: z.string(),
-    show_in_nav: z.boolean().default(true)
+    input_placeholder: z.string(),
+    button_label: z.string(),
+    success_message: z.string()
   })
 });
 
 export const collections = {
-  settings,
   hero,
   letter,
+  pillarsintro,
   pillars,
-  destinations,
+  placesintro,
+  properties,
+  beyond,
   experiences,
+  notesintro,
   fieldnotes,
-  planhotel,
-  journal,
-  properties
+  group,
+  sisterbrands,
+  journal
 };

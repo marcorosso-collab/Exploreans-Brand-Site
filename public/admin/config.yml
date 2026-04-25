@@ -11,34 +11,6 @@ public_folder: "/images"
 collections:
 
   # ═══════════════════════════════════════════════════════════
-  # SITE SETTINGS
-  # ═══════════════════════════════════════════════════════════
-  - name: "settings"
-    label: "Site Settings"
-    folder: "src/content/settings"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "Site Title", name: "site_title", widget: "string" }
-      - { label: "Meta Description", name: "meta_description", widget: "text" }
-      - { label: "SEO Keywords", name: "meta_keywords", widget: "string", required: false }
-      - { label: "Social Share Title", name: "og_title", widget: "string" }
-      - { label: "Social Share Description", name: "og_description", widget: "text" }
-      - { label: "Social Share Image", name: "og_image", widget: "image", required: false }
-      - name: "nav_links"
-        label: "Navigation Links"
-        widget: "list"
-        fields:
-          - { label: "Label", name: "label", widget: "string" }
-          - { label: "URL", name: "href", widget: "string" }
-      - { label: "CTA Button Label", name: "cta_label", widget: "string" }
-      - { label: "CTA Button URL", name: "cta_href", widget: "string" }
-      - { label: "Footer Brand Description", name: "brand_description", widget: "text" }
-      - { label: "Footer Tagline", name: "tagline", widget: "string" }
-
-  # ═══════════════════════════════════════════════════════════
   # HERO
   # ═══════════════════════════════════════════════════════════
   - name: "hero"
@@ -49,16 +21,20 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Headline", name: "title", widget: "text" }
-      - { label: "Body Text", name: "body", widget: "markdown" }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Volume Label", name: "volume_label", widget: "string" }
+      - { label: "Title Line 1", name: "title_line_1", widget: "string" }
+      - { label: "Title Line 2", name: "title_line_2", widget: "string" }
+      - { label: "Body Paragraph 1", name: "body_1", widget: "text" }
+      - { label: "Body Paragraph 2", name: "body_2", widget: "text" }
+      - { label: "Bottom Left Text", name: "bottom_left", widget: "string" }
+      - { label: "Scroll Label", name: "scroll_label", widget: "string" }
       - { label: "Background Image", name: "background_image", widget: "image" }
-      - { label: "Image Alt Text", name: "background_image_alt", widget: "string" }
-      - { label: "Scroll Indicator", name: "scroll_indicator", widget: "string" }
+      - { label: "Background Alt Text", name: "background_alt", widget: "string", required: false }
 
   # ═══════════════════════════════════════════════════════════
-  # NOTE FROM THE FIELD (Philosophy Letter)
+  # LETTER (Note From The Field)
   # ═══════════════════════════════════════════════════════════
   - name: "letter"
     label: "Note From The Field"
@@ -68,154 +44,70 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Chapter Number", name: "chapter_number", widget: "string" }
       - { label: "Chapter Label", name: "chapter_label", widget: "string" }
+      - { label: "Dateline", name: "dateline", widget: "string" }
       - { label: "Headline", name: "headline", widget: "text" }
       - { label: "Lead Paragraph", name: "lead", widget: "text" }
-      - { label: "Body", name: "body", widget: "markdown" }
-      - { label: "Signature", name: "signature", widget: "string" }
+      - name: "body_paragraphs"
+        label: "Body Paragraphs"
+        widget: "list"
+        fields:
+          - { label: "Text", name: "text", widget: "text" }
+      - { label: "Signature Name", name: "signature_name", widget: "string" }
+      - { label: "Signature Role", name: "signature_role", widget: "string", required: false }
 
   # ═══════════════════════════════════════════════════════════
-  # BRAND PILLARS (Three ideas we hold to)
+  # PILLARS INTRO
+  # ═══════════════════════════════════════════════════════════
+  - name: "pillarsintro"
+    label: "Pillars Intro"
+    folder: "src/content/pillarsintro"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Headline", name: "headline", widget: "text" }
+      - { label: "Supporting Text", name: "supporting", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # PILLARS
   # ═══════════════════════════════════════════════════════════
   - name: "pillars"
     label: "Brand Pillars"
     folder: "src/content/pillars"
-    create: false
-    delete: false
+    create: true
+    delete: true
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Intro Eyebrow", name: "intro_eyebrow", widget: "string" }
-      - { label: "Intro Headline", name: "intro_headline", widget: "text" }
-      - name: "pillars"
-        label: "Pillar Cards"
-        widget: "list"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Subtitle", name: "subtitle", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Image Alt", name: "image_alt", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "Numeral", name: "numeral", widget: "string" }
+      - { label: "Phrase Line 1", name: "phrase_line_1", widget: "string" }
+      - { label: "Phrase Line 2", name: "phrase_line_2", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
 
   # ═══════════════════════════════════════════════════════════
-  # DESTINATIONS / PROPERTIES
+  # PLACES INTRO
   # ═══════════════════════════════════════════════════════════
-  - name: "destinations"
-    label: "Destinations"
-    folder: "src/content/destinations"
+  - name: "placesintro"
+    label: "Places Intro"
+    folder: "src/content/placesintro"
     create: false
     delete: false
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Intro Eyebrow", name: "intro_eyebrow", widget: "string" }
-      - { label: "Intro Headline", name: "intro_headline", widget: "text" }
-      - { label: "Intro Body", name: "intro_body", widget: "markdown" }
-
-  # ═══════════════════════════════════════════════════════════
-  # EXPERIENCES
-  # ═══════════════════════════════════════════════════════════
-  - name: "experiences"
-    label: "Experiences"
-    folder: "src/content/experiences"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Intro Eyebrow", name: "intro_eyebrow", widget: "string" }
-      - { label: "Intro Headline", name: "intro_headline", widget: "text" }
-      - { label: "Intro Body", name: "intro_body", widget: "markdown" }
-      - name: "experiences"
-        label: "Experience Cards"
-        widget: "list"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Subtitle", name: "subtitle", widget: "string" }
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Image Alt", name: "image_alt", widget: "string" }
-
-  # ═══════════════════════════════════════════════════════════
-  # FIELD NOTES
-  # ═══════════════════════════════════════════════════════════
-  - name: "fieldnotes"
-    label: "Field Notes"
-    folder: "src/content/fieldnotes"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Intro Eyebrow", name: "intro_eyebrow", widget: "string" }
-      - { label: "Intro Headline", name: "intro_headline", widget: "text" }
-      - name: "postcards"
-        label: "Postcards"
-        widget: "list"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Location", name: "location", widget: "string" }
-          - { label: "Date", name: "date", widget: "string" }
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Image Alt", name: "image_alt", widget: "string" }
-
-  # ═══════════════════════════════════════════════════════════
-  # PLANHOTEL FAMILY
-  # ═══════════════════════════════════════════════════════════
-  - name: "planhotel"
-    label: "Planhotel Family"
-    folder: "src/content/planhotel"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Body", name: "body", widget: "markdown" }
-      - name: "values"
-        label: "Values"
-        widget: "list"
-        fields:
-          - { label: "Value", name: "value", widget: "string" }
-      - name: "sister_brands"
-        label: "Sister Brands"
-        widget: "list"
-        fields:
-          - { label: "Name", name: "name", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Logo", name: "logo", widget: "image" }
-          - { label: "Logo Alt", name: "logo_alt", widget: "string" }
-          - { label: "Link", name: "href", widget: "string" }
-
-  # ═══════════════════════════════════════════════════════════
-  # JOURNAL / NEWSLETTER
-  # ═══════════════════════════════════════════════════════════
-  - name: "journal"
-    label: "Journal"
-    folder: "src/content/journal"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
       - { label: "Eyebrow", name: "eyebrow", widget: "string" }
       - { label: "Headline", name: "headline", widget: "text" }
       - { label: "Supporting Text", name: "supporting", widget: "text" }
-      - { label: "Button Label", name: "button_label", widget: "string" }
 
   # ═══════════════════════════════════════════════════════════
   # PROPERTIES
@@ -228,16 +120,17 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string" }
-      - { label: "SEO Description", name: "seo_description", widget: "text" }
-      - { label: "Property Name", name: "name", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Property Name", name: "name", widget: "text" }
       - { label: "Short Name", name: "short_name", widget: "string" }
       - { label: "Location", name: "location", widget: "string" }
-      - { label: "Tagline", name: "tagline", widget: "string" }
-      - { label: "Description", name: "description", widget: "markdown" }
-      - { label: "Hero Image", name: "hero_image", widget: "image" }
-      - { label: "Hero Image Alt", name: "hero_image_alt", widget: "string" }
-      - { label: "Specs Label", name: "specs_label", widget: "string" }
+      - { label: "Tagline", name: "tagline", widget: "text" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Image Alt", name: "image_alt", widget: "string", required: false }
+      - { label: "Tag Label", name: "tag_label", widget: "string" }
       - name: "specs"
         label: "Specs"
         widget: "list"
@@ -247,3 +140,128 @@ collections:
       - { label: "CTA Label", name: "cta_label", widget: "string" }
       - { label: "CTA Link", name: "cta_href", widget: "string" }
       - { label: "Show in Nav", name: "show_in_nav", widget: "boolean", default: true }
+
+  # ═══════════════════════════════════════════════════════════
+  # BEYOND (Experiences Intro)
+  # ═══════════════════════════════════════════════════════════
+  - name: "beyond"
+    label: "Experiences Intro"
+    folder: "src/content/beyond"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Headline", name: "headline", widget: "text" }
+      - { label: "Aside Text", name: "aside", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # EXPERIENCES
+  # ═══════════════════════════════════════════════════════════
+  - name: "experiences"
+    label: "Experiences"
+    folder: "src/content/experiences"
+    create: true
+    delete: true
+    extension: json
+    format: json
+    fields:
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "Number", name: "number", widget: "string" }
+      - { label: "Title", name: "title", widget: "text" }
+      - { label: "Description", name: "description", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # NOTES INTRO
+  # ═══════════════════════════════════════════════════════════
+  - name: "notesintro"
+    label: "Field Notes Intro"
+    folder: "src/content/notesintro"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+      - { label: "Headline", name: "headline", widget: "text" }
+      - { label: "Supporting Text", name: "supporting", widget: "text" }
+
+  # ═══════════════════════════════════════════════════════════
+  # FIELD NOTES
+  # ═══════════════════════════════════════════════════════════
+  - name: "fieldnotes"
+    label: "Field Notes"
+    folder: "src/content/fieldnotes"
+    create: true
+    delete: true
+    extension: json
+    format: json
+    fields:
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Image Alt", name: "image_alt", widget: "string", required: false }
+      - { label: "Caption", name: "caption", widget: "string" }
+      - { label: "Meta", name: "meta", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
+  # GROUP (Planhotel Family)
+  # ═══════════════════════════════════════════════════════════
+  - name: "group"
+    label: "Planhotel Family"
+    folder: "src/content/group"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Label", name: "label", widget: "string" }
+      - { label: "Headline", name: "headline", widget: "text" }
+      - { label: "Body", name: "body", widget: "text" }
+      - name: "values"
+        label: "Values"
+        widget: "list"
+        fields:
+          - { label: "Value", name: "value", widget: "string" }
+
+  # ═══════════════════════════════════════════════════════════
+  # SISTER BRANDS
+  # ═══════════════════════════════════════════════════════════
+  - name: "sisterbrands"
+    label: "Sister Brands"
+    folder: "src/content/sisterbrands"
+    create: true
+    delete: true
+    extension: json
+    format: json
+    fields:
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "Mark", name: "mark", widget: "string" }
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Link", name: "href", widget: "string" }
+
+  # ═══════════════════════════════════════════════════════════
+  # JOURNAL
+  # ═══════════════════════════════════════════════════════════
+  - name: "journal"
+    label: "Journal"
+    folder: "src/content/journal"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+      - { label: "Headline", name: "headline", widget: "text" }
+      - { label: "Supporting Text", name: "supporting", widget: "text" }
+      - { label: "Input Placeholder", name: "input_placeholder", widget: "string" }
+      - { label: "Button Label", name: "button_label", widget: "string" }
+      - { label: "Success Message", name: "success_message", widget: "string" }

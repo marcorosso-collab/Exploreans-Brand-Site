@@ -1,4 +1,5 @@
 {
+  "order": 2,
   "seo_title": "Malaika — Intimate Nature-Led Retreat | Exploreans",
   "seo_description": "Malaika — Swahili for angel — is our more contemplative address. Thoughtfully designed in rhythm with its landscape, it favours unhurried days and the slow business of paying attention.",
   "name": "<em>Malaika</em>",
@@ -6,9 +7,9 @@
   "location": "Kenya",
   "tagline": "Intimate. Quietly built. A slower rhythm altogether.",
   "description": "Malaika — Swahili for <em>angel</em> — is our more contemplative address. Thoughtfully designed in rhythm with its landscape, it favours unhurried days, long lunches, walking, reading, and the slow business of paying attention. It's where guests come to exhale.",
-  "hero_image": "/images/properties/malaika.jpg",
-  "hero_image_alt": "Malaika — intimate, nature-led retreat",
-  "specs_label": "At a glance",
+  "image": "/images/properties/malaika.jpg",
+  "image_alt": "Malaika — intimate, nature-led retreat",
+  "tag_label": "Kenya",
   "specs": [
     { "label": "Suites", "value": "Intimate" },
     { "label": "Setting", "value": "Nature-led" },
