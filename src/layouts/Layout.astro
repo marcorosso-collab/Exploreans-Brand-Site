@@ -39,12 +39,20 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonicalUrl} />
   {ogImage && <meta property="og:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />}
+  <meta property="og:site_name" content="Exploreans" />
+  <meta property="og:locale" content="en_US" />
   
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={ogTitle} />
   <meta name="twitter:description" content={ogDescription} />
   {ogImage && <meta name="twitter:image" content={ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`} />}
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Exploreans" />
+  <meta name="geo.region" content="KE" />
+  <meta name="geo.placename" content="Maasai Mara, Kenya" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,20 +61,102 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
     rel="stylesheet"
   />
 
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QV5BLB9NV3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QV5BLB9NV3');
+  </script>
+
+  <!-- Enhanced Schema.org JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Exploreans",
-    "alternateName": "Exploreans — Camps, Lodges & Retreats",
-    "description": description,
-    "url": "https://exploreans.com",
-    "parentOrganization": {
-      "@type": "Organization",
-      "name": "Planhotel Hospitality Group",
-      "url": "https://planhotel.com",
-      "address": { "@type": "PostalAddress", "addressLocality": "Lugano", "addressCountry": "CH" }
-    },
-    "slogan": "Authentic by Nature"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://exploreans.com/#organization",
+        "name": "Exploreans",
+        "alternateName": "Exploreans — Camps, Lodges & Retreats",
+        "description": description,
+        "url": "https://exploreans.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://exploreans.com/images/logo/exploreans-logo.png"
+        },
+        "sameAs": [
+          "https://www.instagram.com/exploreans",
+          "https://www.facebook.com/exploreans"
+        ],
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "Planhotel Hospitality Group",
+          "url": "https://planhotel.com",
+          "address": { 
+            "@type": "PostalAddress", 
+            "addressLocality": "Lugano", 
+            "addressCountry": "CH" 
+          }
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://exploreans.com/#website",
+        "url": "https://exploreans.com",
+        "name": "Exploreans",
+        "publisher": {
+          "@id": "https://exploreans.com/#organization"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+        "url": canonicalUrl,
+        "name": title,
+        "description": description,
+        "isPartOf": {
+          "@id": "https://exploreans.com/#website"
+        }
+      },
+      {
+        "@type": "LodgingBusiness",
+        "name": "Exploreans Mara River Camp",
+        "description": "Luxury tented safari camp on the banks of the Mara River",
+        "url": "https://mara.exploreans.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Maasai Mara",
+          "addressCountry": "KE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -1.5065,
+          "longitude": 35.1430
+        },
+        "priceRange": "$$$$",
+        "starRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        }
+      },
+      {
+        "@type": "LodgingBusiness",
+        "name": "Exploreans Malaika",
+        "description": "Intimate nature-led retreat on the Kenyan coast",
+        "url": "https://malaika.exploreans.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Watamu",
+          "addressCountry": "KE"
+        },
+        "priceRange": "$$$$",
+        "starRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        }
+      }
+    ]
   })} />
 </head>
 <body>

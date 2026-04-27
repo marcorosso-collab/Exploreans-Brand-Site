@@ -16,6 +16,16 @@ collections:
   - name: "settings"
     label: "Site Settings"
     files:
+      - name: "general"
+        label: "General & SEO"
+        file: "src/content/settings/general.json"
+        fields:
+          - { label: "Site Title", name: "site_title", widget: "string" }
+          - { label: "Meta Description", name: "meta_description", widget: "text" }
+          - { label: "Meta Keywords", name: "meta_keywords", widget: "text" }
+          - { label: "OG Title", name: "og_title", widget: "string" }
+          - { label: "OG Description", name: "og_description", widget: "text" }
+          - { label: "OG Image", name: "og_image", widget: "image" }
       - name: "nav"
         label: "Navigation"
         file: "src/content/settings/nav.json"

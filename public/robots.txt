@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
-Disallow: /admin
 
+# Sitemap
 Sitemap: https://exploreans.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10
+
+# Disallow admin and private areas
+Disallow: /admin/
