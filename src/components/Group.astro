@@ -23,15 +23,19 @@ const sisters = (await getCollection('sisterbrands')).sort((a, b) => a.data.orde
     <div class="sister-brands reveal">
       {sisters.map((s) => (
         <a href={s.data.href} class="sister">
-          {s.data.logo ? (
-            <div class="sister-logo">
-              <img src={s.data.logo} alt={s.data.logo_alt || s.data.name} />
-            </div>
-          ) : s.data.mark ? (
-            <div class="sister-mark">{s.data.mark}</div>
-          ) : null}
-          <div class="sister-body">
-            <h5>{s.data.name}</h5>
+          <div class="sister-content">
+            {s.data.logo ? (
+              <div class="sister-logo-large">
+                <img src={s.data.logo} alt={s.data.logo_alt || s.data.name} />
+              </div>
+            ) : (
+              <>
+                {s.data.mark ? (
+                  <div class="sister-mark-large">{s.data.mark}</div>
+                ) : null}
+                <h5>{s.data.name}</h5>
+              </>
+            )}
             <p>{s.data.description}</p>
           </div>
           <div class="sister-arrow">→</div>
