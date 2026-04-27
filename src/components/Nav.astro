@@ -2,10 +2,16 @@
 import { getEntry, getCollection } from 'astro:content';
 
 const navSettings = await getEntry('settings', 'nav');
-const nav = navSettings?.data ?? { links: [], cta_label: 'Plan a stay', cta_href: '#places' };
+const nav = navSettings?.data ?? { 
+  links: [], 
+  cta_label: 'Plan a stay', 
+  cta_href: '#places',
+  logo: null,
+  wordmark_main: 'Exploreans',
+  wordmark_sub: 'Camps · Lodges · Retreats'
+};
 
 // Auto-populate Properties dropdown from the properties collection
-// (unless manual overrides were set in CMS)
 const properties = (await getCollection('properties'))
   .filter(p => p.data.show_in_nav !== false)
   .sort((a, b) => a.data.order - b.data.order);
@@ -21,8 +27,14 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <a href="/" class="wordmark">
-      <span class="wordmark-main">Exploreans</span>
-      <span class="wordmark-sub">Camps · Lodges · Retreats</span>
+      {nav.logo ? (
+        <img src={nav.logo} alt={nav.logo_alt || 'Exploreans'} class="nav-logo" />
+      ) : (
+        <>
+          <span class="wordmark-main">{nav.wordmark_main}</span>
+          <span class="wordmark-sub">{nav.wordmark_sub}</span>
+        </>
+      )}
     </a>
 
     <ul class="nav-links">
@@ -51,6 +63,56 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       })}
     </ul>
 
-    <a href={nav.cta_href} class="nav-cta"><span>{nav.cta_label}</span></a>
+    {nav.cta_show_dropdown && propertiesDropdown.length > 0 ? (
+      <div class="nav-cta-wrapper has-dropdown">
+        <a href={nav.cta_href} class="nav-cta">
+          <span>{nav.cta_label}</span>
+          <span class="cta-arrow">▼</span>
+        </a>
+        <ul class="dropdown cta-dropdown">
+          {propertiesDropdown.map((p) => (
+            <li>
+              <a href={p.href}>
+                {p.label}
+                {p.location && <span class="dd-location">{p.location}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : (
+      <a href={nav.cta_href} class="nav-cta"><span>{nav.cta_label}</span></a>
+    )}
   </div>
 </nav>
+
+<style>
+  .nav-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .nav-cta-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cta-arrow {
+    margin-left: 6px;
+    font-size: 10px;
+  }
+  
+  .cta-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 200px;
+  }
+  
+  .nav-cta-wrapper:hover .cta-dropdown,
+  .nav-cta-wrapper:focus-within .cta-dropdown {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+</style>

@@ -11,6 +11,43 @@ public_folder: "/images"
 collections:
 
   # ═══════════════════════════════════════════════════════════
+  # SETTINGS (Navigation & Site Config)
+  # ═══════════════════════════════════════════════════════════
+  - name: "settings"
+    label: "Site Settings"
+    folder: "src/content/settings"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    files:
+      - name: "nav"
+        label: "Navigation"
+        file: "src/content/settings/nav.json"
+        fields:
+          - { label: "Logo Image", name: "logo", widget: "image", required: false }
+          - { label: "Logo Alt Text", name: "logo_alt", widget: "string", required: false }
+          - { label: "Wordmark Main", name: "wordmark_main", widget: "string", required: false }
+          - { label: "Wordmark Sub", name: "wordmark_sub", widget: "string", required: false }
+          - name: "links"
+            label: "Navigation Links"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "href", widget: "string" }
+          - { label: "CTA Button Label", name: "cta_label", widget: "string" }
+          - { label: "CTA Button URL", name: "cta_href", widget: "string" }
+          - { label: "CTA Show Dropdown", name: "cta_show_dropdown", widget: "boolean", default: true }
+          - name: "properties_dropdown"
+            label: "Properties Dropdown (auto-populated from Properties collection)"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "href", widget: "string" }
+              - { label: "Location", name: "location", widget: "string", required: false }
+
+  # ═══════════════════════════════════════════════════════════
   # HERO
   # ═══════════════════════════════════════════════════════════
   - name: "hero"

@@ -1,4 +1,8 @@
 {
+  "logo": "/images/logo/exploreans-logo.png",
+  "logo_alt": "Exploreans Logo",
+  "wordmark_main": "Exploreans",
+  "wordmark_sub": "Camps · Lodges · Retreats",
   "links": [
     { "label": "The Camp", "href": "#camp" },
     { "label": "Stay", "href": "#stay" },
@@ -8,5 +12,6 @@
   ],
   "cta_label": "Plan a stay",
   "cta_href": "#places",
+  "cta_show_dropdown": true,
   "properties_dropdown": []
 }

@@ -183,9 +183,14 @@ const settings = defineCollection({
   type: 'data',
   schema: z.object({
     // nav.json fields
+    logo: z.string().optional(),
+    logo_alt: z.string().optional(),
+    wordmark_main: z.string().optional(),
+    wordmark_sub: z.string().optional(),
     links: z.array(z.object({ label: z.string(), href: z.string() })).optional(),
     cta_label: z.string().optional(),
     cta_href: z.string().optional(),
+    cta_show_dropdown: z.boolean().optional(),
     properties_dropdown: z.array(z.object({
       label: z.string(),
       href: z.string(),
