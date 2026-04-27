@@ -1,20 +1,32 @@
 {
   "order": 2,
-  "seo_title": "Malaika — Intimate Nature-Led Retreat | Exploreans",
-  "seo_description": "Malaika — Swahili for angel — is our more contemplative address. Thoughtfully designed in rhythm with its landscape, it favours unhurried days and the slow business of paying attention.",
+  "seo_title": "Exploreans Malaika Beach Club | Authentic Coastal Retreat near Watamu, Kenya",
+  "seo_description": "Escape to Exploreans Malaika Beach Club, a boutique eco-retreat on the pristine shores of Mayungu. Discover raw, authentic Kenyan coastal luxury. Book your stay.",
   "name": "<em>Malaika</em>",
   "short_name": "Malaika",
   "location": "Kenya",
   "tagline": "Intimate. Quietly built. A slower rhythm altogether.",
-  "description": "Malaika — Swahili for <em>angel</em> — is our more contemplative address. Thoughtfully designed in rhythm with its landscape, it favours unhurried days, long lunches, walking, reading, and the slow business of paying attention. It's where guests come to exhale.",
-  "image": "/images/properties/malaika.jpg",
+  "description": "Malaika — Swahili for <em>angel</em> — is not a resort designed to be everything to everyone; it is a place designed to be everything for those who seek the real, the unscripted, and the untouched. Nestled in the quiet fishing bay of Mayungu, between Malindi and Watamu, this boutique ecolodge sits where the coastline remains true to its origins—a wild paradise preserved from the rush of mass tourism.",
+  "image": "/images/secluded-beach-club-experience-exploreans-malaika-kenya.jpg",
   "image_alt": "Malaika — intimate, nature-led retreat",
   "tag_label": "Kenya",
   "specs": [
-    { "label": "Suites", "value": "Intimate" },
-    { "label": "Setting", "value": "Nature-led" },
-    { "label": "Known for", "value": "Slow travel" },
-    { "label": "Pace", "value": "Unhurried" }
+    {
+      "label": "Suites",
+      "value": "Intimate"
+    },
+    {
+      "label": "Setting",
+      "value": "Nature-led"
+    },
+    {
+      "label": "Known for",
+      "value": "Slow travel"
+    },
+    {
+      "label": "Pace",
+      "value": "Unhurried"
+    }
   ],
   "cta_label": "Visit Malaika",
   "cta_href": "https://malaika.exploreans.com",
