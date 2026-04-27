@@ -1,9 +1,15 @@
 ---
 import '../styles/global.css';
-import { getEntry } from 'astro:content';
 
-const general = await getEntry('settings', 'general');
-const g = general?.data ?? {};
+// Hardcoded SEO values to ensure they always exist
+const siteConfig = {
+  site_title: "Exploreans — Camps, Lodges & Retreats · Authentic by Nature",
+  meta_description: "Exploreans — a small collection of intimate, nature-led camps, lodges and retreats in some of the world's most remarkable landscapes. Nothing added, nothing taken away.",
+  meta_keywords: "nature-led lodges, intimate camps, boutique nature retreats, slow travel, conservation travel, remote lodges, authentic nature retreats, Exploreans, safari camps, Kenya, Maldives, Zanzibar",
+  og_title: "Exploreans — Authentic by Nature",
+  og_description: "Intimate, nature-led camps, lodges and retreats. A quieter way to be somewhere.",
+  og_image: "/images/og/exploreans-og.jpg"
+};
 
 export interface Props {
   title?: string;
@@ -11,12 +17,12 @@ export interface Props {
   ogImage?: string;
 }
 
-// Use CMS values only - no hardcoded fallbacks
-const title = Astro.props.title ?? g.site_title ?? '';
-const description = Astro.props.description ?? g.meta_description ?? '';
-const ogImage = Astro.props.ogImage ?? g.og_image ?? '';
-const ogTitle = Astro.props.title ?? g.og_title ?? g.site_title ?? '';
-const ogDescription = Astro.props.description ?? g.og_description ?? g.meta_description ?? '';
+// Use props if provided, otherwise use hardcoded config
+const title = Astro.props.title || siteConfig.site_title;
+const description = Astro.props.description || siteConfig.meta_description;
+const ogImage = Astro.props.ogImage || siteConfig.og_image;
+const ogTitle = Astro.props.title || siteConfig.og_title;
+const ogDescription = Astro.props.description || siteConfig.og_description;
 
 const siteUrl = 'https://exploreans.com';
 const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
@@ -28,7 +34,7 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  {g.meta_keywords && <meta name="keywords" content={g.meta_keywords} />}
+  <meta name="keywords" content={siteConfig.meta_keywords} />
   
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalUrl} />
