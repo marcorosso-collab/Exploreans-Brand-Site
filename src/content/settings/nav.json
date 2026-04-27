@@ -5,24 +5,20 @@
   "wordmark_sub": "",
   "links": [
     {
-      "label": "The Camp",
-      "href": "#camp"
+      "label": "Our Philosophy",
+      "href": "#pillars"
     },
     {
-      "label": "Stay",
-      "href": "#stay"
-    },
-    {
-      "label": "When to Visit",
-      "href": "#when-to-visit"
+      "label": "The Collection",
+      "href": "#places"
     },
     {
       "label": "Experiences",
-      "href": "#experiences"
+      "href": "#beyond"
     },
     {
-      "label": "Journal",
-      "href": "#journal"
+      "label": "Brands",
+      "href": "#group"
     }
   ],
   "cta_label": "Plan a stay",

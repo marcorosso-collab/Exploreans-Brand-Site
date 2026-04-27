@@ -4,7 +4,7 @@ import { getEntry, getCollection } from 'astro:content';
 const intro = (await getEntry('pillarsintro', 'pillarsintro'))!.data;
 const pillars = (await getCollection('pillars')).sort((a, b) => a.data.order - b.data.order);
 ---
-<section class="pillars">
+<section class="pillars" id="pillars">
   <div class="topo-bg topo-bg--sage"></div>
   <div class="container">
     <div class="pillars-intro reveal">
