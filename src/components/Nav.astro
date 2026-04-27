@@ -29,16 +29,18 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
   <div class="container nav-inner">
     <a href="/" class="wordmark" data-logo>
       {nav.logo ? (
-        <img 
-          src={nav.logo} 
-          alt={nav.logo_alt || 'Exploreans'} 
-          class="nav-logo nav-logo--default" 
-        />
-        <img 
-          src={nav.logo} 
-          alt={nav.logo_alt || 'Exploreans'} 
-          class="nav-logo nav-logo--white" 
-        />
+        <>
+          <img 
+            src={nav.logo} 
+            alt={nav.logo_alt || 'Exploreans'} 
+            class="nav-logo nav-logo--default" 
+          />
+          <img 
+            src={nav.logo} 
+            alt={nav.logo_alt || 'Exploreans'} 
+            class="nav-logo nav-logo--white" 
+          />
+        </>
       ) : (
         <>
           <span class="wordmark-main">{nav.wordmark_main}</span>
@@ -47,7 +49,7 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       )}
     </a>
 
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       {nav.links?.map((link) => {
         const isProperties = link.label.toLowerCase() === 'properties';
         if (isProperties && propertiesDropdown.length > 0) {
@@ -73,26 +75,34 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       })}
     </ul>
 
-    {nav.cta_show_dropdown && propertiesDropdown.length > 0 ? (
-      <div class="nav-cta-wrapper has-dropdown">
-        <a href={nav.cta_href} class="nav-cta">
-          <span>{nav.cta_label}</span>
-          <span class="cta-arrow">▼</span>
-        </a>
-        <ul class="dropdown cta-dropdown">
-          {propertiesDropdown.map((p) => (
-            <li>
-              <a href={p.href}>
-                {p.label}
-                {p.location && <span class="dd-location">{p.location}</span>}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ) : (
-      <a href={nav.cta_href} class="nav-cta"><span>{nav.cta_label}</span></a>
-    )}
+    <div class="nav-actions">
+      {nav.cta_show_dropdown && propertiesDropdown.length > 0 ? (
+        <div class="nav-cta-wrapper has-dropdown">
+          <a href={nav.cta_href} class="nav-cta">
+            <span>{nav.cta_label}</span>
+            <span class="cta-arrow">▼</span>
+          </a>
+          <ul class="dropdown cta-dropdown">
+            {propertiesDropdown.map((p) => (
+              <li>
+                <a href={p.href}>
+                  {p.label}
+                  {p.location && <span class="dd-location">{p.location}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <a href={nav.cta_href} class="nav-cta"><span>{nav.cta_label}</span></a>
+      )}
+      
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -130,6 +140,13 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     display: inline-block;
   }
   
+  /* Nav Actions (CTA + Hamburger) */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
   .nav-cta-wrapper {
     position: relative;
     display: inline-block;
@@ -152,6 +169,102 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     opacity: 1;
     visibility: visible;
   }
+  
+  /* Mobile Menu Toggle */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+  }
+  
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .nav-toggle.active span:nth-child(2) { opacity: 0; }
+  .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  
+  /* Tablet/Mobile - Switch to hamburger menu at 1024px */
+  @media (max-width: 1024px) {
+    .nav-toggle { display: flex; }
+    
+    .nav-links {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 70%;
+      max-width: 300px;
+      height: 100vh;
+      background: var(--moss);
+      flex-direction: column;
+      padding: 80px 40px 40px;
+      gap: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 100;
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+      align-items: flex-start;
+    }
+    
+    .nav-links.active { 
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .nav-links li { 
+      width: 100%;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .nav-links a { 
+      color: var(--white) !important; 
+      font-size: 14px;
+      display: block;
+      padding: 16px 0;
+      white-space: normal;
+    }
+    
+    .nav-links a::after { display: none; }
+    
+    /* Mobile dropdown styling */
+    .nav-links .dropdown {
+      position: static;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0 0 16px 16px;
+      min-width: auto;
+    }
+    
+    .nav-links .dropdown a {
+      font-size: 13px;
+      padding: 10px 0;
+      color: rgba(255,255,255,0.8) !important;
+    }
+    
+    .nav-links .has-dropdown > a::before { display: none; }
+    
+    /* Keep CTA button styling consistent */
+    .nav-cta {
+      padding: 10px 20px;
+      font-size: 10px;
+    }
+  }
 </style>
 
 <script>
@@ -164,7 +277,6 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     const scrollY = window.scrollY || window.pageYOffset;
     
     // As soon as user starts scrolling (scrollY > 0), remove at-top class
-    // This matches when the white navbar appears
     if (scrollY > 0) {
       nav.classList.remove('at-top');
     } else {
@@ -178,4 +290,33 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
   // Update on scroll
   window.addEventListener('scroll', updateNavState, { passive: true });
   window.addEventListener('resize', updateNavState, { passive: true });
+  
+  // Mobile menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && navLinks.classList.contains('active')) {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
+    });
+  }
 </script>
