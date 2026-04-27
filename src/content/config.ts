@@ -156,7 +156,9 @@ const sisterbrands = defineCollection({
   type: 'data',
   schema: z.object({
     order: z.number(),
-    mark: z.string(),
+    mark: z.string().optional(),
+    logo: z.string().optional(),
+    logo_alt: z.string().optional(),
     name: z.string(),
     description: z.string(),
     href: z.string()

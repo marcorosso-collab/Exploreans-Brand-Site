@@ -273,7 +273,9 @@ collections:
     format: json
     fields:
       - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "Mark", name: "mark", widget: "string" }
+      - { label: "Mark (symbol)", name: "mark", widget: "string", required: false }
+      - { label: "Logo Image", name: "logo", widget: "image", required: false }
+      - { label: "Logo Alt Text", name: "logo_alt", widget: "string", required: false }
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Link", name: "href", widget: "string" }
