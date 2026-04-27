@@ -157,16 +157,15 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
 <script>
   // Handle scroll-based logo color inversion
   const nav = document.querySelector('[data-nav]');
-  const hero = document.querySelector('.hero');
   
   function updateNavState() {
-    if (!nav || !hero) return;
+    if (!nav) return;
     
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    const navHeight = nav.offsetHeight;
+    const scrollY = window.scrollY || window.pageYOffset;
     
-    // If we've scrolled past the hero section, remove at-top class
-    if (heroBottom <= navHeight) {
+    // As soon as user starts scrolling (scrollY > 0), remove at-top class
+    // This matches when the white navbar appears
+    if (scrollY > 0) {
       nav.classList.remove('at-top');
     } else {
       nav.classList.add('at-top');
