@@ -213,8 +213,10 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       top: 0;
       right: 0;
       width: 70%;
-      max-width: 300px;
+      min-width: 280px;
+      max-width: 320px;
       height: 100vh;
+      min-height: 100vh;
       background: var(--moss);
       flex-direction: column;
       padding: 80px 40px 40px;
@@ -225,12 +227,14 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       opacity: 0;
       pointer-events: none;
       align-items: flex-start;
+      display: flex;
     }
     
     .nav-links.active { 
       transform: translateX(0);
       opacity: 1;
       pointer-events: auto;
+      display: flex;
     }
     
     .nav-links li { 
@@ -273,6 +277,21 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     .nav-cta {
       padding: 10px 20px;
       font-size: 10px;
+    }
+  }
+  
+  /* Ensure mobile menu stays visible on very small screens */
+  @media (max-width: 480px) {
+    .nav-links {
+      width: 85%;
+      min-width: 260px;
+      padding: 70px 30px 30px;
+    }
+    
+    .nav-links.active {
+      transform: translateX(0);
+      opacity: 1;
+      display: flex;
     }
   }
 </style>
