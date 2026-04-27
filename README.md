@@ -204,3 +204,4 @@ Built to Exploreans Brand Guidelines 2026:
 
 Questions? Hit the thumbs-down on any weirdness — this is a production-ready starting point, but your team will naturally refine copy and photography once the real thing is in front of guests.
 # Mobile nav branch
+# Branch deploy enabled
