@@ -6,13 +6,12 @@
     { "label": "Malaika", "href": "https://malaika.exploreans.com" }
   ],
   "collection_links": [
-    { "label": "Our Philosophy", "href": "#letter" },
+    { "label": "Our Philosophy", "href": "#pillars" },
+    { "label": "The Collection", "href": "#places" },
     { "label": "Experiences", "href": "#beyond" },
-    { "label": "Field Notes", "href": "#notes" },
-    { "label": "Journal", "href": "#journal" }
+    { "label": "Brands", "href": "#group" }
   ],
   "contact_links": [
-    { "label": "Plan a Stay", "href": "#places" },
     { "label": "Press", "href": "mailto:press@exploreans.com" },
     { "label": "Careers", "href": "mailto:careers@exploreans.com" }
   ],
