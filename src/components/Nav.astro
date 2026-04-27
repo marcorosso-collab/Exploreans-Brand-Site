@@ -186,16 +186,26 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     display: block;
     width: 24px;
     height: 2px;
-    background: currentColor;
+    background: var(--white);
     transition: all 0.3s ease;
+  }
+  
+  /* Hamburger is white at top, dark when scrolled */
+  [data-nav]:not(.at-top) .nav-toggle span {
+    background: var(--moss);
   }
   
   .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   .nav-toggle.active span:nth-child(2) { opacity: 0; }
   .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
   
-  /* Tablet/Mobile - Switch to hamburger menu at 1024px */
-  @media (max-width: 1024px) {
+  /* Prevent text wrapping before hamburger appears */
+  .nav-links {
+    white-space: nowrap;
+  }
+  
+  /* Tablet/Mobile - Switch to hamburger menu at 1100px (slightly earlier to prevent wrapping) */
+  @media (max-width: 1100px) {
     .nav-toggle { display: flex; }
     
     .nav-links {

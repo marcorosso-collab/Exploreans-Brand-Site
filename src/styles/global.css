@@ -127,10 +127,6 @@ a { color: inherit; text-decoration: none; }
 .nav-cta:hover span { color: var(--moss); }
 .nav.scrolled .nav-cta:hover span { color: var(--white); }
 
-/* Mobile hamburger menu color */
-.nav-toggle span { background: var(--white); transition: background 0.3s ease; }
-.nav.scrolled .nav-toggle span { background: var(--moss); }
-
 /* Nav Actions wrapper */
 .nav-actions { display: flex; align-items: center; gap: 16px; }
 
