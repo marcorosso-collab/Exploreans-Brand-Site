@@ -1,17 +1,43 @@
 {
-  "logo": "/images/logo/exploreans-logo.png",
+  "logo": "/images/Exploreans Camps & Lodges_RGB.png",
   "logo_alt": "Exploreans Logo",
-  "wordmark_main": "Exploreans",
-  "wordmark_sub": "Camps · Lodges · Retreats",
+  "wordmark_main": "",
+  "wordmark_sub": "",
   "links": [
-    { "label": "The Camp", "href": "#camp" },
-    { "label": "Stay", "href": "#stay" },
-    { "label": "When to Visit", "href": "#when-to-visit" },
-    { "label": "Experiences", "href": "#experiences" },
-    { "label": "Journal", "href": "#journal" }
+    {
+      "label": "The Camp",
+      "href": "#camp"
+    },
+    {
+      "label": "Stay",
+      "href": "#stay"
+    },
+    {
+      "label": "When to Visit",
+      "href": "#when-to-visit"
+    },
+    {
+      "label": "Experiences",
+      "href": "#experiences"
+    },
+    {
+      "label": "Journal",
+      "href": "#journal"
+    }
   ],
   "cta_label": "Plan a stay",
   "cta_href": "#places",
   "cta_show_dropdown": true,
-  "properties_dropdown": []
+  "properties_dropdown": [
+    {
+      "label": "Exploreans Mara",
+      "href": "https://mara.exploreans.com/",
+      "location": "Masai Mara, Kenya"
+    },
+    {
+      "label": "Exploreans Malaika",
+      "href": "https://www.malaika.exploreans.com/",
+      "location": "Watamu, Kenya"
+    }
+  ]
 }
