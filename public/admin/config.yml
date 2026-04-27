@@ -15,11 +15,6 @@ collections:
   # ═══════════════════════════════════════════════════════════
   - name: "settings"
     label: "Site Settings"
-    folder: "src/content/settings"
-    create: false
-    delete: false
-    extension: json
-    format: json
     files:
       - name: "nav"
         label: "Navigation"
