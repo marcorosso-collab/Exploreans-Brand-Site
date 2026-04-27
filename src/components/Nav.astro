@@ -7,6 +7,7 @@ const nav = navSettings?.data ?? {
   cta_label: 'Plan a stay', 
   cta_href: '#places',
   logo: null,
+  logo_alt: 'Exploreans',
   wordmark_main: 'Exploreans',
   wordmark_sub: 'Camps · Lodges · Retreats'
 };
@@ -24,11 +25,20 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       location: p.data.location
     }));
 ---
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" data-nav>
   <div class="container nav-inner">
-    <a href="/" class="wordmark">
+    <a href="/" class="wordmark" data-logo>
       {nav.logo ? (
-        <img src={nav.logo} alt={nav.logo_alt || 'Exploreans'} class="nav-logo" />
+        <img 
+          src={nav.logo} 
+          alt={nav.logo_alt || 'Exploreans'} 
+          class="nav-logo nav-logo--default" 
+        />
+        <img 
+          src={nav.logo} 
+          alt={nav.logo_alt || 'Exploreans'} 
+          class="nav-logo nav-logo--white" 
+        />
       ) : (
         <>
           <span class="wordmark-main">{nav.wordmark_main}</span>
@@ -91,6 +101,33 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     height: 40px;
     width: auto;
     object-fit: contain;
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-logo--default {
+    opacity: 1;
+  }
+  
+  .nav-logo--white {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: brightness(0) invert(1);
+  }
+  
+  /* When nav is at top (no scroll), show white logo */
+  [data-nav].at-top .nav-logo--default {
+    opacity: 0;
+  }
+  
+  [data-nav].at-top .nav-logo--white {
+    opacity: 1;
+  }
+  
+  [data-logo] {
+    position: relative;
+    display: inline-block;
   }
   
   .nav-cta-wrapper {
@@ -116,3 +153,30 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     visibility: visible;
   }
 </style>
+
+<script>
+  // Handle scroll-based logo color inversion
+  const nav = document.querySelector('[data-nav]');
+  const hero = document.querySelector('.hero');
+  
+  function updateNavState() {
+    if (!nav || !hero) return;
+    
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const navHeight = nav.offsetHeight;
+    
+    // If we've scrolled past the hero section, remove at-top class
+    if (heroBottom <= navHeight) {
+      nav.classList.remove('at-top');
+    } else {
+      nav.classList.add('at-top');
+    }
+  }
+  
+  // Initial state
+  updateNavState();
+  
+  // Update on scroll
+  window.addEventListener('scroll', updateNavState, { passive: true });
+  window.addEventListener('resize', updateNavState, { passive: true });
+</script>
