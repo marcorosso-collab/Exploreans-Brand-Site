@@ -180,6 +180,19 @@ const journal = defineCollection({
   })
 });
 
+// ─── General Settings (SEO) ───
+const general = defineCollection({
+  type: 'data',
+  schema: z.object({
+    site_title: z.string(),
+    meta_description: z.string(),
+    meta_keywords: z.string(),
+    og_title: z.string(),
+    og_description: z.string(),
+    og_image: z.string()
+  })
+});
+
 // ─── Settings ───
 const settings = defineCollection({
   type: 'data',
@@ -210,6 +223,7 @@ const settings = defineCollection({
 });
 
 export const collections = {
+  general,
   settings,
   hero,
   letter,

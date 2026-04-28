@@ -11,21 +11,29 @@ public_folder: "/images"
 collections:
 
   # ═══════════════════════════════════════════════════════════
+  # GENERAL SEO SETTINGS (Global)
+  # ═══════════════════════════════════════════════════════════
+  - name: "general"
+    label: "SEO & Global Settings"
+    folder: "src/content/general"
+    create: false
+    delete: false
+    extension: json
+    format: json
+    fields:
+      - { label: "Site Title", name: "site_title", widget: "string", required: true }
+      - { label: "Meta Description", name: "meta_description", widget: "text", required: true }
+      - { label: "Meta Keywords", name: "meta_keywords", widget: "text", required: true }
+      - { label: "OG Title", name: "og_title", widget: "string", required: true }
+      - { label: "OG Description", name: "og_description", widget: "text", required: true }
+      - { label: "OG Image", name: "og_image", widget: "image", required: true }
+
+  # ═══════════════════════════════════════════════════════════
   # SETTINGS (Navigation & Site Config)
   # ═══════════════════════════════════════════════════════════
   - name: "settings"
     label: "Site Settings"
     files:
-      - name: "general"
-        label: "General & SEO"
-        file: "src/content/settings/general.json"
-        fields:
-          - { label: "Site Title", name: "site_title", widget: "string" }
-          - { label: "Meta Description", name: "meta_description", widget: "text" }
-          - { label: "Meta Keywords", name: "meta_keywords", widget: "text" }
-          - { label: "OG Title", name: "og_title", widget: "string" }
-          - { label: "OG Description", name: "og_description", widget: "text" }
-          - { label: "OG Image", name: "og_image", widget: "image" }
       - name: "nav"
         label: "Navigation"
         file: "src/content/settings/nav.json"
@@ -63,8 +71,8 @@ collections:
     extension: json
     format: json
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+      - { label: "SEO Title", name: "seo_title", widget: "string", required: true }
+      - { label: "SEO Description", name: "seo_description", widget: "text", required: true }
       - { label: "Volume Label", name: "volume_label", widget: "string" }
       - { label: "Title Line 1", name: "title_line_1", widget: "string" }
       - { label: "Title Line 2", name: "title_line_2", widget: "string" }
@@ -73,7 +81,7 @@ collections:
       - { label: "Bottom Left Text", name: "bottom_left", widget: "string" }
       - { label: "Scroll Label", name: "scroll_label", widget: "string" }
       - { label: "Background Image", name: "background_image", widget: "image" }
-      - { label: "Background Alt Text", name: "background_alt", widget: "string", required: false }
+      - { label: "Background Alt Text", name: "background_alt", widget: "string", required: true }
 
   # ═══════════════════════════════════════════════════════════
   # LETTER (Note From The Field)

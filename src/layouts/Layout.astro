@@ -1,14 +1,19 @@
 ---
 import '../styles/global.css';
+import { getEntry } from 'astro:content';
 
-// Hardcoded SEO values to ensure they always exist
+// Load SEO settings from CMS
+const generalEntry = await getEntry('general', 'general');
+const g = generalEntry?.data;
+
+// Safety check - if CMS data is missing, use minimal fallbacks
 const siteConfig = {
-  site_title: "Exploreans — Camps, Lodges & Retreats · Authentic by Nature",
-  meta_description: "Exploreans — a small collection of intimate, nature-led camps, lodges and retreats in some of the world's most remarkable landscapes. Nothing added, nothing taken away.",
-  meta_keywords: "nature-led lodges, intimate camps, boutique nature retreats, slow travel, conservation travel, remote lodges, authentic nature retreats, Exploreans, safari camps, Kenya, Maldives, Zanzibar",
-  og_title: "Exploreans — Authentic by Nature",
-  og_description: "Intimate, nature-led camps, lodges and retreats. A quieter way to be somewhere.",
-  og_image: "/images/og/exploreans-og.jpg"
+  site_title: g?.site_title || "Exploreans",
+  meta_description: g?.meta_description || "",
+  meta_keywords: g?.meta_keywords || "",
+  og_title: g?.og_title || g?.site_title || "Exploreans",
+  og_description: g?.og_description || "",
+  og_image: g?.og_image || ""
 };
 
 export interface Props {
@@ -17,7 +22,7 @@ export interface Props {
   ogImage?: string;
 }
 
-// Use props if provided, otherwise use hardcoded config
+// Props override CMS values
 const title = Astro.props.title || siteConfig.site_title;
 const description = Astro.props.description || siteConfig.meta_description;
 const ogImage = Astro.props.ogImage || siteConfig.og_image;
@@ -34,7 +39,7 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="keywords" content={siteConfig.meta_keywords} />
+  {siteConfig.meta_keywords && <meta name="keywords" content={siteConfig.meta_keywords} />}
   
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalUrl} />
