@@ -1,14 +1,14 @@
 {
   "order": 2,
-  "seo_title": "Exploreans Malaika Beach Club | Authentic Coastal Retreat near Watamu, Kenya",
-  "seo_description": "Escape to Exploreans Malaika Beach Club, a boutique eco-retreat on the pristine shores of Mayungu. Discover raw, authentic Kenyan coastal luxury. Book your stay.",
-  "name": "<em>Malaika</em>",
-  "short_name": "Malaika",
+  "seo_title": "Exploreans Watamu Beach Club and Villas | Authentic Coastal Retreat near Watamu, Kenya",
+  "seo_description": "Escape to Exploreans Watamu Beach Club & Villas, a boutique eco-retreat on the pristine shores of Mayungu. Discover raw, authentic Kenyan coastal luxury. Book your stay.",
+  "name": "Watamu <em>Beach Club & Villas</em>",
+  "short_name": "Watamu Beach Club",
   "location": "Kenya",
   "tagline": "Intimate. Quietly built. A slower rhythm altogether.",
-  "description": "Malaika — Swahili for <em>angel</em> — is not a resort designed to be everything to everyone; it is a place designed to be everything for those who seek the real, the unscripted, and the untouched. Nestled in the quiet fishing bay of Mayungu, between Malindi and Watamu, this boutique ecolodge sits where the coastline remains true to its origins—a wild paradise preserved from the rush of mass tourism.",
+  "description": "Exploreans Watamu is not a resort designed to be everything to everyone; it is a place designed to be everything for those who seek the real, the unscripted, and the untouched. Nestled in the quiet fishing bay of Mayungu, between Malindi and Watamu, this boutique ecolodge sits where the coastline remains true to its origins—a wild paradise preserved from the rush of mass tourism.",
   "image": "/images/secluded-beach-club-experience-exploreans-malaika-kenya.jpg",
-  "image_alt": "Malaika — intimate, nature-led retreat",
+  "image_alt": "Watamu— intimate, nature-led retreat",
   "tag_label": "Kenya",
   "specs": [
     {
@@ -28,7 +28,7 @@
       "value": "Unhurried"
     }
   ],
-  "cta_label": "Visit Malaika",
+  "cta_label": "Visit Watamu",
   "cta_href": "https://malaika.exploreans.com",
   "show_in_nav": true
 }
