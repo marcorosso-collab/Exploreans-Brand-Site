@@ -277,6 +277,10 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     .nav-cta {
       padding: 10px 20px;
       font-size: 10px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
   }
   
@@ -292,6 +296,18 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
       transform: translateX(0);
       opacity: 1;
       display: flex;
+    }
+    
+    /* Smaller CTA on very narrow screens to prevent wrapping */
+    .nav-cta {
+      padding: 8px 14px;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+    }
+    
+    .cta-arrow {
+      margin-left: 4px;
+      font-size: 9px;
     }
   }
 </style>
