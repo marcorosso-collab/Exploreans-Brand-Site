@@ -13,7 +13,8 @@ const siteConfig = {
   meta_keywords: g?.meta_keywords || "",
   og_title: g?.og_title || g?.site_title || "Exploreans",
   og_description: g?.og_description || "",
-  og_image: g?.og_image || ""
+  og_image: g?.og_image || "",
+  favicon: g?.favicon || ""
 };
 
 export interface Props {
@@ -37,6 +38,7 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {siteConfig.favicon && <link rel="icon" type="image/png" href={siteConfig.favicon} />}
   <title>{title}</title>
   <meta name="description" content={description} />
   {siteConfig.meta_keywords && <meta name="keywords" content={siteConfig.meta_keywords} />}

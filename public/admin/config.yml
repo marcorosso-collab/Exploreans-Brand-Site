@@ -27,6 +27,7 @@ collections:
       - { label: "OG Title", name: "og_title", widget: "string", required: true }
       - { label: "OG Description", name: "og_description", widget: "text", required: true }
       - { label: "OG Image", name: "og_image", widget: "image", required: true }
+      - { label: "Favicon", name: "favicon", widget: "image", required: false, hint: "Upload a square PNG or ICO file (32x32 or 64x64 recommended). This appears in the browser tab." }
 
   # ═══════════════════════════════════════════════════════════
   # SETTINGS (Navigation & Site Config)

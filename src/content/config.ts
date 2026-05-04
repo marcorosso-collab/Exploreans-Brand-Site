@@ -189,7 +189,8 @@ const general = defineCollection({
     meta_keywords: z.string(),
     og_title: z.string(),
     og_description: z.string(),
-    og_image: z.string()
+    og_image: z.string(),
+    favicon: z.string().optional()
   })
 });
 
