@@ -59,7 +59,7 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
               <ul class="dropdown">
                 {propertiesDropdown.map((p) => (
                   <li>
-                    <a href={p.href}>
+                    <a href={p.href} target="_blank" rel="noopener">
                       {p.label}
                       {p.location && <span class="dd-location">{p.location}</span>}
                     </a>
@@ -85,7 +85,7 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
           <ul class="dropdown cta-dropdown">
             {propertiesDropdown.map((p) => (
               <li>
-                <a href={p.href}>
+                <a href={p.href} target="_blank" rel="noopener">
                   {p.label}
                   {p.location && <span class="dd-location">{p.location}</span>}
                 </a>
