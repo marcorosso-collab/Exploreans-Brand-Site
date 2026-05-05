@@ -38,7 +38,18 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicon for browser tabs -->
   {siteConfig.favicon && <link rel="icon" type="image/png" href={siteConfig.favicon} />}
+  
+  <!-- Shortcut icon (for older browsers and some search engines) -->
+  {siteConfig.favicon && <link rel="shortcut icon" type="image/png" href={siteConfig.favicon} />}
+  
+  <!-- Apple Touch Icon (used by Google for search results and mobile) -->
+  {siteConfig.favicon && <link rel="apple-touch-icon" sizes="180x180" href={siteConfig.favicon} />}
+  
+  <!-- Additional icon sizes for better compatibility -->
+  {siteConfig.favicon && <link rel="icon" type="image/png" sizes="32x32" href={siteConfig.favicon} />}
+  {siteConfig.favicon && <link rel="icon" type="image/png" sizes="16x16" href={siteConfig.favicon} />}
   <title>{title}</title>
   <meta name="description" content={description} />
   {siteConfig.meta_keywords && <meta name="keywords" content={siteConfig.meta_keywords} />}
