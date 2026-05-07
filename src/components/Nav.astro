@@ -108,31 +108,34 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
 
 <style>
   .nav-logo {
-    height: 40px;
+    height: 72px;
     width: auto;
+    max-width: 220px;
     object-fit: contain;
     transition: opacity 0.3s ease;
   }
   
   .nav-logo--default {
-    opacity: 1;
+    opacity: 0;
   }
-  
+
   .nav-logo--white {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
+    opacity: 1;
     filter: brightness(0) invert(1);
   }
-  
-  /* When nav is at top (no scroll), show white logo */
-  [data-nav].at-top .nav-logo--default {
-    opacity: 0;
-  }
-  
-  [data-nav].at-top .nav-logo--white {
+
+  /* When scrolled (solid nav background), show COLORED logo */
+  .nav.scrolled .nav-logo--default,
+  [data-nav]:not(.at-top) .nav-logo--default {
     opacity: 1;
+  }
+
+  .nav.scrolled .nav-logo--white,
+  [data-nav]:not(.at-top) .nav-logo--white {
+    opacity: 0;
   }
   
   [data-logo] {
@@ -313,7 +316,7 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
 </style>
 
 <script>
-  // Handle scroll-based logo color inversion
+  // Handle scroll-based nav state and logo color inversion
   const nav = document.querySelector('[data-nav]');
   
   function updateNavState() {
@@ -321,11 +324,12 @@ const propertiesDropdown = (nav.properties_dropdown && nav.properties_dropdown.l
     
     const scrollY = window.scrollY || window.pageYOffset;
     
-    // As soon as user starts scrolling (scrollY > 0), remove at-top class
     if (scrollY > 0) {
       nav.classList.remove('at-top');
+      nav.classList.add('scrolled');
     } else {
       nav.classList.add('at-top');
+      nav.classList.remove('scrolled');
     }
   }
   

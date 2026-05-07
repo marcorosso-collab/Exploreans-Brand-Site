@@ -4,10 +4,6 @@ const siteUrl = 'https://exploreans.com';
 
 const pages = [
   { url: '/', priority: 1.0, changefreq: 'weekly' },
-  { url: '/#pillars', priority: 0.8, changefreq: 'monthly' },
-  { url: '/#places', priority: 0.9, changefreq: 'weekly' },
-  { url: '/#beyond', priority: 0.8, changefreq: 'monthly' },
-  { url: '/#group', priority: 0.7, changefreq: 'monthly' },
 ];
 
 export const GET: APIRoute = async () => {
