@@ -3,9 +3,10 @@ import { getEntry } from 'astro:content';
 import Img from '../Img.astro';
 
 const { idea } = (await getEntry('home', 'home'))!.data;
+// Beyond is the wide landscape frame, Within the tall portrait: the layout follows the photographs
 const sides = [
-  { key: 'beyond', ...idea.beyond },
-  { key: 'within', ...idea.within },
+  { key: 'beyond', sizes: '(min-width: 700px) 58vw, 100vw', ...idea.beyond },
+  { key: 'within', sizes: '(min-width: 700px) 34vw, 100vw', ...idea.within },
 ];
 ---
 <section class="idea section section--tight" aria-labelledby="idea-title">
@@ -15,7 +16,7 @@ const sides = [
       {sides.map((side) => (
         <article class:list={['idea__side', `idea__side--${side.key}`]}>
           <div class="idea__media" data-clip>
-            <Img src={side.image} alt={side.alt} sizes="(min-width: 1024px) 45vw, 100vw" />
+            <Img src={side.image} alt={side.alt} sizes={side.sizes} />
           </div>
           <div class="idea__text" data-reveal-group>
             <p class="label" data-reveal>{side.label}</p>
@@ -49,11 +50,11 @@ const sides = [
   .idea__media {
     overflow: hidden;
     border-radius: var(--radius);
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 2;
   }
 
   .idea__side--within .idea__media {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 4 / 5;
   }
 
   .idea__media :global(img) {
@@ -77,17 +78,23 @@ const sides = [
 
   @media (min-width: 700px) {
     .idea__pair {
-      grid-template-columns: 5fr 1fr 6fr;
+      grid-template-columns: 6fr 1fr 5fr;
     }
 
     .idea__side--beyond {
       grid-column: 1;
     }
 
-    /* Within sits lower and wider: the two directions never mirror each other */
+    /* Within is the narrower, taller frame and sits lower: the two directions never mirror each other */
     .idea__side--within {
       grid-column: 3;
-      margin-top: clamp(120px, 18vw, 260px);
+      margin-top: clamp(80px, 12vw, 180px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .idea__pair {
+      grid-template-columns: 7fr 1fr 4fr;
     }
   }
 </style>
