@@ -313,23 +313,6 @@ collections:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Lead", name: "lead", widget: "text" }
 
-      - name: "plan"
-        label: "Plan your journey"
-        file: "src/content/pages/plan.json"
-        format: json
-        fields:
-          - { label: "SEO title", name: "seo_title", widget: "string" }
-          - { label: "SEO description", name: "seo_description", widget: "text" }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Lead", name: "lead", widget: "text" }
-          - { label: "Form title", name: "form_title", widget: "string" }
-          - { label: "Consent line", name: "consent", widget: "text" }
-          - { label: "Button", name: "button", widget: "string" }
-          - { label: "Thank-you title", name: "success_title", widget: "string" }
-          - { label: "Thank-you text", name: "success_body", widget: "text" }
-          - { label: "Image", name: "image", widget: "image" }
-          - { label: "Image alt text", name: "alt", widget: "string" }
-
   # ═══════════════════════════════════════════════════════════
   # PLACES
   # ═══════════════════════════════════════════════════════════

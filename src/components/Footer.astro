@@ -74,7 +74,6 @@ const year = new Date().getFullYear();
       <nav aria-label="Contact">
         <h2 class="label accent">Contact</h2>
         <ul role="list">
-          <li><a class="link" href={site.cta.href}>{site.cta.label}</a></li>
           {site.contacts.map((c) => <li><a class="link" href={c.href}>{c.label}</a></li>)}
           {site.social.map((c) => <li><a class="link" href={c.href} rel="noopener">{c.label}</a></li>)}
         </ul>

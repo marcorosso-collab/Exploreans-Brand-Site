@@ -8,7 +8,6 @@ const STATIC_PAGES = [
   { path: '/passport/', priority: 0.8, changefreq: 'monthly' },
   { path: '/stories/', priority: 0.8, changefreq: 'weekly' },
   { path: '/about/', priority: 0.7, changefreq: 'monthly' },
-  { path: '/plan-your-journey/', priority: 0.8, changefreq: 'monthly' },
 ];
 
 export const GET: APIRoute = async ({ site }) => {

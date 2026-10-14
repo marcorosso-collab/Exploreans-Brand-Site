@@ -4,6 +4,7 @@ import Wordmark from './Wordmark.astro';
 import Icon from './Icon.astro';
 import Img from './Img.astro';
 import MapLines from './MapLines.astro';
+import Destinations from './Destinations.astro';
 
 interface Props {
   theme: 'overlay' | 'solid';
@@ -62,7 +63,7 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
       </ul>
     </nav>
 
-    <a href={site.cta.href} class="btn nav__cta" data-nav-cta>{site.cta.label}</a>
+    <Destinations align="right" class="nav__dest" />
 
     <button class="nav__menu label" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>
       <span>Menu</span>
@@ -96,10 +97,11 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
         </li>
       </ul>
     </nav>
+    <p class="label accent menu__places-title">{site.cta.label}</p>
     <ul role="list" class="menu__places">
       {places.map((p) => (
         <li data-place={p.data.kind}>
-          <a href={p.data.website} class="menu__place" rel="noopener">
+          <a href={p.data.website} class="menu__place" data-dest-link={p.data.name}>
             <span class="menu__bar" aria-hidden="true"></span>
             <span>
               <span class="label accent">{p.data.region}</span>
@@ -110,7 +112,6 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
         </li>
       ))}
     </ul>
-    <a href={site.cta.href} class="btn btn--light menu__cta">{site.cta.label}</a>
   </div>
 </dialog>
 
@@ -312,17 +313,22 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     transform: rotate(180deg);
   }
 
-  .nav__cta {
+  .nav :global(.nav__dest) {
     display: none;
   }
 
-  .nav--overlay:not(.is-solid):not(.panel-open) .nav__cta {
+  .nav :global(.nav__dest .dest__btn) {
+    min-height: 44px;
+  }
+
+  .nav--overlay:not(.is-solid):not(.panel-open) :global(.dest__btn) {
     --btn-bg: transparent;
     --btn-fg: var(--natural-white);
     --btn-border: color-mix(in srgb, var(--natural-white) 70%, transparent);
   }
 
-  .nav--overlay:not(.is-solid):not(.panel-open) .nav__cta:hover {
+  .nav--overlay:not(.is-solid):not(.panel-open) :global(.dest__btn:hover),
+  .nav--overlay:not(.is-solid):not(.panel-open) :global(.dest.is-open .dest__btn) {
     --btn-bg: var(--natural-white);
     --btn-fg: var(--basalt);
     --btn-border: var(--natural-white);
@@ -352,9 +358,8 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
       display: block;
     }
 
-    .nav__cta {
-      display: inline-flex;
-      min-height: 44px;
+    .nav :global(.nav__dest) {
+      display: inline-block;
     }
 
     .nav__menu {
@@ -545,12 +550,16 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     font-style: italic;
   }
 
-  .menu__places {
-    display: grid;
-    gap: var(--s-3);
+  .menu__places-title {
     margin-top: auto;
     padding-top: var(--s-4);
     border-top: 1px solid rgb(250 250 245 / 0.18);
+  }
+
+  .menu__places {
+    display: grid;
+    gap: var(--s-3);
+    padding-bottom: var(--s-3);
   }
 
   .menu__place {
@@ -577,10 +586,6 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
   :global(.menu__ext) {
     width: 18px;
     height: 18px;
-  }
-
-  .menu__cta {
-    width: 100%;
   }
 
 </style>

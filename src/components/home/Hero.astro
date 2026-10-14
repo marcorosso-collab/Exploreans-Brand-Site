@@ -2,9 +2,9 @@
 import { getEntry } from 'astro:content';
 import Img from '../Img.astro';
 import Icon from '../Icon.astro';
+import Destinations from '../Destinations.astro';
 
 const home = (await getEntry('home', 'home'))!.data;
-const site = (await getEntry('settings', 'site'))!.data;
 const h = home.hero;
 ---
 <section class="hero on-basalt" data-hero data-intro aria-labelledby="hero-title">
@@ -38,8 +38,8 @@ const h = home.hero;
     </h1>
     <p class="t-lead hero__sub" data-hero-in>{h.subtext}</p>
     <div class="hero__ctas" data-hero-in>
-      <a href={site.cta.href} class="btn btn--light">{site.cta.label}<Icon name="arrow-right" class="arrow" /></a>
-      <a href="/places/" class="btn btn--ghost-light">See the places</a>
+      <Destinations tone="light" direction="up" />
+      <a href="/experiences/" class="btn btn--ghost-light">See the experiences</a>
     </div>
   </div>
 

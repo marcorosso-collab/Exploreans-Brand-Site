@@ -1,12 +1,14 @@
 ---
+import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Icon from '../components/Icon.astro';
 
+const site = (await getEntry('settings', 'site'))!.data;
 ---
-<Base title="Thank you | Exploreans" description="Thank you for writing to Exploreans." navTheme="solid">
+<Base title="Thank you | Exploreans" description="Thank you for subscribing to letters from Exploreans." navTheme="solid">
   <meta slot="head" name="robots" content="noindex" />
-  <PageHeader title="Thank you." lead="Your message is with us, and we will be in touch by email." map="b">
+  <PageHeader title="Thank you." lead={site.newsletter.success} map="b">
     <div class="actions">
       <a href="/stories/" class="btn">Read the stories <Icon name="arrow-right" class="arrow" /></a>
       <a href="/" class="btn btn--outline">Back to the start</a>

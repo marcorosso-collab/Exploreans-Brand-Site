@@ -13,7 +13,6 @@ Astro 7, Sveltia CMS, GitHub and Netlify. Property sites (mara.exploreans.com, w
 | `/passport/` | The Exploreans Passport (interactive) and the Travel Journal |
 | `/stories/` and `/stories/[slug]/` | Stories from the places (Markdown) |
 | `/about/` | Our story: the conviction, A³, the Explorean, the promise, the Exploreans test |
-| `/plan-your-journey/` | Enquiry form (Netlify Forms), `?place=` preselects a place |
 
 ## Local development
 
@@ -58,9 +57,13 @@ Processed photography is in `public/images/places/`, named `place-family-subject
 
 Legacy images in the root of `public/images/` are kept because the property sites link to them.
 
+## Booking: direct, on each property's site
+
+The main call to action, **Explore destinations** (`src/components/Destinations.astro`), opens a list of the places and sends the guest straight to that property's own site and booking engine. The list is built from the Places collection, so a new place appears in it automatically. Every click out to a property fires a `destination_click` event into the GTM `dataLayer` (with `destination` and `url`) to measure the direct-booking funnel. The old `/plan-your-journey/` enquiry page redirects to `/places/`.
+
 ## Forms
 
-Two Netlify Forms: `newsletter` (footer, every page) and `enquiry` (Plan your journey). Both submit in place with JavaScript and fall back to `/thank-you/`. Turn on form notifications in Netlify (Forms, Settings and usage, Form notifications) so enquiries reach the right inboxes.
+One Netlify Form: `newsletter` (footer, every page). It submits in place with JavaScript and falls back to `/thank-you/`.
 
 ## Before publishing anything new
 

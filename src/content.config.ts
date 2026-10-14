@@ -209,21 +209,6 @@ const storiesPage = defineCollection({
   schema: z.object({ ...seo, title: z.string(), lead: z.string() }),
 });
 
-const plan = defineCollection({
-  loader: glob(page('plan.json')),
-  schema: z.object({
-    ...seo,
-    title: z.string(),
-    lead: z.string(),
-    form_title: z.string(),
-    consent: z.string(),
-    button: z.string(),
-    success_title: z.string(),
-    success_body: z.string(),
-    ...image,
-  }),
-});
-
 export const collections = {
   settings,
   places,
@@ -236,5 +221,4 @@ export const collections = {
   placesPage,
   experiencesPage,
   storiesPage,
-  plan,
 };

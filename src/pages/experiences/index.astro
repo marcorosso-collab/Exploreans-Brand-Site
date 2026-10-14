@@ -4,11 +4,10 @@ import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ExperienceCard from '../../components/ExperienceCard.astro';
 import Stamp from '../../components/Stamp.astro';
-import Icon from '../../components/Icon.astro';
+import Destinations from '../../components/Destinations.astro';
 import { FAMILIES, FAMILY_NAMES, stampsForFamily } from '../../lib/stamps';
 
 const page = (await getEntry('experiencesPage', 'experiences'))!.data;
-const site = (await getEntry('settings', 'site'))!.data;
 const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
 const experiences = (await getCollection('experiences')).sort((a, b) => a.data.order - b.data.order);
 const placeOf = (id: string) => places.find((p) => p.id === id)!.data;
@@ -55,7 +54,7 @@ const placeOf = (id: string) => places.find((p) => p.id === id)!.data;
       </p>
       <div class="xps__note">
         <p class="muted measure">{page.structure_note}</p>
-        <a href={site.cta.href} class="btn">{site.cta.label} <Icon name="arrow-right" class="arrow" /></a>
+        <Destinations direction="up" align="right" />
       </div>
     </div>
   </section>

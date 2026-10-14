@@ -6,9 +6,9 @@ import MapLines from '../../components/MapLines.astro';
 import Stamp from '../../components/Stamp.astro';
 import Img from '../../components/Img.astro';
 import Icon from '../../components/Icon.astro';
+import Destinations from '../../components/Destinations.astro';
 
 const page = (await getEntry('passport', 'passport'))!.data;
-const site = (await getEntry('settings', 'site'))!.data;
 ---
 <Base title={page.seo_title} description={page.seo_description} navTheme="solid">
   <header class="pp-hero" data-intro>
@@ -101,7 +101,7 @@ const site = (await getEntry('settings', 'site'))!.data;
     <div class="wrap pp-cta__inner" data-reveal-group>
       <p class="t-headline" data-reveal>Coming soon to every Exploreans.</p>
       <div class="pp-cta__actions" data-reveal>
-        <a href={site.cta.href} class="btn">{site.cta.label} <Icon name="arrow-right" class="arrow" /></a>
+        <Destinations direction="up" />
         <a href="/experiences/" class="btn btn--outline">See the experiences</a>
       </div>
     </div>

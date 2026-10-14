@@ -23,4 +23,4 @@ The sound arrives first: hooves on the bank, the rush of brown water, calls carr
 
 ## Planning for the season
 
-The herds follow the rain, so the timing of the crossings shifts from year to year. The camp sits close to several crossing points, and a short drive brings you to the bank. Our team can help with timing when you plan your journey.
+The herds follow the rain, so the timing of the crossings shifts from year to year. The camp sits close to several crossing points, and a short drive brings you to the bank. The camp team can advise on timing when you book.

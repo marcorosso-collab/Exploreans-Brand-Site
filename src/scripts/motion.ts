@@ -14,8 +14,15 @@ export const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)
 declare global {
   interface Window {
     __lenis?: Lenis | null;
+    dataLayer?: Record<string, unknown>[];
   }
 }
+
+/* Measure the direct-booking funnel: every link out to a property site */
+document.addEventListener('click', (e) => {
+  const link = (e.target as Element).closest<HTMLAnchorElement>('a[data-dest-link]');
+  if (link) window.dataLayer?.push({ event: 'destination_click', destination: link.dataset.destLink, url: link.href });
+});
 
 /* ---------- Smooth scroll ---------- */
 let lenis: Lenis | null = null;

@@ -13,6 +13,17 @@
   to = "/admin/index.html"
   status = 200
 
+# The enquiry form was retired in favour of direct booking on each property's site
+[[redirects]]
+  from = "/plan-your-journey"
+  to = "/places/"
+  status = 301
+
+[[redirects]]
+  from = "/plan-your-journey/*"
+  to = "/places/"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]

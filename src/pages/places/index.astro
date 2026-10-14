@@ -9,7 +9,6 @@ import MapLines from '../../components/MapLines.astro';
 import { FAMILIES, FAMILY_NAMES } from '../../lib/stamps';
 
 const page = (await getEntry('placesPage', 'places'))!.data;
-const site = (await getEntry('settings', 'site'))!.data;
 const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
 const experiences = (await getCollection('experiences')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -103,7 +102,7 @@ const experiences = (await getCollection('experiences')).sort((a, b) => a.data.o
           <div class="place__cta on-place">
             <MapLines variant={index % 2 ? 'a' : 'b'} tone="light" />
             <div class="place__cta-text">
-              <p class="t-headline">Plan your journey to {p.data.name}</p>
+              <p class="t-headline">Stay at {p.data.name}</p>
               {(p.data.email || p.data.phone) && (
                 <p class="place__contact data">
                   {p.data.email && <a href={`mailto:${p.data.email}`} class="link">{p.data.email}</a>}
@@ -112,9 +111,8 @@ const experiences = (await getCollection('experiences')).sort((a, b) => a.data.o
               )}
             </div>
             <div class="place__cta-actions">
-              <a href={`${site.cta.href}?place=${p.id}`} class="btn btn--light">{site.cta.label} <Icon name="arrow-right" class="arrow" /></a>
-              {p.data.booking_url && <a href={p.data.booking_url} class="btn btn--ghost-light" rel="noopener">Book your stay <Icon name="arrow-up-right" class="arrow" /></a>}
-              <a href={p.data.website} class="btn btn--ghost-light" rel="noopener">{p.data.website_label} <Icon name="arrow-up-right" class="arrow" /></a>
+              <a href={p.data.website} class="btn btn--light" data-dest-link={p.data.name}>{p.data.website_label} <Icon name="arrow-up-right" class="arrow" /></a>
+              {p.data.booking_url && <a href={p.data.booking_url} class="btn btn--ghost-light" data-dest-link={`${p.data.name} booking`}>Book your stay <Icon name="arrow-up-right" class="arrow" /></a>}
             </div>
           </div>
         </div>
