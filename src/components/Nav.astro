@@ -14,9 +14,11 @@ const { theme } = Astro.props;
 const site = (await getEntry('settings', 'site'))!.data;
 const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
 const path = Astro.url.pathname;
+// On the home page the wordmark opens large and is the first thing seen; it settles once the page moves
+const isHome = path === '/';
 const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
 ---
-<header class:list={['nav', `nav--${theme}`]} data-nav>
+<header class:list={['nav', `nav--${theme}`, { 'nav--home': isHome }]} data-nav>
   <div class="nav__inner wrap">
     <a href="/" class="nav__brand" aria-label="Exploreans, home">
       <Wordmark class="nav__wordmark" decorative />
@@ -250,6 +252,52 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     width: 124px;
   }
 
+  /* Home: a large wordmark at first load that scales down as soon as the page scrolls.
+     Scaled with a transform so nothing around it shifts. */
+  .nav--home {
+    --wm-large: 176px;
+    --wm-scale: 0.7045; /* 124 / 176 */
+    --nav-h-home: 96px;
+  }
+
+  .nav--home .nav__inner {
+    height: var(--nav-h-home);
+  }
+
+  .nav--home.is-solid .nav__inner {
+    height: var(--nav-h);
+  }
+
+  .nav--home.is-compact .nav__inner {
+    height: var(--nav-h-compact);
+  }
+
+  .nav--home :global(.nav__wordmark) {
+    width: var(--wm-large);
+    transform-origin: left center;
+    transition: transform 600ms var(--ease);
+  }
+
+  .nav--home.is-solid :global(.nav__wordmark) {
+    transform: scale(var(--wm-scale));
+  }
+
+  @media (min-width: 1024px) {
+    .nav--home {
+      --wm-large: 240px;
+      --wm-scale: 0.5667; /* 136 / 240 */
+      --nav-h-home: 116px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .nav--home {
+      --wm-large: 300px;
+      --wm-scale: 0.4533; /* 136 / 300 */
+      --nav-h-home: 132px;
+    }
+  }
+
   .nav__primary {
     display: none;
   }
@@ -271,6 +319,15 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     display: inline-block;
     padding: 12px 0;
     text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Small laptops: tighter spacing keeps the nav on one line beside the larger home wordmark */
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    .nav__inner,
+    .nav__links {
+      gap: var(--s-4);
+    }
   }
 
   .nav__link::after {
