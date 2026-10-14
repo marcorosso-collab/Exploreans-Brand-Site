@@ -15,12 +15,13 @@ const site = (await getEntry('settings', 'site'))!.data;
     <MapLines variant="c" tone="ochre" reveal />
     <div class="wrap pp-hero__grid">
       <div class="pp-hero__text" data-reveal-group>
-        <p class="label muted" data-reveal style="--i:0">The Exploreans Passport</p>
+        <p class="label muted" data-reveal style="--i:0">The Exploreans Passport <span class="soon">Coming soon</span></p>
         <h1 class="t-display" data-reveal style="--i:1">{page.title}</h1>
         <p class="t-lead muted" data-reveal style="--i:2">{page.lead}</p>
       </div>
       <div class="pp-hero__book">
         <PassportBook mode="play" />
+        <p class="label muted pp-hero__caption">Illustration of a Mara River Camp page</p>
       </div>
     </div>
   </header>
@@ -71,7 +72,7 @@ const site = (await getEntry('settings', 'site'))!.data;
         <Img src={page.journal.image} alt={page.journal.alt} position="34% 50%" sizes="(min-width: 1024px) 45vw, 100vw" />
       </figure>
       <div class="journal__text">
-        <p class="label accent" data-reveal>The Travel Journal</p>
+        <p class="label accent" data-reveal>The Travel Journal <span class="soon">Coming soon</span></p>
         <h2 id="journal-title" class="t-headline" data-reveal>{page.journal.headline}</h2>
         <p class="t-lead muted" data-reveal>{page.journal.body}</p>
 
@@ -98,7 +99,7 @@ const site = (await getEntry('settings', 'site'))!.data;
 
   <section class="section section--tight pp-cta">
     <div class="wrap pp-cta__inner" data-reveal-group>
-      <p class="t-headline" data-reveal>Your first stamp is waiting.</p>
+      <p class="t-headline" data-reveal>Coming soon to every Exploreans.</p>
       <div class="pp-cta__actions" data-reveal>
         <a href={site.cta.href} class="btn">{site.cta.label} <Icon name="arrow-right" class="arrow" /></a>
         <a href="/experiences/" class="btn btn--outline">See the experiences</a>
@@ -158,6 +159,11 @@ const site = (await getEntry('settings', 'site'))!.data;
     display: grid;
     gap: var(--s-6);
     align-items: center;
+  }
+
+  .pp-hero__caption {
+    margin-top: var(--s-2);
+    text-align: center;
   }
 
   .pp-hero__text {

@@ -27,6 +27,7 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
           <li class:list={['nav__item', { 'has-panel': item.href === '/places/' }]} data-panel-item={item.href === '/places/' ? '' : undefined}>
             <a class="nav__link label" href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
               {item.label}
+              {item.badge && <span class="soon">{item.badge}</span>}
             </a>
             {item.href === '/places/' && (
               <>
@@ -69,7 +70,6 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     </button>
   </div>
 </header>
-<div class="nav-sentinel" data-nav-sentinel aria-hidden="true"></div>
 
 <dialog class="menu on-basalt" id="menu" aria-label="Menu" data-menu>
   <MapLines variant="c" tone="light" />
@@ -85,7 +85,10 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
       <ul role="list" class="menu__links">
         {site.nav.map((item, i) => (
           <li style={`--i:${i}`}>
-            <a href={item.href} class="menu__link" aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+            <a href={item.href} class="menu__link" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label}
+              {item.badge && <span class="soon menu__soon">{item.badge}</span>}
+            </a>
           </li>
         ))}
         <li style={`--i:${site.nav.length}`}>
@@ -116,23 +119,18 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   const nav = document.querySelector<HTMLElement>('[data-nav]')!;
-  const sentinel = document.querySelector<HTMLElement>('[data-nav-sentinel]')!;
   const root = document.documentElement;
 
-  // Solid once the guest scrolls past the first screen; restored at the top
-  new IntersectionObserver(([entry]) => nav.classList.toggle('is-solid', !entry.isIntersecting)).observe(sentinel);
-
-  // Tuck away while reading down, return when scrolling up
+  // Solid from the moment the page moves, and always on screen so home is one click away
+  const update = (y: number) => {
+    nav.classList.toggle('is-solid', y > 4);
+    nav.classList.toggle('is-compact', y > 24);
+  };
+  update(window.scrollY);
   ScrollTrigger.create({
     start: 0,
     end: 'max',
-    onUpdate(self) {
-      const y = self.scroll();
-      nav.classList.toggle('is-compact', y > 24);
-      const menuOpen = root.classList.contains('menu-open');
-      const panelOpen = nav.classList.contains('panel-open');
-      nav.classList.toggle('is-hidden', self.direction === 1 && y > window.innerHeight * 0.9 && !menuOpen && !panelOpen);
-    },
+    onUpdate: (self) => update(self.scroll()),
   });
 
   // Places panel: hover on desktop, toggle button for keyboard and touch
@@ -226,10 +224,6 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
   .nav.is-solid::before,
   .nav.panel-open::before {
     opacity: 0;
-  }
-
-  .nav.is-hidden {
-    transform: translateY(-100%);
   }
 
   .nav__inner {
@@ -542,6 +536,11 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     transform: none;
   }
 
+  .menu__soon {
+    vertical-align: middle;
+    margin-left: 12px;
+  }
+
   .menu__link[aria-current='page'] {
     font-style: italic;
   }
@@ -584,16 +583,4 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
     width: 100%;
   }
 
-  .nav-sentinel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 60vh;
-    pointer-events: none;
-  }
-
-  :global(html[data-nav-theme='solid']) .nav-sentinel {
-    height: 24px;
-  }
 </style>

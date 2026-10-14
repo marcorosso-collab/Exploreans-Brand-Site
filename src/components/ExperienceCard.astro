@@ -1,7 +1,7 @@
 ---
 /**
  * Every experience, described the same way (Brand Bible ch. 02): name, family, led by,
- * when and how long, what you will live, good to know, and the stamp it earns.
+ * when and how long, what you will live, good to know, and its family icon.
  */
 import type { CollectionEntry } from 'astro:content';
 import Img from './Img.astro';
@@ -37,7 +37,7 @@ const d = e.data;
         <span>{FAMILY_NAMES[d.family]}</span>
         <span class="label--place">{placeName}</span>
       </p>
-      <Stamp id={d.stamp} size={56} label={`${stampLabel(d.stamp)} stamp`} class="xp__stamp" />
+      <Stamp id={d.stamp} size={56} label={stampLabel(d.stamp)} class="xp__stamp" />
     </div>
     <h3 id={`xp-${e.id}`} class="t-subhead xp__name">{d.name}</h3>
     <dl class="xp__facts">

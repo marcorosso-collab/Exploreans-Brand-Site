@@ -46,6 +46,7 @@ collections:
             fields:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "Link", name: "href", widget: "string" }
+              - { label: "Small tag (for example Soon)", name: "badge", widget: "string", required: false }
           - label: "Main call to action"
             name: "cta"
             widget: "object"
@@ -143,7 +144,6 @@ collections:
                   - { label: "Image", name: "image", widget: "image" }
                   - { label: "Image alt text", name: "alt", widget: "string" }
               - { label: "Supporting line (only with A³)", name: "closing", widget: "string" }
-              - { label: "Words in every place", name: "words", widget: "list", field: { label: "Word", name: "word", widget: "string" } }
           - label: "Places introduction"
             name: "places"
             widget: "object"

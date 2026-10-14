@@ -49,7 +49,12 @@ const year = new Date().getFullYear();
       <nav aria-label="Explore">
         <h2 class="label accent">Explore</h2>
         <ul role="list">
-          {site.nav.map((item) => <li><a class="link" href={item.href}>{item.label}</a></li>)}
+          {site.nav.map((item) => (
+            <li>
+              <a class="link" href={item.href}>{item.label}</a>
+              {item.badge && <span class="soon footer__soon">{item.badge}</span>}
+            </li>
+          ))}
           <li><a class="link" href="/about/">Our story</a></li>
         </ul>
       </nav>
@@ -244,6 +249,11 @@ const year = new Date().getFullYear();
   .footer__cols ul {
     display: grid;
     gap: 10px;
+  }
+
+  .footer__soon {
+    margin-left: 10px;
+    color: var(--warm-ochre);
   }
 
   .footer__place {

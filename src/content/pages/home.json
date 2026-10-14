@@ -64,8 +64,7 @@
         "alt": "A Maasai guide in a red shuka standing beside a safari vehicle under a tree"
       }
     ],
-    "closing": "Adventure, multiplied.",
-    "words": ["Culture", "Character", "Roots", "Discovery", "Retreat", "Quality", "Intimate", "Wellbeing", "Knowledgeable"]
+    "closing": "Adventure, multiplied."
   },
   "places": {
     "headline": "A river camp. A quiet bay. One name.",
@@ -76,10 +75,10 @@
     "body": "Every Exploreans offers experiences in all five families, shaped by its setting and led by people who know it."
   },
   "passport": {
-    "label": "The Exploreans Passport",
-    "headline": "A passport the guide stamps",
-    "body": "Every guest receives an Exploreans Passport. The place stamp marks your arrival, and the guide who leads each experience stamps and signs your page.",
-    "journal": "Alongside it, a Travel Journal, written by you."
+    "label": "Coming soon",
+    "headline": "The Exploreans Passport",
+    "body": "Coming soon to every Exploreans: a passport with a page for each place, stamped and signed by the guide who leads each experience.",
+    "journal": "And alongside it, a Travel Journal for you to write."
   },
   "moment": {
     "line": "The day begins on foot, with the river still in mist.",

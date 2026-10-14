@@ -8,14 +8,15 @@ const { passport } = (await getEntry('home', 'home'))!.data;
 <section class="passport" aria-labelledby="passport-title" data-passport-pin>
   <div class="wrap passport__grid">
     <div class="passport__text" data-reveal-group>
-      <p class="label" data-reveal>{passport.label}</p>
+      <p data-reveal><span class="soon passport__soon">{passport.label}</span></p>
       <h2 id="passport-title" class="t-headline" data-reveal>{passport.headline}</h2>
       <p class="t-lead muted" data-reveal>{passport.body}</p>
       <p class="passport__journal" data-reveal>{passport.journal}</p>
-      <a href="/passport/" class="btn btn--outline" data-reveal>How the Passport works <Icon name="arrow-right" class="arrow" /></a>
+      <a href="/passport/" class="btn btn--outline" data-reveal>A first look <Icon name="arrow-right" class="arrow" /></a>
     </div>
     <div class="passport__book">
       <PassportBook mode="scroll" stamped={4} />
+      <p class="label muted passport__caption">Illustration of a Mara River Camp page</p>
     </div>
   </div>
 </section>
@@ -37,6 +38,15 @@ const { passport } = (await getEntry('home', 'home'))!.data;
     gap: var(--s-4);
     justify-items: start;
     max-width: 44ch;
+  }
+
+  .passport__soon {
+    margin-left: 0;
+  }
+
+  .passport__caption {
+    margin-top: var(--s-4);
+    text-align: center;
   }
 
   .passport__journal {

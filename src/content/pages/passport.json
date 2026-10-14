@@ -1,34 +1,72 @@
 {
-  "seo_title": "The Exploreans Passport and Travel Journal | Exploreans",
-  "seo_description": "The Exploreans Passport is stamped by the guide who leads each experience. The Travel Journal is written by you. How they work, and the two reasons to keep exploring.",
+  "seo_title": "The Exploreans Passport, coming soon | Exploreans",
+  "seo_description": "Coming soon: the Exploreans Passport, stamped by the guide who leads each experience, and the Travel Journal, written by you. A first look at how they will work.",
   "title": "A passport the guide stamps",
-  "lead": "The Exploreans Passport is a keepsake for every guest: a page for each place, a stamp for each experience, signed by the person who led it.",
+  "lead": "Coming soon to every Exploreans: a keepsake with a page for each place and a stamp for each experience, signed by the person who led it. Here is a first look.",
   "steps": [
-    { "title": "Given at first arrival", "body": "A passport-format book with your name and number, yours to keep for every future stay. Taking part is your choice." },
-    { "title": "Stamped on arrival", "body": "Each place stamps its place mark, in the colour of its kind, on a fresh page." },
-    { "title": "Stamped after each experience", "body": "The guide who leads the experience stamps and signs it, filed under the five families." },
-    { "title": "Mirrored online", "body": "A digital record keeps your stamps safe, ready for your next stay and for your travel adviser." }
+    {
+      "title": "Given at first arrival",
+      "body": "A passport-format book with your name and number, yours to keep for every future stay. Taking part will be your choice."
+    },
+    {
+      "title": "Stamped on arrival",
+      "body": "Each place will stamp its place mark, in the colour of its kind, on a fresh page."
+    },
+    {
+      "title": "Stamped after each experience",
+      "body": "The guide who leads the experience will stamp and sign it, filed under the five families."
+    },
+    {
+      "title": "Mirrored online",
+      "body": "A digital record will keep your stamps safe, ready for your next stay and for your travel adviser."
+    }
   ],
   "spread": {
     "headline": "One page for every place",
     "body": "On the left, the place stamp, the date and the signature of the person who welcomed you. On the right, the five families, with every experience at that place waiting as an empty ring."
   },
   "rewards": [
-    { "label": "Complete a place", "title": "Finish a page", "body": "Collect every experience stamp at one place and earn an on-site reward: a private sundowner, a guided day or a dinner with the chef." },
-    { "label": "Collect across places", "title": "Fill the Passport over time", "body": "Collect place stamps and complete families across the collection for a larger reward, such as a stay voucher." }
+    {
+      "label": "Complete a place",
+      "title": "Finish a page",
+      "body": "Collect every experience stamp at one place to earn an on-site reward, such as a private sundowner or a dinner with the chef."
+    },
+    {
+      "label": "Collect across places",
+      "title": "Fill the Passport over time",
+      "body": "Collect place stamps and complete families across the collection for a larger reward, such as a stay voucher."
+    }
   ],
-  "rewards_note": "Taking part is your choice. Recognition first, rewards second.",
+  "rewards_note": "Taking part will be your choice. Recognition first, rewards second.",
   "journal": {
     "headline": "A journal you write, in pen",
-    "body": "The Travel Journal is for reflection: a printed book in which you write, by hand, what you lived and what it meant to you. It is given at every stay, with a pen, as part of the welcome.",
-    "privacy": "Your journal belongs to you. It stays private unless you choose to share it.",
+    "body": "The Travel Journal is for reflection: a printed book in which you write, by hand, what you lived and what it meant to you. It will be given at every stay, with a pen, as part of the welcome.",
+    "privacy": "Your journal will belong to you. It stays private unless you choose to share it.",
     "prompts": [
-      { "direction": "beyond", "prompt": "What did you notice at first light that you would have missed alone?" },
-      { "direction": "beyond", "prompt": "Who did you meet today, and what did they teach you?" },
-      { "direction": "within", "prompt": "What stayed with you today, and why?" },
-      { "direction": "within", "prompt": "When did you last feel this unhurried?" },
-      { "direction": "beyond", "prompt": "Describe one taste, sound or smell from today as precisely as you can." },
-      { "direction": "within", "prompt": "What will you carry home from this place, beyond your suitcase?" }
+      {
+        "direction": "beyond",
+        "prompt": "What did you notice at first light that you would have missed alone?"
+      },
+      {
+        "direction": "beyond",
+        "prompt": "Who did you meet today, and what did they teach you?"
+      },
+      {
+        "direction": "within",
+        "prompt": "What stayed with you today, and why?"
+      },
+      {
+        "direction": "within",
+        "prompt": "When did you last feel this unhurried?"
+      },
+      {
+        "direction": "beyond",
+        "prompt": "Describe one taste, sound or smell from today as precisely as you can."
+      },
+      {
+        "direction": "within",
+        "prompt": "What will you carry home from this place, beyond your suitcase?"
+      }
     ],
     "image": "/images/places/mara-river-camp/mara-river-camp-stay-river-tent-02.webp",
     "alt": "A guest with a cup of coffee on the terrace of a river tent above the Mara River"

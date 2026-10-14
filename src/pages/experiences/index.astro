@@ -137,17 +137,12 @@ const placeOf = (id: string) => places.find((p) => p.id === id)!.data;
 
   .xps__bar {
     position: sticky;
-    top: 0;
+    top: var(--nav-h-compact);
     z-index: 5;
     background: color-mix(in srgb, var(--natural-white) 94%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-block: 1px solid var(--hairline);
-    transition: top 500ms var(--ease);
-  }
-
-  :global(.nav:not(.is-hidden)) ~ :global(main) .xps__bar {
-    top: var(--nav-h-compact);
   }
 
   .xps__filters {

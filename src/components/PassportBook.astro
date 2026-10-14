@@ -105,7 +105,7 @@ let k = 0;
     </div>
   </div>
   {mode === 'play' && (
-    <p class="book__status" role="status" aria-live="polite" data-book-status>Tap a ring to stamp it, as your guide would.</p>
+    <p class="book__status" role="status" aria-live="polite" data-book-status>Tap a ring to see how a guide will stamp it.</p>
   )}
 </div>
 
@@ -196,9 +196,9 @@ let k = 0;
           const name = slot.dataset.name!;
           status.textContent =
             n === total
-              ? 'Page complete. That earns the Mara River Camp reward.'
+              ? 'Page complete. In the Passport, a full page will earn the Mara River Camp reward.'
               : on
-                ? `${name}: stamped and signed by your guide.`
+                ? `${name}: here your guide will stamp and sign.`
                 : `${name}: stamp removed.`;
         });
       });
