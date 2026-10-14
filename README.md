@@ -1,207 +1,67 @@
-# Exploreans — Umbrella Brand Site
+# exploreans.com
 
-Astro + Sveltia CMS + Netlify + GitHub. Homepage for the Exploreans brand, above the property subdomains (mara.exploreans.com, malaika.exploreans.com).
+The Exploreans brand site, built to the **Exploreans Brand Bible v1.0 (October 2026)**.
+Astro 7, Sveltia CMS, GitHub and Netlify. Property sites (mara.exploreans.com, watamu.exploreans.com) live in their own repositories.
 
-Built to match the **Exploreans Brand Guidelines 2026** — Forest Green / Sage / Ochre palette, Playfair Display + EB Garamond + Archivo, topographic pattern texture, editorial journal tone of voice.
+## Pages
 
----
-
-## Deploy in 7 steps
-
-### 1. Push to GitHub
-
-```bash
-cd exploreans-site
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USER/exploreans-site.git
-git branch -M main
-git push -u origin main
-```
-
-### 2. Update `public/admin/config.yml`
-
-Open the file and edit the top of it:
-
-```yaml
-backend:
-  name: github
-  repo: YOUR_GITHUB_USER/exploreans-site   # ← put your actual repo here
-  branch: main
-  base_url: https://openclaw.onrender.com  # ← your OpenClaw instance URL
-  auth_endpoint: auth
-```
-
-Commit and push that change.
-
-### 3. Connect to Netlify
-
-- New site → Import from GitHub → pick `exploreans-site`
-- Netlify auto-detects Astro from `netlify.toml` — no manual config needed
-- Deploy
-
-### 4. Point the domain
-
-- Netlify → Domain Management → Add custom domain → `exploreans.com`
-- Add the DNS records Netlify gives you at your registrar
-- Keep `mara.exploreans.com` and `malaika.exploreans.com` pointed at their own separate Netlify sites (Option B from our earlier chat)
-
-### 5. Set up OpenClaw auth
-
-If you already run OpenClaw for Mara, reuse it. If not, spin up a new one:
-
-- Repo: https://github.com/i40west/netlify-cms-oauth
-- Deploy to Render (free tier is fine)
-- Set environment variables:
-  - `OAUTH_CLIENT_ID` — from GitHub OAuth app
-  - `OAUTH_CLIENT_SECRET` — from GitHub OAuth app
-  - `REDIRECT_URL` — `https://YOUR-OPENCLAW-URL.onrender.com/callback`
-
-In your GitHub OAuth app (Settings → Developer settings → OAuth Apps):
-- Authorization callback URL → `https://YOUR-OPENCLAW-URL.onrender.com/callback`
-
-### 6. Log into the CMS
-
-Visit `https://exploreans.com/admin` → Login with GitHub → pick edits → publish.
-
-First edits to make:
-- Upload real hero image (Homepage — Hero)
-- Upload property images (Homepage — Properties)
-- Upload postcard images (Homepage — Field Notes Postcards)
-- Upload OG image (Site Settings — General & SEO)
-
-### 7. Replace placeholder images
-
-Six `.jpg.txt` placeholder notes exist in `public/images/`. Each tells you what the image slot expects. Replace each by uploading via CMS — Sveltia will save the real JPG in the same location, and you can delete the `.txt` placeholder afterwards.
-
----
-
-## What each CMS section controls
-
-| Sveltia section | What it edits on the homepage |
+| Route | What it is |
 |---|---|
-| **Site Settings → General & SEO** | Browser title, meta description, OG tags |
-| **Site Settings → Navigation** | Top nav links, Properties dropdown overrides, CTA button |
-| **Site Settings → Footer** | Footer description, tagline, column links, Planhotel endorser |
-| **Homepage — Hero** | The full-screen opening section (title, body, background image) |
-| **Homepage — Philosophy Letter** | Chapter I letter — headline, lead, paragraphs, signature |
-| **Homepage — Pillars Intro** | The "Three ideas we hold to" headline |
-| **Homepage — Brand Pillars** | The 3 pillar cards. Add/remove/reorder. |
-| **Homepage — Destinations Intro** | The "Two nature-led addresses" section intro |
-| **Homepage — Properties** | Property cards + auto-populates nav dropdown. Add a 3rd/4th property here — it appears on the homepage AND in the nav dropdown automatically. |
-| **Homepage — Experiences Intro** | "Nature rewards the unhurried" headline |
-| **Homepage — Experiences** | The 6 experience cards. Add/remove/reorder. |
-| **Homepage — Field Notes Intro** | The "Dispatches from the camps" headline |
-| **Homepage — Field Notes Postcards** | The postcard wall. Add/remove/reorder. |
-| **Homepage — Planhotel Family** | Group headline, description, values |
-| **Homepage — Sister Brands** | Diamonds / Sandies / Exploreans cards |
-| **Homepage — Journal / Newsletter** | Newsletter section copy |
-
----
-
-## The Properties dropdown
-
-The Properties dropdown in the top nav is **auto-populated** from the properties collection. Add a new property via the CMS, set `show_in_nav: true`, and it appears in the dropdown automatically — no separate edit needed.
-
-If you ever want manual control (e.g. custom order, items that aren't properties), fill in `properties_dropdown` in Site Settings → Navigation. When that list is non-empty, it takes precedence over the auto-populated one.
-
----
-
-## Adding a new property (e.g. your 3rd destination)
-
-1. CMS → Homepage — Properties → New Property
-2. Fill in:
-   - Order: 3
-   - Name (use `<em>...</em>` for italic parts)
-   - Short name (shown in nav dropdown)
-   - Location, tagline, description
-   - Upload hero image
-   - Specs (up to 6)
-   - CTA URL → your subdomain
-   - Show in nav: on
-3. Save & publish
-4. Appears on homepage AND in nav dropdown automatically
-
----
-
-## Editing formatting (italics)
-
-Text fields marked `(HTML — use <em>...</em>)` accept basic HTML. To italicize part of a headline, wrap it: `Two <em>nature-led</em> addresses.`
-
-For new lines in headlines use `<br/>`.
-
----
+| `/` | Home: hero film, the conviction, explore beyond and within, A³, places, the five families, the Passport, stories |
+| `/places/` | Mara River Camp and Watamu Beach Club & Villas: what you will live, gallery, experiences by family, what to expect |
+| `/experiences/` | Every experience, filterable by family and place (`?family=taste&place=mara-river-camp`) |
+| `/passport/` | The Exploreans Passport (interactive) and the Travel Journal |
+| `/stories/` and `/stories/[slug]/` | Stories from the places (Markdown) |
+| `/about/` | Our story: the conviction, A³, the Explorean, the promise, the Exploreans test |
+| `/plan-your-journey/` | Enquiry form (Netlify Forms), `?place=` preselects a place |
 
 ## Local development
 
 ```bash
 npm install
-npm run dev
+npm run dev      # http://localhost:4321
+npm run check    # type check
+npm run build    # production build into dist/
 ```
 
-Opens at `http://localhost:4321`.
+Node 22.12 or later (set in `netlify.toml`).
 
-To test a full build locally:
+## Brand system in code
 
-```bash
-npm run build
-npm run preview
-```
+- **Tokens** (`src/styles/tokens.css`): the core palette (Basalt, Natural White, Linen, Warm Ochre), functional tints, the five type colours, type scale, spacing steps and grid from chapters 03 and 07. Set `data-place="safari|lagoon|vintage|talavera|granite"` on any element and `var(--place)` becomes that type colour.
+- **Type**: Georgia and Calibri, falling back to the open-licensed metric matches Gelasio and Carlito (self-hosted).
+- **Wordmark** (`src/components/Wordmark.astro`): paths from the master SVG artwork, descriptor removed. Never redrawn or animated.
+- **Stamps and place marks** (`public/stamps/`): the master artwork from the bible, used as CSS masks so they ink in Basalt or the type colour (`src/components/Stamp.astro`). Place marks appear only in Passport contexts.
+- **Map line** (`src/lib/contours.ts`, served at `/map/a.svg`, `/b.svg`, `/c.svg`): contour lines generated at build time and applied as a mask at the strengths in the bible.
+- **Brand icon**: the "e" of the wordmark on Basalt (`public/favicon.svg`, touch icons).
 
----
+## Motion
 
-## File structure reference
+`src/scripts/motion.ts` (GSAP, ScrollTrigger and Lenis, no React). Slow fades and reveals, parallax only on hero media, no bounce. Openings animate with CSS alone so nothing on the first screen waits for JavaScript. Everything collapses to a still page under `prefers-reduced-motion`. The hero film has a pause control.
 
-```
-exploreans-site/
-├── public/
-│   ├── admin/              # Sveltia CMS entry point
-│   │   ├── index.html
-│   │   └── config.yml      # ← Edit backend.repo and base_url before deploy
-│   ├── images/             # All site images
-│   ├── sitemap.xml
-│   └── robots.txt
-├── src/
-│   ├── components/         # Section components (Nav, Hero, Letter, etc.)
-│   ├── content/            # All CMS-editable content (Markdown)
-│   │   └── config.ts       # Zod schemas
-│   ├── layouts/
-│   │   └── Layout.astro    # Global head, fonts, meta
-│   ├── pages/
-│   │   └── index.astro     # Homepage (composes all sections)
-│   └── styles/
-│       └── global.css      # Brand tokens + all section styles
-├── astro.config.mjs
-├── netlify.toml
-├── package.json
-└── tsconfig.json
-```
+## Content and the CMS
 
----
+All copy lives in `src/content/` and is editable at `/admin` (Sveltia CMS, GitHub backend via OpenClaw auth):
 
-## Known notes
+- `settings/site.json`: navigation, footer, newsletter
+- `pages/*.json`: one file per page
+- `places/*.json`: a place, its type, gallery and what to expect
+- `experiences/*.json`: name, family, stamp, place, led by, when, what you will live, good to know
+- `families/*.json`: the five families
+- `stories/*.md`: stories
 
-- **Images are placeholders** (`.jpg.txt` notes). Replace before launching.
-- **`config.yml` repo + base_url must be updated** before admin will work.
-- **Newsletter form** currently only shows a success message — wire to ConvertKit / Buttondown / HubSpot for real subscriptions (edit `src/components/Journal.astro`).
-- **Anchor links in nav** (`#letter`, `#beyond` etc.) assume single-page layout. If you add other pages later, adjust the nav settings.
+Uploaded images go to `public/images/uploads/` and are converted to WebP at 1920 px by the CMS.
 
----
+### Photography
 
-## Brand compliance
+Processed photography is in `public/images/places/`, named `place-family-subject-number`, as `name.webp` (1920 px) plus `name-960.webp`. The `Img` component picks up the small variant automatically and reads real dimensions to prevent layout shift. The hero film is in `public/video/`.
 
-Built to Exploreans Brand Guidelines 2026:
-- Palette: Forest Green, Sage, Deep Moss, Pale Leaf, Warm Ochre
-- Typography: Playfair Display (display), EB Garamond (body), Archivo (functional)
-- No script/handwritten typefaces
-- Topographic contour pattern as texture element
-- Editorial/journal tone of voice
-- SEO anchor phrase: "nature-led camps, lodges and retreats"
-- JSON-LD structured data: Organization + parent (Planhotel) + sub-brands
+Legacy images in the root of `public/images/` are kept because the property sites link to them.
 
----
+## Forms
 
-Questions? Hit the thumbs-down on any weirdness — this is a production-ready starting point, but your team will naturally refine copy and photography once the real thing is in front of guests.
-# Mobile nav branch
-# Branch deploy enabled
+Two Netlify Forms: `newsletter` (footer, every page) and `enquiry` (Plan your journey). Both submit in place with JavaScript and fall back to `/thank-you/`. Turn on form notifications in Netlify (Forms, Settings and usage, Form notifications) so enquiries reach the right inboxes.
+
+## Before publishing anything new
+
+Run the brand checklist in chapter 08 of the bible: experience first, at least one pillar visible, a qualified person named, both directions of the brand idea, master artwork only, core palette plus one type colour, Georgia and Calibri in sentence case, positive description, no star ratings or luxury vocabulary, British English, no dashes as punctuation.

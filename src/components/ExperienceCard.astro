@@ -1,0 +1,148 @@
+---
+/**
+ * Every experience, described the same way (Brand Bible ch. 02): name, family, led by,
+ * when and how long, what you will live, good to know, and the stamp it earns.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Img from './Img.astro';
+import Stamp from './Stamp.astro';
+import { FAMILY_NAMES, stampLabel } from '../lib/stamps';
+
+interface Props {
+  experience: CollectionEntry<'experiences'>;
+  placeName: string;
+  placeKind: string;
+  priority?: boolean;
+}
+
+const { experience: e, placeName, placeKind, priority = false } = Astro.props;
+const d = e.data;
+---
+<article
+  class:list={['xp', { 'xp--image': d.image }]}
+  data-place={placeKind}
+  data-xp
+  data-family={d.family}
+  data-place-id={d.place}
+  aria-labelledby={`xp-${e.id}`}
+>
+  {d.image && (
+    <div class="xp__media">
+      <Img src={d.image} alt={d.alt ?? ''} priority={priority} sizes="(min-width: 1200px) 30vw, (min-width: 768px) 45vw, 100vw" />
+    </div>
+  )}
+  <div class="xp__body">
+    <div class="xp__top">
+      <p class="label xp__meta">
+        <span>{FAMILY_NAMES[d.family]}</span>
+        <span class="label--place">{placeName}</span>
+      </p>
+      <Stamp id={d.stamp} size={56} label={`${stampLabel(d.stamp)} stamp`} class="xp__stamp" />
+    </div>
+    <h3 id={`xp-${e.id}`} class="t-subhead xp__name">{d.name}</h3>
+    <dl class="xp__facts">
+      <div>
+        <dt class="label">Led by</dt>
+        <dd>{d.led_by}</dd>
+      </div>
+      <div>
+        <dt class="label">When and how long</dt>
+        <dd>{d.when}</dd>
+      </div>
+      <div>
+        <dt class="label">What you will live</dt>
+        <dd class="xp__live">{d.live}</dd>
+      </div>
+      <div>
+        <dt class="label">Good to know</dt>
+        <dd>{d.good_to_know}</dd>
+      </div>
+    </dl>
+  </div>
+</article>
+
+<style>
+  .xp {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background: var(--linen);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 600ms var(--ease-out);
+  }
+
+  .xp__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .xp__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1400ms var(--ease-out);
+  }
+
+  .xp:hover .xp__media :global(img) {
+    transform: scale(1.05);
+  }
+
+  .xp__body {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding: var(--s-4);
+  }
+
+  .xp__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+
+  .xp__meta {
+    display: grid;
+    gap: 4px;
+    color: var(--stone);
+    padding-top: 4px;
+  }
+
+  .xp :global(.xp__stamp) {
+    color: var(--basalt);
+    transition: transform 600ms var(--ease-out);
+  }
+
+  .xp:hover :global(.xp__stamp) {
+    transform: rotate(-8deg) scale(1.06);
+  }
+
+  .xp__name {
+    max-width: 18ch;
+  }
+
+  .xp__facts {
+    display: grid;
+    gap: 12px;
+  }
+
+  .xp__facts div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .xp__facts dt {
+    font-size: 0.75rem;
+    color: var(--stone);
+  }
+
+  .xp__facts dd {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .xp__live {
+    font-style: italic;
+  }
+</style>

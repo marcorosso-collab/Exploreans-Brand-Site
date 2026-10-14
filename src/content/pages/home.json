@@ -1,0 +1,93 @@
+{
+  "seo_title": "Exploreans | Explore beyond. Explore within.",
+  "seo_description": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel. Mara River Camp in the Maasai Mara and Watamu Beach Club & Villas on the Kenyan coast.",
+  "hero": {
+    "kicker": "A small collection of places with character",
+    "line_beyond": "Explore beyond.",
+    "line_within": "Explore within.",
+    "subtext": "Places where every stay is measured in what you do, discover and feel.",
+    "video": "/video/mara-river-camp-hero-1920.mp4",
+    "video_mobile": "/video/mara-river-camp-hero-720sq.mp4",
+    "poster": "/video/mara-river-camp-hero-poster.webp",
+    "beyond_alt": "The Mara River at first light, elephants on the plains and a giraffe at the edge of the trees",
+    "beyond_caption": "Mara River Camp, Maasai Mara",
+    "within_image": "/images/places/watamu/watamu-nature-sandbank-01.webp",
+    "within_alt": "Rippled white sand and shallow turquoise water at low tide on Mayungu Bay",
+    "within_caption": "Watamu Beach Club & Villas, Mayungu Bay"
+  },
+  "conviction": {
+    "statement": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel.",
+    "title": "The experience is the product.",
+    "body": "Rooms, food and service matter, and every place delivers them with care. What guests travel for, remember and tell others about is what they lived: the walk, the encounter, the stillness, the table."
+  },
+  "idea": {
+    "headline": "Two directions, in every place",
+    "beyond": {
+      "label": "Explore beyond",
+      "title": "Out into the place",
+      "body": "Its nature, its culture, its people. Guided on foot, on the water, at the table and in the village.",
+      "example": "On foot at first light, reading the tracks with a Maasai guide.",
+      "image": "/images/places/mara-river-camp/mara-river-camp-adventure-guides-at-the-river-01.webp",
+      "alt": "A guide and a guest standing among the rocks of the Mara River"
+    },
+    "within": {
+      "label": "Explore within",
+      "title": "Into yourself",
+      "body": "Stillness and movement. A quiet hour in the shade, a swim at the turn of the tide, a day that keeps its own pace.",
+      "example": "An hour on the sandbank as the tide turns.",
+      "image": "/images/places/watamu/watamu-stay-under-the-thatch-01.webp",
+      "alt": "The gardens and pool at Watamu seen from under the thatched eaves of a villa"
+    }
+  },
+  "pillars": {
+    "intro": "Three pillars define every Exploreans, and every place delivers all three.",
+    "items": [
+      {
+        "name": "Adventure",
+        "label": "What you live",
+        "body": "Guided experiences in and around every place, outward and inward, always led by qualified people.",
+        "image": "/images/places/mara-river-camp/mara-river-camp-adventure-on-the-plains-01.webp",
+        "alt": "Two guests in an open safari vehicle looking out across the plains"
+      },
+      {
+        "name": "Awe",
+        "label": "What you feel",
+        "body": "The moment that stops you: a river crossing, hippos surfacing below the bank, a sandbank rising from the sea.",
+        "image": "/images/places/mara-river-camp/mara-river-camp-nature-hippos-from-above-01.webp",
+        "alt": "A pod of hippos resting in the brown water of the Mara River, seen from above"
+      },
+      {
+        "name": "Authentic",
+        "label": "What it is",
+        "body": "Rooted in its place and its culture. Honest about the setting and true to itself.",
+        "image": "/images/places/mara-river-camp/mara-river-camp-culture-maasai-guides-01.webp",
+        "alt": "A Maasai guide in a red shuka standing beside a safari vehicle under a tree"
+      }
+    ],
+    "closing": "Adventure, multiplied.",
+    "words": ["Culture", "Character", "Roots", "Discovery", "Retreat", "Quality", "Intimate", "Wellbeing", "Knowledgeable"]
+  },
+  "places": {
+    "headline": "A river camp. A quiet bay. One name.",
+    "body": "Exploreans belongs wherever there is something real to explore. Today, the name lives on a bend of the Mara River and on the Kenyan coast."
+  },
+  "families": {
+    "headline": "Five ways to explore, in every place",
+    "body": "Every Exploreans offers experiences in all five families, shaped by its setting and led by people who know it."
+  },
+  "passport": {
+    "label": "The Exploreans Passport",
+    "headline": "A passport the guide stamps",
+    "body": "Every guest receives an Exploreans Passport. The place stamp marks your arrival, and the guide who leads each experience stamps and signs your page.",
+    "journal": "Alongside it, a Travel Journal, written by you."
+  },
+  "moment": {
+    "line": "The day begins on foot, with the river still in mist.",
+    "place": "Mara River Camp, Maasai Mara",
+    "image": "/images/places/mara-river-camp/mara-river-camp-nature-mara-river-01.webp",
+    "alt": "The Mara River in soft morning light, framed by trees on both banks"
+  },
+  "stories": {
+    "headline": "Stories from our places"
+  }
+}

@@ -1,30 +1,17 @@
-# Exploreans — Netlify build configuration
+# Exploreans: Netlify build configuration
 
 [build]
   command = "npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
-# Ensure Sveltia CMS admin loads cleanly
+# Sveltia CMS admin
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
-
-# Property subdomains — future-proofing in case you want to redirect
-# e.g. exploreans.com/properties/mara -> mara.exploreans.com
-# Uncomment and adjust when ready:
-# [[redirects]]
-#   from = "/properties/mara"
-#   to = "https://mara.exploreans.com"
-#   status = 301
-#
-# [[redirects]]
-#   from = "/properties/malaika"
-#   to = "https://malaika.exploreans.com"
-#   status = 301
 
 [[headers]]
   for = "/*"
@@ -32,3 +19,24 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/stamps/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

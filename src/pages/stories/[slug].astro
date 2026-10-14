@@ -1,0 +1,191 @@
+---
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import StoryCard from '../../components/StoryCard.astro';
+import Icon from '../../components/Icon.astro';
+import { FAMILY_NAMES } from '../../lib/stamps';
+import { formatDate } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories', ({ data }) => !data.draft);
+  return stories.map((story) => ({ params: { slug: story.id }, props: { story } }));
+}
+
+interface Props {
+  story: CollectionEntry<'stories'>;
+}
+
+const { story } = Astro.props;
+const { Content } = await render(story);
+const site = (await getEntry('settings', 'site'))!.data;
+const places = await getCollection('places');
+const place = places.find((p) => p.id === story.data.place);
+const more = (await getCollection('stories', ({ data, id }) => !data.draft && id !== story.id))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2);
+const siteUrl = Astro.site!.toString().replace(/\/$/, '');
+
+const article = {
+  '@type': 'Article',
+  headline: story.data.title,
+  description: story.data.excerpt,
+  datePublished: story.data.date.toISOString(),
+  image: `${siteUrl}${story.data.image}`,
+  author: { '@type': 'Organization', name: story.data.author },
+  publisher: { '@id': `${siteUrl}/#organization` },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+<Base title={`${story.data.title} | Exploreans`} description={story.data.excerpt} ogImage={story.data.image} type="article" jsonLd={[article]}>
+  <PageHeader
+    title={story.data.title}
+    kicker={[story.data.family ? FAMILY_NAMES[story.data.family] : null, place?.data.name].filter(Boolean).join(' · ')}
+    image={story.data.image}
+    alt={story.data.alt}
+  />
+
+  <article class="wrap article" data-place={place?.data.kind}>
+    <div class="article__meta">
+      <p class="t-lead article__excerpt">{story.data.excerpt}</p>
+      <p class="data muted">
+        <span>{story.data.author}</span>
+        <time datetime={story.data.date.toISOString().slice(0, 10)}>{formatDate(story.data.date)}</time>
+      </p>
+    </div>
+    <div class="article__body">
+      <Content />
+    </div>
+    {place && (
+      <aside class="article__place" aria-label={`About ${place.data.name}`}>
+        <span class="article__bar" aria-hidden="true"></span>
+        <div>
+          <p class="label label--place">{place.data.kind_label} &middot; {place.data.region}</p>
+          <p class="t-subhead">{place.data.name}</p>
+          <p class="muted">{place.data.summary}</p>
+        </div>
+        <div class="article__actions">
+          <a href={`/places/#${place.id}`} class="link-arrow">Explore the place <Icon name="arrow-right" /></a>
+          <a href={`${site.cta.href}?place=${place.id}`} class="btn">{site.cta.label}</a>
+        </div>
+      </aside>
+    )}
+  </article>
+
+  {more.length > 0 && (
+    <section class="wrap more" aria-labelledby="more-title">
+      <h2 id="more-title" class="t-headline">More stories</h2>
+      <div class="more__grid">
+        {more.map((s) => {
+          const p = places.find((x) => x.id === s.data.place)?.data;
+          return <StoryCard story={s} placeName={p?.name ?? ''} placeKind={p?.kind ?? 'safari'} />;
+        })}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .article {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: clamp(var(--s-6), 8vw, 120px);
+  }
+
+  .article__meta {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 62ch;
+  }
+
+  .article__meta .data {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+
+  .article__body {
+    max-width: 66ch;
+    font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    line-height: 1.7;
+  }
+
+  .article__body :global(p + p) {
+    margin-top: 1.1em;
+  }
+
+  .article__body :global(h2) {
+    margin: 2em 0 0.6em;
+    font-size: var(--text-subhead);
+    line-height: var(--leading-subhead);
+  }
+
+  .article__body > :global(p:first-child) {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+  }
+
+  @media (min-width: 1024px) {
+    .article {
+      grid-template-columns: 4fr 8fr;
+      column-gap: var(--s-7);
+      align-items: start;
+    }
+
+    .article__meta {
+      position: sticky;
+      top: calc(var(--nav-h-compact) + var(--s-5));
+    }
+
+    .article__place {
+      grid-column: 2;
+    }
+  }
+
+  .article__place {
+    display: grid;
+    grid-template-columns: 6px 1fr;
+    gap: var(--s-3) var(--s-4);
+    padding: var(--s-4);
+    background: var(--linen);
+    border-radius: var(--radius);
+    max-width: 66ch;
+  }
+
+  .article__bar {
+    grid-row: span 2;
+    border-radius: 3px;
+    background: var(--place);
+  }
+
+  .article__place > div:nth-child(2) {
+    display: grid;
+    gap: 6px;
+  }
+
+  .article__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3) var(--s-4);
+  }
+
+  .more {
+    padding-bottom: clamp(var(--s-6), 9vw, 152px);
+  }
+
+  .more h2 {
+    margin-bottom: var(--s-5);
+  }
+
+  .more__grid {
+    display: grid;
+    gap: var(--s-6) var(--gutter);
+  }
+
+  @media (min-width: 768px) {
+    .more__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

@@ -5,316 +5,495 @@ backend:
   base_url: https://openclaw.onrender.com
   auth_endpoint: auth
 
-media_folder: "public/images"
-public_folder: "/images"
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Uploaded photographs are converted to WebP and capped at 1920 px (Brand Bible image specifications)
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1920
+          height: 1920
+
+# Brand reminders shown to editors (Brand Bible v1.0):
+# sentence case, British English, no dashes as punctuation, no exclamation marks,
+# describe what Exploreans is (no comparisons or negatives), no star ratings or luxury vocabulary.
 
 collections:
 
   # ═══════════════════════════════════════════════════════════
-  # GENERAL SEO SETTINGS (Global)
-  # ═══════════════════════════════════════════════════════════
-  - name: "general"
-    label: "SEO & Global Settings"
-    folder: "src/content/general"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "Site Title", name: "site_title", widget: "string", required: true }
-      - { label: "Meta Description", name: "meta_description", widget: "text", required: true }
-      - { label: "Meta Keywords", name: "meta_keywords", widget: "text", required: true }
-      - { label: "OG Title", name: "og_title", widget: "string", required: true }
-      - { label: "OG Description", name: "og_description", widget: "text", required: true }
-      - { label: "OG Image", name: "og_image", widget: "image", required: true }
-      - { label: "Favicon", name: "favicon", widget: "image", required: false, hint: "Upload a square PNG or ICO file (32x32 or 64x64 recommended). This appears in the browser tab." }
-
-  # ═══════════════════════════════════════════════════════════
-  # SETTINGS (Navigation & Site Config)
+  # SITE SETTINGS
   # ═══════════════════════════════════════════════════════════
   - name: "settings"
-    label: "Site Settings"
+    label: "Site settings"
     files:
-      - name: "nav"
-        label: "Navigation"
-        file: "src/content/settings/nav.json"
+      - name: "site"
+        label: "Navigation, footer and newsletter"
+        file: "src/content/settings/site.json"
+        format: json
         fields:
-          - { label: "Logo Image", name: "logo", widget: "image", required: false }
-          - { label: "Logo Alt Text", name: "logo_alt", widget: "string", required: false }
-          - { label: "Wordmark Main", name: "wordmark_main", widget: "string", required: false }
-          - { label: "Wordmark Sub", name: "wordmark_sub", widget: "string", required: false }
-          - name: "links"
-            label: "Navigation Links"
+          - { label: "Site name", name: "site_name", widget: "string" }
+          - { label: "Default description (SEO)", name: "default_description", widget: "text" }
+          - { label: "Default share image (1200 × 630 JPG)", name: "og_image", widget: "image" }
+          - label: "Main navigation"
+            name: "nav"
+            widget: "list"
+            hint: "Story-led navigation: Places, Experiences, Passport, Stories."
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Link", name: "href", widget: "string" }
+          - label: "Main call to action"
+            name: "cta"
+            widget: "object"
+            fields:
+              - { label: "Label", name: "label", widget: "string", hint: "Use the same label everywhere. Default: Plan your journey" }
+              - { label: "Link", name: "href", widget: "string" }
+          - { label: "Footer introduction", name: "footer_intro", widget: "text" }
+          - { label: "Group line", name: "group_line", widget: "string", hint: "The only place Planhotel appears on guest-facing pages." }
+          - label: "Contact links"
+            name: "contacts"
             widget: "list"
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "URL", name: "href", widget: "string" }
-          - { label: "CTA Button Label", name: "cta_label", widget: "string" }
-          - { label: "CTA Button URL", name: "cta_href", widget: "string" }
-          - { label: "CTA Show Dropdown", name: "cta_show_dropdown", widget: "boolean", default: true }
-          - name: "properties_dropdown"
-            label: "Properties Dropdown (auto-populated from Properties collection)"
+              - { label: "Link (mailto: or https://)", name: "href", widget: "string" }
+          - label: "Social accounts"
+            name: "social"
             widget: "list"
             required: false
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "URL", name: "href", widget: "string" }
-              - { label: "Location", name: "location", widget: "string", required: false }
+              - { label: "Link", name: "href", widget: "string" }
+          - label: "Newsletter"
+            name: "newsletter"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Button", name: "button", widget: "string" }
+              - { label: "Thank-you message", name: "success", widget: "string" }
 
   # ═══════════════════════════════════════════════════════════
-  # HERO
+  # PAGES
   # ═══════════════════════════════════════════════════════════
-  - name: "hero"
-    label: "Hero"
-    folder: "src/content/hero"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: true }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: true }
-      - { label: "Volume Label", name: "volume_label", widget: "string" }
-      - { label: "Title Line 1", name: "title_line_1", widget: "string" }
-      - { label: "Title Line 2", name: "title_line_2", widget: "string" }
-      - { label: "Body Paragraph 1", name: "body_1", widget: "text" }
-      - { label: "Body Paragraph 2", name: "body_2", widget: "text" }
-      - { label: "Bottom Left Text", name: "bottom_left", widget: "string" }
-      - { label: "Scroll Label", name: "scroll_label", widget: "string" }
-      - { label: "Background Image", name: "background_image", widget: "image" }
-      - { label: "Background Alt Text", name: "background_alt", widget: "string", required: true }
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home"
+        file: "src/content/pages/home.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Kicker", name: "kicker", widget: "string" }
+              - { label: "Master line, first sentence", name: "line_beyond", widget: "string", hint: "Always: Explore beyond." }
+              - { label: "Master line, second sentence", name: "line_within", widget: "string", hint: "Always: Explore within." }
+              - { label: "Subtext (up to 20 words)", name: "subtext", widget: "text" }
+              - { label: "Film, desktop (MP4)", name: "video", widget: "file" }
+              - { label: "Film, mobile (MP4, square)", name: "video_mobile", widget: "file" }
+              - { label: "Film poster image", name: "poster", widget: "image" }
+              - { label: "Film description (for screen readers)", name: "beyond_alt", widget: "string" }
+              - { label: "Film caption", name: "beyond_caption", widget: "string" }
+              - { label: "Within image", name: "within_image", widget: "image" }
+              - { label: "Within image alt text", name: "within_alt", widget: "string" }
+              - { label: "Within caption", name: "within_caption", widget: "string" }
+          - label: "Conviction"
+            name: "conviction"
+            widget: "object"
+            fields:
+              - { label: "Statement", name: "statement", widget: "text" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "Explore beyond, explore within"
+            name: "idea"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - label: "Beyond"
+                name: "beyond"
+                widget: "object"
+                fields: &ideaSide
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Text", name: "body", widget: "text" }
+                  - { label: "In practice (one line)", name: "example", widget: "string" }
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Image alt text", name: "alt", widget: "string" }
+              - { label: "Within", name: "within", widget: "object", fields: *ideaSide }
+          - label: "A³ and the three pillars"
+            name: "pillars"
+            widget: "object"
+            fields:
+              - { label: "Introduction", name: "intro", widget: "text" }
+              - label: "Pillars"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Text", name: "body", widget: "text" }
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Image alt text", name: "alt", widget: "string" }
+              - { label: "Supporting line (only with A³)", name: "closing", widget: "string" }
+              - { label: "Words in every place", name: "words", widget: "list", field: { label: "Word", name: "word", widget: "string" } }
+          - label: "Places introduction"
+            name: "places"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "Five families introduction"
+            name: "families"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "Passport"
+            name: "passport"
+            widget: "object"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Travel Journal line", name: "journal", widget: "string" }
+          - label: "Full-width moment"
+            name: "moment"
+            widget: "object"
+            fields:
+              - { label: "Line", name: "line", widget: "string" }
+              - { label: "Place", name: "place", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Image alt text", name: "alt", widget: "string" }
+          - label: "Stories"
+            name: "stories"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+
+      - name: "about"
+        label: "Our story"
+        file: "src/content/pages/about.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+          - { label: "Hero image", name: "image", widget: "image" }
+          - { label: "Hero image alt text", name: "alt", widget: "string" }
+          - label: "Conviction"
+            name: "conviction"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "The Explorean"
+            name: "explorean"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - label: "Types"
+                name: "types"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Text", name: "body", widget: "string" }
+              - { label: "Closing line", name: "closing", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Image alt text", name: "alt", widget: "string" }
+          - label: "The promise"
+            name: "promise"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - label: "Characteristics"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Text", name: "body", widget: "text" }
+          - label: "The Exploreans test"
+            name: "test"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - label: "Questions"
+                name: "questions"
+                widget: "list"
+                fields:
+                  - { label: "Criterion", name: "name", widget: "string" }
+                  - { label: "Question", name: "question", widget: "string" }
+
+      - name: "passport"
+        label: "Passport"
+        file: "src/content/pages/passport.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+          - label: "How it works"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "The place spread"
+            name: "spread"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "Rewards"
+            name: "rewards"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - { label: "Rewards note", name: "rewards_note", widget: "string" }
+          - label: "Travel Journal"
+            name: "journal"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Privacy line", name: "privacy", widget: "string" }
+              - label: "Prompts"
+                name: "prompts"
+                widget: "list"
+                fields:
+                  - { label: "Direction", name: "direction", widget: "select", options: ["beyond", "within"] }
+                  - { label: "Prompt", name: "prompt", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Image alt text", name: "alt", widget: "string" }
+
+      - name: "places"
+        label: "Places page"
+        file: "src/content/pages/places.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+          - { label: "The next Exploreans: headline", name: "next_headline", widget: "string" }
+          - { label: "The next Exploreans: text", name: "next_body", widget: "text" }
+          - { label: "Share image", name: "image", widget: "image" }
+          - { label: "Share image alt text", name: "alt", widget: "string" }
+
+      - name: "experiences"
+        label: "Experiences page"
+        file: "src/content/pages/experiences.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+          - { label: "Note under the experiences", name: "structure_note", widget: "text" }
+
+      - name: "stories"
+        label: "Stories page"
+        file: "src/content/pages/stories.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+
+      - name: "plan"
+        label: "Plan your journey"
+        file: "src/content/pages/plan.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Lead", name: "lead", widget: "text" }
+          - { label: "Form title", name: "form_title", widget: "string" }
+          - { label: "Consent line", name: "consent", widget: "text" }
+          - { label: "Button", name: "button", widget: "string" }
+          - { label: "Thank-you title", name: "success_title", widget: "string" }
+          - { label: "Thank-you text", name: "success_body", widget: "text" }
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Image alt text", name: "alt", widget: "string" }
 
   # ═══════════════════════════════════════════════════════════
-  # LETTER (Note From The Field)
+  # PLACES
   # ═══════════════════════════════════════════════════════════
-  - name: "letter"
-    label: "Note From The Field"
-    folder: "src/content/letter"
-    create: false
-    delete: false
+  - name: "places"
+    label: "Places"
+    label_singular: "Place"
+    folder: "src/content/places"
     extension: json
     format: json
+    create: true
+    slug: "{{fields.name}}"
+    summary: "{{name}} ({{region}})"
+    sortable_fields: ["order", "name"]
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Chapter Number", name: "chapter_number", widget: "string" }
-      - { label: "Chapter Label", name: "chapter_label", widget: "string" }
-      - { label: "Dateline", name: "dateline", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Lead Paragraph", name: "lead", widget: "text" }
-      - name: "body_paragraphs"
-        label: "Body Paragraphs"
+      - { label: "Order", name: "order", widget: "number", value_type: "int" }
+      - { label: "Name", name: "name", widget: "string", hint: "In full, for example Mara River Camp." }
+      - label: "Kind of place (sets the type colour)"
+        name: "kind"
+        widget: "select"
+        options:
+          - { label: "Safari Green: safari lodges and camps", value: "safari" }
+          - { label: "Lagoon: coastal and island places", value: "lagoon" }
+          - { label: "Vintage: vineyards and wine country", value: "vintage" }
+          - { label: "Talavera: heritage towns", value: "talavera" }
+          - { label: "Granite: mountains", value: "granite" }
+      - { label: "Kind label", name: "kind_label", widget: "string", hint: "For example Safari or Coastal." }
+      - { label: "Region", name: "region", widget: "string" }
+      - { label: "Summary (one sentence)", name: "summary", widget: "text" }
+      - { label: "What you will live", name: "story", widget: "text", hint: "Three or four sensory sentences, present tense." }
+      - { label: "Led by", name: "leads", widget: "string" }
+      - { label: "Hero image", name: "hero_image", widget: "image" }
+      - { label: "Hero image alt text", name: "hero_alt", widget: "string" }
+      - label: "Gallery"
+        name: "gallery"
         widget: "list"
         fields:
-          - { label: "Text", name: "text", widget: "text" }
-      - { label: "Signature Name", name: "signature_name", widget: "string" }
-      - { label: "Signature Role", name: "signature_role", widget: "string", required: false }
-
-  # ═══════════════════════════════════════════════════════════
-  # PILLARS INTRO
-  # ═══════════════════════════════════════════════════════════
-  - name: "pillarsintro"
-    label: "Pillars Intro"
-    folder: "src/content/pillarsintro"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Supporting Text", name: "supporting", widget: "text" }
-
-  # ═══════════════════════════════════════════════════════════
-  # PILLARS
-  # ═══════════════════════════════════════════════════════════
-  - name: "pillars"
-    label: "Brand Pillars"
-    folder: "src/content/pillars"
-    create: true
-    delete: true
-    extension: json
-    format: json
-    fields:
-      - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "Numeral", name: "numeral", widget: "string" }
-      - { label: "Phrase Line 1", name: "phrase_line_1", widget: "string" }
-      - { label: "Phrase Line 2", name: "phrase_line_2", widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
-
-  # ═══════════════════════════════════════════════════════════
-  # PLACES INTRO
-  # ═══════════════════════════════════════════════════════════
-  - name: "placesintro"
-    label: "Places Intro"
-    folder: "src/content/placesintro"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Supporting Text", name: "supporting", widget: "text" }
-
-  # ═══════════════════════════════════════════════════════════
-  # PROPERTIES
-  # ═══════════════════════════════════════════════════════════
-  - name: "properties"
-    label: "Properties"
-    folder: "src/content/properties"
-    create: true
-    delete: true
-    extension: json
-    format: json
-    fields:
-      - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Property Name", name: "name", widget: "text" }
-      - { label: "Short Name", name: "short_name", widget: "string" }
-      - { label: "Location", name: "location", widget: "string" }
-      - { label: "Tagline", name: "tagline", widget: "text" }
-      - { label: "Description", name: "description", widget: "text" }
-      - { label: "Image", name: "image", widget: "image" }
-      - { label: "Image Alt", name: "image_alt", widget: "string", required: false }
-      - { label: "Tag Label", name: "tag_label", widget: "string" }
-      - name: "specs"
-        label: "Specs"
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Alt text", name: "alt", widget: "string" }
+      - label: "What to expect"
+        name: "expect"
         widget: "list"
         fields:
           - { label: "Label", name: "label", widget: "string" }
-          - { label: "Value", name: "value", widget: "string" }
-      - { label: "CTA Label", name: "cta_label", widget: "string" }
-      - { label: "CTA Link", name: "cta_href", widget: "string" }
-      - { label: "Show in Nav", name: "show_in_nav", widget: "boolean", default: true }
-
-  # ═══════════════════════════════════════════════════════════
-  # BEYOND (Experiences Intro)
-  # ═══════════════════════════════════════════════════════════
-  - name: "beyond"
-    label: "Experiences Intro"
-    folder: "src/content/beyond"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Aside Text", name: "aside", widget: "text" }
+          - { label: "Text", name: "value", widget: "text" }
+      - { label: "Property website", name: "website", widget: "string" }
+      - { label: "Website link label", name: "website_label", widget: "string" }
+      - { label: "Booking link", name: "booking_url", widget: "string", required: false }
+      - { label: "Email", name: "email", widget: "string", required: false }
+      - { label: "Phone", name: "phone", widget: "string", required: false }
+      - { label: "Has a commissioned place mark", name: "has_place_mark", widget: "boolean", default: false }
+      - { label: "Latitude", name: "latitude", widget: "number", value_type: "float", required: false }
+      - { label: "Longitude", name: "longitude", widget: "number", value_type: "float", required: false }
 
   # ═══════════════════════════════════════════════════════════
   # EXPERIENCES
   # ═══════════════════════════════════════════════════════════
   - name: "experiences"
     label: "Experiences"
+    label_singular: "Experience"
     folder: "src/content/experiences"
-    create: true
-    delete: true
     extension: json
     format: json
+    create: true
+    slug: "{{fields.name}}"
+    summary: "{{name}} · {{family}} · {{place}}"
+    sortable_fields: ["order", "name", "family", "place"]
     fields:
       - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "Number", name: "number", widget: "string" }
-      - { label: "Title", name: "title", widget: "text" }
-      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Name (sentence case, up to six words)", name: "name", widget: "string" }
+      - label: "Family"
+        name: "family"
+        widget: "select"
+        options:
+          - { label: "Adventure", value: "adventure" }
+          - { label: "Nature", value: "nature" }
+          - { label: "Culture", value: "culture" }
+          - { label: "Taste", value: "taste" }
+          - { label: "Wellness", value: "wellness" }
+      - label: "Stamp"
+        name: "stamp"
+        widget: "select"
+        hint: "Choose a stamp from the same family."
+        options:
+          - { label: "Adventure: On foot", value: "on-foot" }
+          - { label: "Adventure: Summit", value: "summit" }
+          - { label: "Adventure: Under sail", value: "under-sail" }
+          - { label: "Nature: First light", value: "first-light" }
+          - { label: "Nature: Night sky", value: "night-sky" }
+          - { label: "Nature: The reef", value: "the-reef" }
+          - { label: "Culture: Village", value: "village" }
+          - { label: "Culture: Market", value: "market" }
+          - { label: "Culture: Craft", value: "craft" }
+          - { label: "Taste: Harvest", value: "harvest" }
+          - { label: "Taste: Local kitchen", value: "local-kitchen" }
+          - { label: "Taste: Tasting", value: "tasting" }
+          - { label: "Wellness: Stillness", value: "stillness" }
+          - { label: "Wellness: Movement", value: "movement" }
+          - { label: "Wellness: Rest", value: "rest" }
+      - label: "Place"
+        name: "place"
+        widget: "relation"
+        collection: "places"
+        value_field: "{{slug}}"
+        search_fields: ["name"]
+        display_fields: ["name"]
+      - { label: "Led by", name: "led_by", widget: "string", hint: "The role and, where possible, the name of the person who leads." }
+      - { label: "When and how long", name: "when", widget: "string" }
+      - { label: "What you will live", name: "live", widget: "text", hint: "Two or three sensory sentences in the present tense, with one specific detail." }
+      - { label: "Good to know", name: "good_to_know", widget: "text" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Image alt text", name: "alt", widget: "string", required: false }
 
   # ═══════════════════════════════════════════════════════════
-  # NOTES INTRO
+  # THE FIVE FAMILIES
   # ═══════════════════════════════════════════════════════════
-  - name: "notesintro"
-    label: "Field Notes Intro"
-    folder: "src/content/notesintro"
+  - name: "families"
+    label: "Experience families"
+    label_singular: "Family"
+    folder: "src/content/families"
+    extension: json
+    format: json
     create: false
     delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Supporting Text", name: "supporting", widget: "text" }
-
-  # ═══════════════════════════════════════════════════════════
-  # FIELD NOTES
-  # ═══════════════════════════════════════════════════════════
-  - name: "fieldnotes"
-    label: "Field Notes"
-    folder: "src/content/fieldnotes"
-    create: true
-    delete: true
-    extension: json
-    format: json
+    summary: "{{name}}"
     fields:
       - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "Image", name: "image", widget: "image" }
-      - { label: "Image Alt", name: "image_alt", widget: "string", required: false }
-      - { label: "Caption", name: "caption", widget: "string" }
-      - { label: "Meta", name: "meta", widget: "string", required: false }
-
-  # ═══════════════════════════════════════════════════════════
-  # GROUP (Planhotel Family)
-  # ═══════════════════════════════════════════════════════════
-  - name: "group"
-    label: "Planhotel Family"
-    folder: "src/content/group"
-    create: false
-    delete: false
-    extension: json
-    format: json
-    fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Label", name: "label", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Body", name: "body", widget: "text" }
-      - name: "values"
-        label: "Values"
-        widget: "list"
-        fields:
-          - { label: "Value", name: "value", widget: "string" }
-
-  # ═══════════════════════════════════════════════════════════
-  # SISTER BRANDS
-  # ═══════════════════════════════════════════════════════════
-  - name: "sisterbrands"
-    label: "Sister Brands"
-    folder: "src/content/sisterbrands"
-    create: true
-    delete: true
-    extension: json
-    format: json
-    fields:
-      - { label: "Order", name: "order", widget: "number", value_type: "int" }
-      - { label: "Mark (symbol)", name: "mark", widget: "string", required: false }
-      - { label: "Logo Image", name: "logo", widget: "image", required: false }
-      - { label: "Logo Alt Text", name: "logo_alt", widget: "string", required: false }
       - { label: "Name", name: "name", widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
-      - { label: "Link", name: "href", widget: "string" }
+      - { label: "Direction", name: "direction", widget: "select", options: ["beyond", "within"] }
+      - { label: "Summary", name: "summary", widget: "string" }
+      - { label: "Shot list note", name: "shot", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Image alt text", name: "alt", widget: "string" }
 
   # ═══════════════════════════════════════════════════════════
-  # JOURNAL
+  # STORIES
   # ═══════════════════════════════════════════════════════════
-  - name: "journal"
-    label: "Journal"
-    folder: "src/content/journal"
-    create: false
-    delete: false
-    extension: json
-    format: json
+  - name: "stories"
+    label: "Stories"
+    label_singular: "Story"
+    folder: "src/content/stories"
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{fields.title}}"
+    summary: "{{title}} ({{date}})"
+    sortable_fields: ["date", "title"]
     fields:
-      - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
-      - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
-      - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-      - { label: "Headline", name: "headline", widget: "text" }
-      - { label: "Supporting Text", name: "supporting", widget: "text" }
-      - { label: "Input Placeholder", name: "input_placeholder", widget: "string" }
-      - { label: "Button Label", name: "button_label", widget: "string" }
-      - { label: "Success Message", name: "success_message", widget: "string" }
+      - { label: "Title (up to eight words)", name: "title", widget: "string" }
+      - { label: "Excerpt (one or two sentences)", name: "excerpt", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - label: "Place"
+        name: "place"
+        widget: "relation"
+        collection: "places"
+        value_field: "{{slug}}"
+        search_fields: ["name"]
+        display_fields: ["name"]
+      - label: "Family"
+        name: "family"
+        widget: "select"
+        required: false
+        options: ["adventure", "nature", "culture", "taste", "wellness"]
+      - { label: "Author", name: "author", widget: "string", hint: "For example: The team at Mara River Camp" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Image alt text", name: "alt", widget: "string" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Story", name: "body", widget: "markdown" }
