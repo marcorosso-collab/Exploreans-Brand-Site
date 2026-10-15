@@ -2,10 +2,8 @@
   "seo_title": "Exploreans | Explore beyond. Explore within.",
   "seo_description": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel. Mara River Camp in the Maasai Mara and Watamu Beach Club & Villas on the Kenyan coast.",
   "hero": {
-    "kicker": "A small collection of places with character",
     "line_beyond": "Explore beyond.",
     "line_within": "Explore within.",
-    "subtext": "Places where every stay is measured in what you do, discover and feel.",
     "video": "/video/mara-river-camp-hero-1920.mp4",
     "video_mobile": "/video/mara-river-camp-hero-720sq.mp4",
     "poster": "/video/mara-river-camp-hero-poster.webp",
@@ -16,9 +14,7 @@
     "within_caption": "Watamu Beach Club & Villas, Mayungu Bay"
   },
   "conviction": {
-    "statement": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel.",
-    "title": "The experience is the product.",
-    "body": "Rooms, food and service matter, and every place delivers them with care. What guests travel for, remember and tell others about is what they lived: the walk, the encounter, the stillness, the table."
+    "statement": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel."
   },
   "idea": {
     "headline": "Two directions, in every place",
@@ -33,7 +29,7 @@
     "within": {
       "label": "Explore within",
       "title": "Into yourself",
-      "body": "Stillness and movement. A quiet hour in the shade, a swim at the turn of the tide, a day that keeps its own pace.",
+      "body": "Stillness and movement. Sunset yoga as the sea turns gold, a quiet hour in the shade, a day that keeps its own pace.",
       "example": "An hour on the sandbank as the tide turns.",
       "image": "/images/brand/exploreans-wellness-arms-open-at-sunrise-01.webp",
       "alt": "A man standing barefoot on the sand at sunrise, eyes closed and arms open to the sea"
@@ -45,21 +41,21 @@
       {
         "name": "Adventure",
         "label": "What you live",
-        "body": "Guided experiences in and around every place, outward and inward, always led by qualified people.",
+        "body": "Guided experiences in and around every place, outward and inward, always led by qualified experts.",
         "image": "/images/places/mara-river-camp/mara-river-camp-adventure-on-the-plains-01.webp",
         "alt": "Two guests in an open safari vehicle looking out across the plains"
       },
       {
         "name": "Awe",
         "label": "What you feel",
-        "body": "The moment that stops you: a river crossing, hippos surfacing below the bank, a sandbank rising from the sea.",
+        "body": "The moment that stops you, then stays with you long after you leave: a river crossing, hippos surfacing below the bank, a sandbank rising from the sea.",
         "image": "/images/places/mara-river-camp/mara-river-camp-nature-hippos-from-above-01.webp",
         "alt": "A pod of hippos resting in the brown water of the Mara River, seen from above"
       },
       {
         "name": "Authentic",
         "label": "What it is",
-        "body": "Rooted in its place and its culture. Honest about the setting and true to itself.",
+        "body": "Rooted in its place and its culture. True to itself.",
         "image": "/images/places/mara-river-camp/mara-river-camp-culture-maasai-guides-01.webp",
         "alt": "A Maasai guide in a red shuka standing beside a safari vehicle under a tree"
       }
@@ -72,13 +68,13 @@
   },
   "families": {
     "headline": "Five ways to explore, in every place",
-    "body": "Every Exploreans offers experiences in all five families, shaped by its setting and led by people who know it."
+    "closing": "Every experience is led by someone who belongs to the place."
   },
   "passport": {
     "label": "Coming soon",
-    "headline": "The Exploreans Passport",
-    "body": "Coming soon to every Exploreans: a passport with a page for each place, stamped and signed by the guide who leads each experience.",
-    "journal": "And alongside it, a Travel Journal for you to write."
+    "headline": "The Exploreans Passport Collection",
+    "body": "Coming soon: a passport that is yours alone. Each place adds a page and each experience a stamp, signed by the guide who shared it with you. It becomes the story of your travels, held in your own hands.",
+    "journal": "And alongside it, a Travel Journal, for the moments only you can put into words."
   },
   "moment": {
     "line": "The day begins on foot, with the river still in mist.",

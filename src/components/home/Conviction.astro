@@ -7,13 +7,9 @@ const { conviction } = (await getEntry('home', 'home'))!.data;
 ---
 <section class="conviction section" aria-labelledby="conviction-title">
   <MapLines variant="a" tone="ochre" reveal />
-  <div class="wrap grid conviction__grid">
-    <p class="conviction__statement" data-read>{conviction.statement}</p>
-    <div class="conviction__aside" data-reveal-group>
-      <h2 id="conviction-title" class="t-quote conviction__title" data-reveal>{conviction.title}</h2>
-      <p class="muted" data-reveal>{conviction.body}</p>
-      <a href="/about/" class="link-arrow" data-reveal>Our story <Icon name="arrow-right" /></a>
-    </div>
+  <div class="wrap conviction__inner">
+    <h2 id="conviction-title" class="conviction__statement" data-read>{conviction.statement}</h2>
+    <a href="/about/" class="link-arrow conviction__link" data-reveal>Our story <Icon name="arrow-right" /></a>
   </div>
 </section>
 
@@ -22,45 +18,24 @@ const { conviction } = (await getEntry('home', 'home'))!.data;
     overflow: clip;
   }
 
-  .conviction__grid {
+  /* One statement, one way in: the line reads as the brand's own introduction */
+  .conviction__inner {
     position: relative;
-    row-gap: var(--s-6);
+    display: grid;
+    justify-items: start;
+    gap: clamp(var(--s-5), 4vw, var(--s-6));
   }
 
   .conviction__statement {
-    grid-column: 1 / -1;
+    max-width: 24ch;
     font-size: clamp(1.75rem, 1.2rem + 2.3vw, 3.25rem);
+    font-weight: 400;
     line-height: 1.2;
     letter-spacing: -0.01em;
-    max-width: 24ch;
     text-wrap: balance;
   }
 
-  .conviction__aside {
-    grid-column: 1 / -1;
-    display: grid;
-    gap: var(--s-4);
-    justify-items: start;
-    max-width: 40ch;
-  }
-
-  .conviction__title {
-    color: var(--basalt);
-  }
-
-  @media (min-width: 768px) {
-    .conviction__aside {
-      grid-column: 4 / span 5;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .conviction__statement {
-      grid-column: 1 / span 10;
-    }
-
-    .conviction__aside {
-      grid-column: 7 / span 5;
-    }
+  .conviction__link {
+    margin-left: 2px;
   }
 </style>

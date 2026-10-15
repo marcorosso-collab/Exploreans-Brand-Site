@@ -116,10 +116,8 @@ const home = defineCollection({
   schema: z.object({
     ...seo,
     hero: z.object({
-      kicker: z.string(),
       line_beyond: z.string(),
       line_within: z.string(),
-      subtext: z.string(),
       video: z.string(),
       video_mobile: z.string(),
       poster: z.string(),
@@ -129,7 +127,7 @@ const home = defineCollection({
       within_alt: z.string(),
       within_caption: z.string(),
     }),
-    conviction: z.object({ statement: z.string(), title: z.string(), body: z.string() }),
+    conviction: z.object({ statement: z.string() }),
     idea: z.object({
       headline: z.string(),
       beyond: z.object({ label: z.string(), title: z.string(), body: z.string(), example: z.string(), ...image }),
@@ -141,7 +139,7 @@ const home = defineCollection({
       closing: z.string(),
     }),
     places: z.object({ headline: z.string(), body: z.string() }),
-    families: z.object({ headline: z.string(), body: z.string() }),
+    families: z.object({ headline: z.string(), closing: z.string() }),
     passport: z.object({ label: z.string(), headline: z.string(), body: z.string(), journal: z.string() }),
     moment: z.object({ line: z.string(), place: z.string(), ...image }),
     stories: z.object({ headline: z.string() }),

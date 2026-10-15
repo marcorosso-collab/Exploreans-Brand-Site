@@ -13,7 +13,6 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
     <div class="families__track" data-families-track>
       <div class="families__intro">
         <h2 id="families-title" class="t-headline">{home.families.headline}</h2>
-        <p class="t-lead measure">{home.families.body}</p>
         <div class="families__key" aria-hidden="true">
           <span class="families__key-beyond label">Explore beyond</span>
           <span class="families__key-within label">Explore within</span>
@@ -45,7 +44,7 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
       ))}
 
       <div class="families__end">
-        <p class="t-subhead">Every experience is led by someone who knows the place.</p>
+        <p class="t-subhead">{home.families.closing}</p>
         <a href="/experiences/" class="btn">Browse every experience <Icon name="arrow-right" class="arrow" /></a>
       </div>
     </div>

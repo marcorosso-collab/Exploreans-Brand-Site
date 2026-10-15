@@ -94,10 +94,8 @@ collections:
             name: "hero"
             widget: "object"
             fields:
-              - { label: "Kicker", name: "kicker", widget: "string" }
               - { label: "Master line, first sentence", name: "line_beyond", widget: "string", hint: "Always: Explore beyond." }
               - { label: "Master line, second sentence", name: "line_within", widget: "string", hint: "Always: Explore within." }
-              - { label: "Subtext (up to 20 words)", name: "subtext", widget: "text" }
               - { label: "Film, desktop (MP4)", name: "video", widget: "file" }
               - { label: "Film, mobile (MP4, square)", name: "video_mobile", widget: "file" }
               - { label: "Film poster image", name: "poster", widget: "image" }
@@ -111,8 +109,6 @@ collections:
             widget: "object"
             fields:
               - { label: "Statement", name: "statement", widget: "text" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Text", name: "body", widget: "text" }
           - label: "Explore beyond, explore within"
             name: "idea"
             widget: "object"
@@ -155,7 +151,7 @@ collections:
             widget: "object"
             fields:
               - { label: "Headline", name: "headline", widget: "string" }
-              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Closing line (after the cards)", name: "closing", widget: "string" }
           - label: "Passport"
             name: "passport"
             widget: "object"

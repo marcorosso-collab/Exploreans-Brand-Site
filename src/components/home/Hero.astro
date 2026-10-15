@@ -2,7 +2,6 @@
 import { getEntry } from 'astro:content';
 import Img from '../Img.astro';
 import Icon from '../Icon.astro';
-import Destinations from '../Destinations.astro';
 
 const home = (await getEntry('home', 'home'))!.data;
 const h = home.hero;
@@ -31,16 +30,10 @@ const h = home.hero;
   </div>
 
   <div class="hero__content wrap">
-    <p class="label hero__kicker" data-hero-in>{h.kicker}</p>
     <h1 id="hero-title" class="t-display hero__title" data-hero-in>
       <span class="hero__line is-active" data-line="beyond">{h.line_beyond}</span>
       <span class="hero__line" data-line="within">{h.line_within}</span>
     </h1>
-    <p class="t-lead hero__sub" data-hero-in>{h.subtext}</p>
-    <div class="hero__ctas" data-hero-in>
-      <Destinations tone="light" direction="up" />
-      <a href="/experiences/" class="btn btn--ghost-light">See the experiences</a>
-    </div>
   </div>
 
   <div class="hero__foot wrap" data-hero-in>
@@ -211,17 +204,6 @@ const h = home.hero;
     padding-bottom: var(--s-5);
   }
 
-  .hero__kicker {
-    color: rgb(250 250 245 / 0.9);
-  }
-
-  /* Labels never run to two lines; on narrow screens the subtext carries the idea */
-  @media (max-width: 519px) {
-    .hero__kicker {
-      display: none;
-    }
-  }
-
   /* The master line supports the wordmark rather than competing with it */
   .hero__title {
     display: grid;
@@ -240,18 +222,6 @@ const h = home.hero;
 
   .hero__line.is-active {
     opacity: 1;
-  }
-
-  .hero__sub {
-    max-width: 30ch;
-    color: rgb(250 250 245 / 0.9);
-  }
-
-  .hero__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: var(--s-2);
   }
 
   .hero__foot {
@@ -358,9 +328,6 @@ const h = home.hero;
   }
 
   /* Entrance: slow fades in sequence, pure CSS from first paint */
-  .hero__kicker { --i: 0; }
-  .hero__title { --i: 1; }
-  .hero__sub { --i: 2; }
-  .hero__ctas { --i: 3; }
-  .hero__foot { --i: 5; }
+  .hero__title { --i: 0; }
+  .hero__foot { --i: 2; }
 </style>
