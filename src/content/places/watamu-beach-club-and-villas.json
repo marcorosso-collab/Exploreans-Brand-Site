@@ -1,0 +1,36 @@
+{
+  "order": 2,
+  "name": "Watamu Beach Club & Villas",
+  "kind": "lagoon",
+  "kind_label": "Coastal",
+  "region": "Watamu, Kenya",
+  "summary": "Villas and a private beach club on Mayungu Bay, beside the Watamu Marine National Park.",
+  "story": "At low tide, white sandbanks rise from the sea and the reef sits a short paddle from the beach. Fishermen launch their dhows from Mayungu at dawn. The villas open onto verandas around a central pool, and the beach club waits at the end of a 150-metre path through the gardens. Inland, the Arabuko Sokoke Forest and the ruins of Gedi keep their own quiet.",
+  "leads": "Local guides from the beach club, the kitchen team and the wellness therapists",
+  "hero_image": "/images/places/watamu/watamu-nature-sandbank-01.webp",
+  "hero_alt": "Rippled white sand and shallow turquoise water at low tide on Mayungu Bay",
+  "gallery": [
+    { "image": "/images/places/watamu/watamu-wellness-beach-club-01.webp", "alt": "Thatched gazebos and sunbeds under the palms at the beach club" },
+    { "image": "/images/places/watamu/watamu-stay-pool-01.webp", "alt": "The central pool reflecting the thatched roofs of the villas" },
+    { "image": "/images/places/watamu/watamu-culture-fishermen-01.webp", "alt": "A fisherman hauling a net of fresh catch aboard a wooden boat" },
+    { "image": "/images/places/watamu/watamu-taste-beach-club-drinks-01.webp", "alt": "Two cold drinks with tropical flowers on a wooden table between sunbeds" },
+    { "image": "/images/places/watamu/watamu-stay-under-the-thatch-01.webp", "alt": "The gardens and pool seen from under the thatched eaves of a villa" },
+    { "image": "/images/places/watamu/watamu-stay-villa-bedroom-01.webp", "alt": "A villa bedroom with a four-poster bed and white linen" }
+  ],
+  "expect": [
+    { "label": "Setting", "value": "Mayungu Bay, between Malindi and Watamu, beside the Watamu Marine National Park in Kenya." },
+    { "label": "The bay", "value": "Shallow, clear water over white sand, sandbanks at low tide and the reef close to shore." },
+    { "label": "Stay", "value": "Villas from one to four bedrooms, each with a kitchen, a lounge and a private veranda." },
+    { "label": "At the table", "value": "Two restaurants, the main pavilion and a beach restaurant on the sand: Italian roots, Indian Ocean fish and coastal Swahili spice." },
+    { "label": "Families", "value": "Children welcome. All-inclusive, half-board and self-catering stays." },
+    { "label": "Getting there", "value": "Transfers from Malindi Airport on request." }
+  ],
+  "website": "https://watamu.exploreans.com/",
+  "website_label": "Visit the villas website",
+  "booking_url": "https://www.simplebooking.it/ibe2/hotel/10256?lang=EN&cur=USD",
+  "email": "info.watamu@planhotel.com",
+  "phone": "+254 796 035 766",
+  "has_place_mark": false,
+  "latitude": -3.2637,
+  "longitude": 40.0192
+}

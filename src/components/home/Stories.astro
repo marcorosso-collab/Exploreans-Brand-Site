@@ -1,0 +1,81 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import StoryCard from '../StoryCard.astro';
+import Icon from '../Icon.astro';
+
+const home = (await getEntry('home', 'home'))!.data;
+const places = await getCollection('places');
+const placeOf = (id: string) => places.find((p) => p.id === id)?.data;
+const stories = (await getCollection('stories', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+<section class="stories section" aria-labelledby="stories-title">
+  <div class="wrap">
+    <div class="stories__head">
+      <h2 id="stories-title" class="t-headline" data-reveal>{home.stories.headline}</h2>
+      <a href="/stories/" class="link-arrow" data-reveal>All stories <Icon name="arrow-right" /></a>
+    </div>
+    <div class="stories__grid">
+      {stories.map((story, i) => {
+        const place = placeOf(story.data.place);
+        return (
+          <StoryCard
+            story={story}
+            placeName={place?.name ?? ''}
+            placeKind={place?.kind ?? 'safari'}
+            size={i === 0 ? 'large' : 'small'}
+          />
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stories__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-3);
+    margin-bottom: var(--s-6);
+  }
+
+  .stories__grid {
+    display: grid;
+    gap: var(--s-6) var(--gutter);
+  }
+
+  @media (min-width: 768px) {
+    .stories__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stories__grid > :global(:first-child) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .stories__grid {
+      grid-template-columns: 7fr 1fr 4fr;
+      grid-template-rows: auto auto;
+    }
+
+    .stories__grid > :global(:first-child) {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+
+    .stories__grid > :global(:nth-child(2)) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .stories__grid > :global(:nth-child(3)) {
+      grid-column: 3;
+      grid-row: 2;
+    }
+  }
+</style>

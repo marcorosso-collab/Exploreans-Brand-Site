@@ -1,0 +1,48 @@
+{
+  "seo_title": "Our story | Exploreans",
+  "seo_description": "Exploreans is a small collection of places with character. Adventure, Awe and Authentic in every place, the six things to count on and the seven questions every place answers.",
+  "title": "A small collection of places with character",
+  "lead": "Exploreans is defined by what guests live: the walk, the encounter, the stillness, the table. Every place carries the same name, the same promise and the colour of its kind.",
+  "image": "/images/places/mara-river-camp/mara-river-camp-nature-river-rocks-01.webp",
+  "alt": "The Mara River running over rocks below a wooded escarpment",
+  "conviction": {
+    "title": "The experience is the product.",
+    "body": "Rooms, food and service matter, and every place delivers them with care. What guests travel for, remember and tell others about is what they lived, so every decision about how Exploreans looks, sounds and behaves starts there."
+  },
+  "explorean": {
+    "headline": "Built for the curious traveller",
+    "types": [
+      { "name": "Adventure seekers", "body": "Out there by day, with real comfort waiting at the end of it." },
+      { "name": "Culture lovers", "body": "Here to meet a place and its people, face to face." },
+      { "name": "Wellbeing seekers", "body": "Finding rest in movement, nature and stillness." },
+      { "name": "Authenticity hunters", "body": "Looking for real experiences and a setting to lose themselves in." }
+    ],
+    "closing": "Collecting memorable experiences.",
+    "image": "/images/places/watamu/watamu-stay-beach-club-01.webp",
+    "alt": "Whitewashed gazebos and turquoise sunbeds on the sand at the beach club"
+  },
+  "promise": {
+    "headline": "Six things to count on in every place",
+    "items": [
+      { "name": "Intimate", "body": "Intimate by design. Personal welcomes, guests known by name and small groups out in the field." },
+      { "name": "Rooted", "body": "True to its place and its culture, in what you eat, see and hear." },
+      { "name": "Eco-Sensitive", "body": "Light on the land, with deep respect for the natural setting around it." },
+      { "name": "Rich in experiences", "body": "Experiences outward and inward, each one led by a qualified person." },
+      { "name": "Quality, quietly", "body": "Real comfort and care in every detail, evident in the stay itself." },
+      { "name": "Awe", "body": "Memorable stays that inspire you, shaped around the moments worth retelling." }
+    ]
+  },
+  "test": {
+    "headline": "Seven questions before a place carries the name",
+    "body": "The Exploreans test decides whether a place can carry the name, anywhere in the world: a river, a reef, a vineyard, a town, a mountain. Every place passes all seven, and every open place is reviewed against them each year.",
+    "questions": [
+      { "name": "Intimate", "question": "Does it offer an intimate experience?" },
+      { "name": "Adventure", "question": "Are there real things to do in and around it?" },
+      { "name": "Awe", "question": "Will the setting or the experiences make guests stop and stare?" },
+      { "name": "Authentic", "question": "Is it rooted in its place and its culture?" },
+      { "name": "Rich in experiences", "question": "Are there many experiences on site or within reach?" },
+      { "name": "Qualified people", "question": "Are there qualified people to lead the experiences?" },
+      { "name": "Quality built in", "question": "Can it deliver quality at every touchpoint?" }
+    ]
+  }
+}

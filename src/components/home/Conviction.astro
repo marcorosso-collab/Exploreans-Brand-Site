@@ -1,0 +1,41 @@
+---
+import { getEntry } from 'astro:content';
+import MapLines from '../MapLines.astro';
+import Icon from '../Icon.astro';
+
+const { conviction } = (await getEntry('home', 'home'))!.data;
+---
+<section class="conviction section" aria-labelledby="conviction-title">
+  <MapLines variant="a" tone="ochre" reveal />
+  <div class="wrap conviction__inner">
+    <h2 id="conviction-title" class="conviction__statement" data-read>{conviction.statement}</h2>
+    <a href="/about/" class="link-arrow conviction__link" data-reveal>Our story <Icon name="arrow-right" /></a>
+  </div>
+</section>
+
+<style>
+  .conviction {
+    overflow: clip;
+  }
+
+  /* One statement, one way in: the line reads as the brand's own introduction */
+  .conviction__inner {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: clamp(var(--s-5), 4vw, var(--s-6));
+  }
+
+  .conviction__statement {
+    max-width: 24ch;
+    font-size: clamp(1.75rem, 1.2rem + 2.3vw, 3.25rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .conviction__link {
+    margin-left: 2px;
+  }
+</style>

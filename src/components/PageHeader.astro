@@ -1,0 +1,107 @@
+---
+/**
+ * Opening for inner pages. With an image: full-bleed photograph, Basalt overlay and the
+ * navigation over it. Without: Natural White with the map line, navigation solid.
+ */
+import Img from './Img.astro';
+import MapLines from './MapLines.astro';
+
+interface Props {
+  title: string;
+  lead?: string;
+  kicker?: string;
+  image?: string;
+  alt?: string;
+  position?: string;
+  map?: 'a' | 'b' | 'c';
+}
+
+const { title, lead, kicker, image, alt = '', position, map = 'a' } = Astro.props;
+---
+{image ? (
+  <header class="ph ph--image on-basalt" data-intro>
+    <div class="ph__media" data-parallax="12">
+      <Img src={image} alt={alt} priority position={position} />
+    </div>
+    <div class="ph__shade" aria-hidden="true"></div>
+    <div class="wrap ph__inner" data-reveal-group>
+      {kicker && <p class="label ph__kicker" data-reveal style="--i:0">{kicker}</p>}
+      <h1 class="t-display ph__title" data-reveal style="--i:1">{title}</h1>
+      {lead && <p class="t-lead ph__lead" data-reveal style="--i:2">{lead}</p>}
+      <slot />
+    </div>
+  </header>
+) : (
+  <header class="ph ph--plain" data-intro>
+    <MapLines variant={map} tone="ochre" reveal />
+    <div class="wrap ph__inner" data-reveal-group>
+      {kicker && <p class="label muted" data-reveal style="--i:0">{kicker}</p>}
+      <h1 class="t-display ph__title" data-reveal style="--i:1">{title}</h1>
+      {lead && <p class="t-lead muted ph__lead" data-reveal style="--i:2">{lead}</p>}
+      <slot />
+    </div>
+  </header>
+)}
+
+<style>
+  .ph {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  .ph--image {
+    display: grid;
+    align-items: end;
+    min-height: min(92svh, 860px);
+  }
+
+  .ph__media {
+    position: absolute;
+    inset: -8% 0 0;
+    z-index: -2;
+  }
+
+  .ph__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ph__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to top, rgb(43 43 38 / 0.7), rgb(43 43 38 / 0.18) 55%, rgb(43 43 38 / 0.3)),
+      linear-gradient(to right, rgb(43 43 38 / 0.35), transparent 70%);
+  }
+
+  .ph__inner {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+    padding-block: calc(var(--nav-h) + var(--s-6)) clamp(var(--s-5), 6vw, var(--s-7));
+  }
+
+  .ph--plain .ph__inner {
+    padding-block: calc(var(--nav-h) + clamp(var(--s-6), 8vw, 136px)) clamp(var(--s-5), 6vw, var(--s-6));
+  }
+
+  .ph__kicker {
+    color: rgb(250 250 245 / 0.9);
+  }
+
+  .ph__title {
+    max-width: 18ch;
+  }
+
+  .ph__lead {
+    max-width: 46ch;
+  }
+
+  .ph--image .ph__lead {
+    color: rgb(250 250 245 / 0.9);
+  }
+</style>

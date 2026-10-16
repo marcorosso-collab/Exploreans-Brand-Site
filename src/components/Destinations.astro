@@ -1,0 +1,241 @@
+---
+/**
+ * "Explore destinations": the main call to action. Opens a list of the places and sends the
+ * guest straight to that property's own site, where its booking engine takes direct bookings.
+ * Without JavaScript the button is a plain link to /places/.
+ */
+import { getEntry, getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Button style: dark on light grounds, light on photography and Basalt */
+  tone?: 'dark' | 'light' | 'outline';
+  /** Which edge of the button the list lines up with */
+  align?: 'left' | 'right';
+  /** Open upwards when the button sits low on the screen */
+  direction?: 'down' | 'up';
+  class?: string;
+}
+
+const { tone = 'dark', align = 'left', direction = 'down', class: className } = Astro.props;
+const site = (await getEntry('settings', 'site'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+const id = `dest-${Math.random().toString(36).slice(2, 8)}`;
+const btnClass = {
+  dark: 'btn',
+  light: 'btn btn--light',
+  outline: 'btn btn--outline',
+}[tone];
+---
+<div class:list={['dest', `dest--${align}`, `dest--${direction}`, className]} data-dest>
+  <a href={site.cta.href} class:list={[btnClass, 'dest__btn']} aria-haspopup="true" aria-expanded="false" aria-controls={id} data-dest-btn>
+    {site.cta.label}
+    <Icon name="caret-down" class="dest__caret" />
+  </a>
+  <div class="dest__menu" id={id} data-dest-menu hidden>
+    <p class="label dest__title">Choose a destination</p>
+    <ul role="list" class="dest__list">
+      {places.map((p) => (
+        <li data-place={p.data.kind}>
+          <a href={p.data.website} class="dest__item" data-dest-link={p.data.name}>
+            <span class="dest__bar" aria-hidden="true"></span>
+            <span class="dest__text">
+              <span class="dest__name">{p.data.name}</span>
+              <span class="dest__region">{p.data.region}</span>
+            </span>
+            <Icon name="arrow-up-right" class="dest__go" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-dest]').forEach((dest) => {
+    const btn = dest.querySelector<HTMLAnchorElement>('[data-dest-btn]')!;
+    const menu = dest.querySelector<HTMLElement>('[data-dest-menu]')!;
+    const links = Array.from(menu.querySelectorAll<HTMLAnchorElement>('a'));
+    btn.setAttribute('role', 'button');
+
+    const setOpen = (open: boolean, focusFirst = false) => {
+      btn.setAttribute('aria-expanded', String(open));
+      dest.classList.toggle('is-open', open);
+      if (open) {
+        menu.hidden = false;
+        if (focusFirst) links[0]?.focus();
+      } else {
+        menu.hidden = true;
+      }
+    };
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      setOpen(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setOpen(true, true);
+      }
+    });
+    menu.addEventListener('keydown', (e) => {
+      const i = links.indexOf(document.activeElement as HTMLAnchorElement);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        links[(i + 1) % links.length].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        links[(i - 1 + links.length) % links.length].focus();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !dest.classList.contains('is-open')) return;
+      const hadFocus = dest.contains(document.activeElement);
+      setOpen(false);
+      if (hadFocus) btn.focus();
+    });
+    dest.addEventListener('focusout', (e) => {
+      if (!dest.contains(e.relatedTarget as Node)) setOpen(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (!dest.contains(e.target as Node)) setOpen(false);
+    });
+
+  });
+</script>
+
+<style>
+  .dest {
+    position: relative;
+    display: inline-block;
+  }
+
+  :global(.dest__caret) {
+    width: 14px;
+    height: 14px;
+    transition: transform 400ms var(--ease);
+  }
+
+  .dest.is-open :global(.dest__caret) {
+    transform: rotate(180deg);
+  }
+
+  .dest__menu {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 8px);
+    left: 0;
+    width: max(100%, 350px);
+    max-width: calc(100vw - var(--margin) * 2);
+    padding: 14px;
+    background: var(--natural-white);
+    color: var(--basalt);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 48px -24px rgb(43 43 38 / 0.35);
+    text-align: left;
+    animation: dest-in 320ms var(--ease-out);
+  }
+
+  .dest__menu[hidden] {
+    display: none;
+  }
+
+  .dest--right .dest__menu {
+    left: auto;
+    right: 0;
+  }
+
+  /* On phones the list always opens from the button's left edge and fits the screen */
+  @media (max-width: 639px) {
+    .dest--right .dest__menu {
+      left: 0;
+      right: auto;
+    }
+
+    .dest__menu {
+      width: min(350px, calc(100vw - var(--margin) * 2));
+    }
+  }
+
+  .dest--up .dest__menu {
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+
+  @keyframes dest-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  .dest__title {
+    padding: 4px 8px 10px;
+    color: var(--stone);
+  }
+
+  .dest__list {
+    display: grid;
+    gap: 2px;
+  }
+
+  .dest__item {
+    display: grid;
+    grid-template-columns: 4px 1fr 18px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 10px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background-color 300ms var(--ease);
+  }
+
+  .dest__item:hover,
+  .dest__item:focus-visible {
+    background: var(--linen);
+  }
+
+  .dest__item:focus-visible {
+    outline: 2px solid var(--basalt);
+    outline-offset: 0;
+  }
+
+  .dest__bar {
+    align-self: stretch;
+    border-radius: 2px;
+    background: var(--place);
+  }
+
+  .dest__text {
+    display: grid;
+    gap: 2px;
+  }
+
+  .dest__name {
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .dest__region {
+    font-family: var(--font-label);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  :global(.dest__go) {
+    width: 18px;
+    height: 18px;
+    transition: transform 300ms var(--ease);
+  }
+
+  .dest__item:hover :global(.dest__go) {
+    transform: translate(2px, -2px);
+  }
+</style>

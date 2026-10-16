@@ -1,0 +1,263 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ExperienceCard from '../../components/ExperienceCard.astro';
+import Stamp from '../../components/Stamp.astro';
+import Destinations from '../../components/Destinations.astro';
+import { FAMILIES, FAMILY_NAMES, stampsForFamily } from '../../lib/stamps';
+
+const page = (await getEntry('experiencesPage', 'experiences'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+const experiences = (await getCollection('experiences')).sort((a, b) => a.data.order - b.data.order);
+const placeOf = (id: string) => places.find((p) => p.id === id)!.data;
+---
+<Base title={page.seo_title} description={page.seo_description} navTheme="solid">
+  <PageHeader title={page.title} lead={page.lead} map="b" />
+
+  <section class="xps" aria-label="Experiences" data-xps>
+    <div class="xps__bar" data-xps-bar>
+      <div class="wrap xps__filters">
+        <div class="xps__group" role="group" aria-label="Filter by family">
+          <button type="button" class="chip" aria-pressed="true" data-filter-family="all">All</button>
+          {FAMILIES.map((f) => (
+            <button type="button" class="chip" aria-pressed="false" data-filter-family={f}>
+              <Stamp id={stampsForFamily(f)[0]} size={22} decorative class="chip__stamp" />
+              {FAMILY_NAMES[f]}
+            </button>
+          ))}
+        </div>
+        <div class="xps__group xps__group--places" role="group" aria-label="Filter by place">
+          <button type="button" class="seg" aria-pressed="true" data-filter-place="all">All places</button>
+          {places.map((p) => (
+            <button type="button" class="seg" aria-pressed="false" data-filter-place={p.id} data-place={p.data.kind}>
+              <span class="seg__bar" aria-hidden="true"></span>{p.data.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <p class="xps__count data muted" role="status" aria-live="polite" data-xps-count>
+        Showing all {experiences.length} experiences
+      </p>
+      <h2 class="visually-hidden">All experiences</h2>
+      <div class="xps__grid" data-xps-grid>
+        {experiences.map((e, i) => {
+          const place = placeOf(e.data.place);
+          return <ExperienceCard experience={e} placeName={place.name} placeKind={place.kind} priority={i < 3} />;
+        })}
+      </div>
+      <p class="xps__empty t-lead" hidden data-xps-empty>
+        More experiences are on their way here. In the meantime, every family is waiting at the other place.
+      </p>
+      <div class="xps__note">
+        <p class="muted measure">{page.structure_note}</p>
+        <Destinations direction="up" align="right" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { gsap } from 'gsap';
+  import { Flip } from 'gsap/Flip';
+  import { reduceMotion } from '../../scripts/motion';
+
+  gsap.registerPlugin(Flip);
+
+  const root = document.querySelector<HTMLElement>('[data-xps]');
+  if (root) {
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-xp]'));
+    const famButtons = root.querySelectorAll<HTMLButtonElement>('[data-filter-family]');
+    const placeButtons = root.querySelectorAll<HTMLButtonElement>('[data-filter-place]');
+    const count = root.querySelector<HTMLElement>('[data-xps-count]')!;
+    const empty = root.querySelector<HTMLElement>('[data-xps-empty]')!;
+    const names: Record<string, string> = {};
+    placeButtons.forEach((b) => (names[b.dataset.filterPlace!] = b.textContent!.trim()));
+
+    const params = new URLSearchParams(location.search);
+    let family = params.get('family') ?? 'all';
+    let place = params.get('place') ?? 'all';
+    if (![...famButtons].some((b) => b.dataset.filterFamily === family)) family = 'all';
+    if (![...placeButtons].some((b) => b.dataset.filterPlace === place)) place = 'all';
+
+    const apply = (animate: boolean) => {
+      famButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filterFamily === family)));
+      placeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filterPlace === place)));
+      const state = animate && !reduceMotion ? Flip.getState(cards) : null;
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = (family === 'all' || card.dataset.family === family) && (place === 'all' || card.dataset.placeId === place);
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      empty.hidden = shown > 0;
+      const famLabel = family === 'all' ? '' : ` ${family.charAt(0).toUpperCase()}${family.slice(1)}`;
+      const placeLabel = place === 'all' ? '' : ` at ${names[place]}`;
+      count.textContent = `Showing ${shown}${famLabel} ${shown === 1 ? 'experience' : 'experiences'}${placeLabel}`;
+      if (state) {
+        Flip.from(state, {
+          duration: 0.6,
+          ease: 'power2.inOut',
+          absolute: true,
+          onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.15 }),
+          onLeave: (els) => gsap.to(els, { opacity: 0, duration: 0.3 }),
+          onComplete: () => window.dispatchEvent(new Event('resize')),
+        });
+      }
+      const url = new URL(location.href);
+      family === 'all' ? url.searchParams.delete('family') : url.searchParams.set('family', family);
+      place === 'all' ? url.searchParams.delete('place') : url.searchParams.set('place', place);
+      history.replaceState(null, '', url);
+    };
+
+    famButtons.forEach((b) =>
+      b.addEventListener('click', () => {
+        family = b.dataset.filterFamily!;
+        apply(true);
+      }),
+    );
+    placeButtons.forEach((b) =>
+      b.addEventListener('click', () => {
+        place = b.dataset.filterPlace!;
+        apply(true);
+      }),
+    );
+    apply(false);
+  }
+</script>
+
+<style>
+  .xps {
+    padding-bottom: clamp(var(--s-6), 9vw, 136px);
+  }
+
+  .xps__bar {
+    position: sticky;
+    top: var(--nav-h-compact);
+    z-index: 5;
+    background: color-mix(in srgb, var(--natural-white) 94%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-block: 1px solid var(--hairline);
+  }
+
+  .xps__filters {
+    display: grid;
+    gap: 12px;
+    padding-block: 14px;
+  }
+
+  .xps__group {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--margin) * -1);
+    padding-inline: var(--margin);
+  }
+
+  .xps__group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip,
+  .seg {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: var(--natural-white);
+    font-family: var(--font-label);
+    font-size: var(--text-label);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition:
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+
+  .chip:hover,
+  .seg:hover {
+    border-color: var(--basalt);
+  }
+
+  .chip[aria-pressed='true'],
+  .seg[aria-pressed='true'] {
+    background: var(--basalt);
+    border-color: var(--basalt);
+    color: var(--natural-white);
+  }
+
+  .seg {
+    border-radius: var(--radius);
+  }
+
+  .seg__bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    background: var(--place);
+  }
+
+  .seg[aria-pressed='true'] .seg__bar {
+    box-shadow: 0 0 0 1px rgb(250 250 245 / 0.5);
+  }
+
+  @media (min-width: 1100px) {
+    .xps__group {
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+    }
+  }
+
+  .xps__count {
+    margin-block: var(--s-5) var(--s-4);
+  }
+
+  .xps__grid {
+    display: grid;
+    gap: var(--gutter);
+    align-items: start;
+  }
+
+  @media (min-width: 700px) {
+    .xps__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .xps__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .xps__grid :global([data-xp][hidden]) {
+    display: none;
+  }
+
+  .xps__empty {
+    padding: var(--s-6) 0;
+    max-width: 40ch;
+  }
+
+  .xps__note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--hairline);
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+import '@fontsource/gelasio/latin-400.css';
+import '@fontsource/gelasio/latin-400-italic.css';
+import '@fontsource/gelasio/latin-700.css';
+import '@fontsource/carlito/latin-400.css';
+import '@fontsource/carlito/latin-700.css';
+import '../styles/global.css';
+
+import { getEntry, getCollection } from 'astro:content';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  /** 'overlay' sits over a dark hero; 'solid' is for pages that open on Natural White */
+  navTheme?: 'overlay' | 'solid';
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+}
+
+const site = (await getEntry('settings', 'site'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+
+const { title, description, ogImage = site.og_image, navTheme = 'overlay', type = 'website', jsonLd = [] } = Astro.props;
+const siteUrl = Astro.site!.toString().replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+const graph = [
+  {
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'Exploreans',
+    url: `${siteUrl}/`,
+    slogan: 'Explore beyond. Explore within.',
+    logo: `${siteUrl}/icon-512.png`,
+    parentOrganization: { '@type': 'Organization', name: 'Planhotel Hospitality Group', url: 'https://www.planhotel.com/' },
+    ...(site.social.length ? { sameAs: site.social.map((s) => s.href) } : {}),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    url: `${siteUrl}/`,
+    name: 'Exploreans',
+    publisher: { '@id': `${siteUrl}/#organization` },
+  },
+  ...places.map((p) => ({
+    '@type': 'LodgingBusiness',
+    '@id': `${p.data.website}#lodging`,
+    name: `Exploreans ${p.data.name}`,
+    description: p.data.summary,
+    url: p.data.website,
+    image: `${siteUrl}${p.data.hero_image}`,
+    brand: { '@id': `${siteUrl}/#organization` },
+    address: { '@type': 'PostalAddress', addressLocality: p.data.region.split(',')[0], addressCountry: 'KE' },
+    ...(p.data.latitude && p.data.longitude
+      ? { geo: { '@type': 'GeoCoordinates', latitude: p.data.latitude, longitude: p.data.longitude } }
+      : {}),
+    ...(p.data.email ? { email: p.data.email } : {}),
+    ...(p.data.phone ? { telephone: p.data.phone } : {}),
+  })),
+  ...jsonLd,
+];
+---
+<!doctype html>
+<html lang="en-GB" data-nav-theme={navTheme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#2b2b26" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Exploreans" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <slot name="head" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')} />
+
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSSCSR5C');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics (GA4) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-QV5BLB9NV3"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QV5BLB9NV3');
+    </script>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSSCSR5C" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+
+    <a class="skip-link label" href="#main">Skip to content</a>
+    <Nav theme={navTheme} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <div id="follower" class="follower" aria-hidden="true"><span class="follower__label"></span></div>
+
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 420ms;
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  .follower {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: var(--z-follower);
+    pointer-events: none;
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .follower {
+      display: block;
+    }
+  }
+
+  .follower__label {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    margin: -48px 0 0 -48px;
+    border-radius: 50%;
+    background: var(--natural-white);
+    color: var(--basalt);
+    font-family: var(--font-label);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: scale(0.2);
+    opacity: 0;
+    transition:
+      transform 450ms var(--ease-out),
+      opacity 300ms var(--ease);
+  }
+
+  .follower.is-on .follower__label {
+    transform: scale(1);
+    opacity: 1;
+  }
+</style>

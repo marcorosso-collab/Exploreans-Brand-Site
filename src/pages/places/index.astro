@@ -1,0 +1,470 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Img from '../../components/Img.astro';
+import Icon from '../../components/Icon.astro';
+import Stamp from '../../components/Stamp.astro';
+import MapLines from '../../components/MapLines.astro';
+import { FAMILIES, FAMILY_NAMES } from '../../lib/stamps';
+
+const page = (await getEntry('placesPage', 'places'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+const experiences = (await getCollection('experiences')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={page.seo_title} description={page.seo_description} ogImage={page.image} navTheme="solid">
+  <PageHeader title={page.title} lead={page.lead} map="c" />
+
+  <nav class="diptych wrap" aria-label="The places">
+    {places.map((p) => (
+      <a href={`#${p.id}`} class="diptych__item" data-place={p.data.kind} data-follow="Explore">
+        <span class="diptych__media" data-clip>
+          <Img src={p.data.hero_image} alt="" sizes="(min-width: 768px) 50vw, 100vw" priority={p.data.order === 1} />
+        </span>
+        <span class="diptych__label">
+          <span class="label label--place">{p.data.kind_label} &middot; {p.data.region}</span>
+          <span class="t-subhead">{p.data.name}</span>
+        </span>
+      </a>
+    ))}
+  </nav>
+
+  {places.map((p, index) => {
+    const xps = experiences.filter((e) => e.data.place === p.id);
+    const byFamily = FAMILIES.map((f) => ({ family: f, items: xps.filter((e) => e.data.family === f) }));
+    const storyImage = p.data.gallery[0];
+    return (
+      <article id={p.id} class:list={['place', { 'place--alt': index % 2 === 1 }]} data-place={p.data.kind} aria-labelledby={`${p.id}-title`}>
+        <header class="wrap place__head" data-reveal-group>
+          <p class="label label--place" data-reveal>{p.data.kind_label} &middot; {p.data.region}</p>
+          <h2 id={`${p.id}-title`} class="t-display" data-reveal>{p.data.name}</h2>
+          <p class="t-lead muted measure" data-reveal>{p.data.summary}</p>
+        </header>
+
+        <div class="wrap place__story">
+          <div class="place__story-text" data-reveal-group>
+            <h3 class="label" data-reveal>What you will live</h3>
+            <p class="t-subhead place__story-copy" data-reveal>{p.data.story}</p>
+            <p class="place__leads" data-reveal><span class="label muted">Led by</span> {p.data.leads}</p>
+          </div>
+          <figure class="place__story-media" data-clip>
+            <Img src={storyImage.image} alt={storyImage.alt} sizes="(min-width: 1024px) 50vw, 100vw" />
+          </figure>
+        </div>
+
+        <div class="place__gallery" data-drag data-follow="Drag">
+          <ul role="list" class="place__strip" data-drag-track>
+            {p.data.gallery.slice(1).map((g) => (
+              <li class="place__shot">
+                <Img src={g.image} alt={g.alt} sizes="(min-width: 768px) 40vw, 80vw" />
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <section class="wrap place__xps" aria-labelledby={`${p.id}-xps`}>
+          <div class="place__xps-head">
+            <h3 id={`${p.id}-xps`} class="t-headline">Five ways to explore at {p.data.name}</h3>
+            <a href={`/experiences/?place=${p.id}`} class="link-arrow">All {p.data.name} experiences <Icon name="arrow-right" /></a>
+          </div>
+          <ol role="list" class="place__families">
+            {byFamily.map(({ family, items }) => (
+              <li class="place__family" data-reveal>
+                <p class="label muted">{FAMILY_NAMES[family]}</p>
+                <ul role="list">
+                  {items.map((e) => (
+                    <li>
+                      <a href={`/experiences/?place=${p.id}&family=${family}`} class="place__xp">
+                        <Stamp id={e.data.stamp} size={40} decorative />
+                        <span>{e.data.name}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section class="wrap place__expect" aria-labelledby={`${p.id}-expect`}>
+          <h3 id={`${p.id}-expect`} class="t-headline">What to expect</h3>
+          <dl class="place__facts">
+            {p.data.expect.map((x) => (
+              <div class="place__fact" data-reveal>
+                <dt class="label label--place">{x.label}</dt>
+                <dd>{x.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <div class="wrap">
+          <div class="place__cta on-place">
+            <MapLines variant={index % 2 ? 'a' : 'b'} tone="light" />
+            <div class="place__cta-text">
+              <p class="t-headline">Stay at {p.data.name}</p>
+              {(p.data.email || p.data.phone) && (
+                <p class="place__contact data">
+                  {p.data.email && <a href={`mailto:${p.data.email}`} class="link">{p.data.email}</a>}
+                  {p.data.phone && <a href={`tel:${p.data.phone.replace(/\s/g, '')}`} class="link">{p.data.phone}</a>}
+                </p>
+              )}
+            </div>
+            <div class="place__cta-actions">
+              <a href={p.data.website} class="btn btn--light" data-dest-link={p.data.name}>{p.data.website_label} <Icon name="arrow-up-right" class="arrow" /></a>
+              {p.data.booking_url && <a href={p.data.booking_url} class="btn btn--ghost-light" data-dest-link={`${p.data.name} booking`}>Book your stay <Icon name="arrow-up-right" class="arrow" /></a>}
+            </div>
+          </div>
+        </div>
+      </article>
+    );
+  })}
+
+  <section class="next on-basalt section" aria-labelledby="next-title">
+    <MapLines variant="a" tone="light" lantern reveal />
+    <div class="wrap next__inner" data-reveal-group>
+      <h2 id="next-title" class="t-headline" data-reveal>{page.next_headline}</h2>
+      <p class="t-lead muted measure" data-reveal>{page.next_body}</p>
+      <a href="/about/#test" class="link-arrow" data-reveal>The seven questions <Icon name="arrow-right" /></a>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { reduceMotion } from '../../scripts/motion';
+
+  // Gallery strips: native scroll on touch, drag to pan with a mouse
+  document.querySelectorAll<HTMLElement>('[data-drag]').forEach((strip) => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    let down = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = 0;
+    strip.addEventListener('pointerdown', (e) => {
+      down = true;
+      moved = 0;
+      startX = e.clientX;
+      startScroll = strip.scrollLeft;
+      strip.classList.add('is-dragging');
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      moved = Math.abs(dx);
+      strip.scrollLeft = startScroll - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      down = false;
+      strip.classList.remove('is-dragging');
+    });
+    strip.addEventListener('click', (e) => moved > 6 && e.preventDefault(), true);
+    strip.addEventListener('dragstart', (e) => e.preventDefault());
+    if (reduceMotion) strip.style.scrollBehavior = 'auto';
+  });
+</script>
+
+<style>
+  .diptych {
+    display: grid;
+    gap: var(--gutter);
+    padding-bottom: clamp(var(--s-6), 8vw, 120px);
+  }
+
+  @media (min-width: 768px) {
+    .diptych {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .diptych__item {
+    display: grid;
+    gap: var(--s-3);
+    text-decoration: none;
+  }
+
+  .diptych__media {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border-bottom: 8px solid var(--place);
+  }
+
+  .diptych__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1400ms var(--ease-out);
+  }
+
+  .diptych__item:hover .diptych__media :global(img) {
+    transform: scale(1.04);
+  }
+
+  .diptych__label {
+    display: grid;
+    gap: 6px;
+  }
+
+  .place {
+    padding-block: clamp(var(--s-6), 9vw, 152px);
+    border-top: 1px solid var(--hairline);
+    scroll-margin-top: var(--nav-h-compact);
+  }
+
+  .place__head {
+    display: grid;
+    gap: var(--s-3);
+    margin-bottom: var(--s-6);
+  }
+
+  .place__story {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+  }
+
+  .place__story-text {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .place__story-copy {
+    max-width: 34ch;
+  }
+
+  .place__leads {
+    display: grid;
+    gap: 4px;
+    max-width: 40ch;
+  }
+
+  .place__story-media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .place__story-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 1024px) {
+    .place__story {
+      grid-template-columns: 6fr 5fr;
+      gap: var(--s-7);
+    }
+
+    .place--alt .place__story-text {
+      order: 2;
+    }
+
+    .place--alt .place__story {
+      grid-template-columns: 5fr 6fr;
+    }
+  }
+
+  .place__gallery {
+    margin-top: var(--s-6);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .place__gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .place__gallery.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  .place__strip {
+    display: flex;
+    gap: var(--gutter);
+    width: max-content;
+    padding-inline: var(--margin);
+  }
+
+  .place__shot {
+    flex: none;
+    width: clamp(260px, 38vw, 560px);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius);
+    scroll-snap-align: start;
+    scroll-margin-left: var(--margin);
+  }
+
+  .place__shot:nth-child(3n + 2) {
+    aspect-ratio: 3 / 4;
+    width: clamp(200px, 26vw, 380px);
+  }
+
+  .place__shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .place__xps {
+    margin-top: clamp(var(--s-6), 8vw, 120px);
+  }
+
+  .place__xps-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-3);
+    margin-bottom: var(--s-5);
+  }
+
+  .place__xps-head h3 {
+    max-width: 16ch;
+  }
+
+  .place__families {
+    display: grid;
+    gap: var(--s-4) var(--gutter);
+  }
+
+  @media (min-width: 700px) {
+    .place__families {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .place__families {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  .place__family {
+    display: grid;
+    align-content: start;
+    gap: var(--s-3);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--basalt);
+  }
+
+  .place__family ul {
+    display: grid;
+    gap: 10px;
+  }
+
+  .place__xp {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  .place__xp:hover span:last-child {
+    text-decoration: underline;
+    text-decoration-color: var(--warm-ochre);
+    text-underline-offset: 0.2em;
+  }
+
+  .place__expect {
+    margin-top: clamp(var(--s-6), 8vw, 120px);
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .place__facts {
+    display: grid;
+    gap: var(--s-4) var(--gutter);
+  }
+
+  @media (min-width: 700px) {
+    .place__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .place__expect {
+      grid-template-columns: 4fr 8fr;
+      align-items: start;
+    }
+  }
+
+  .place__fact {
+    display: grid;
+    gap: 6px;
+  }
+
+  .place__fact dd {
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  .place__cta {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: var(--s-5);
+    margin-top: clamp(var(--s-6), 8vw, 120px);
+    padding: clamp(var(--s-5), 5vw, var(--s-6));
+    border-radius: var(--radius);
+  }
+
+  .place__cta-text,
+  .place__cta-actions {
+    position: relative;
+  }
+
+  .place__cta-text {
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .place__cta-text .t-headline {
+    max-width: 18ch;
+  }
+
+  .place__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+  }
+
+  .place__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (min-width: 1024px) {
+    .place__cta {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .place__cta-actions {
+      justify-content: flex-end;
+      max-width: 520px;
+    }
+  }
+
+  .next {
+    overflow: clip;
+  }
+
+  .next__inner {
+    position: relative;
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+  }
+</style>
