@@ -1,30 +1,27 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import Letter from '../components/Letter.astro';
-import Pillars from '../components/Pillars.astro';
-import Places from '../components/Places.astro';
-import Beyond from '../components/Beyond.astro';
-import FieldNotes from '../components/FieldNotes.astro';
-import Group from '../components/Group.astro';
-import Journal from '../components/Journal.astro';
-import Footer from '../components/Footer.astro';
 import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Conviction from '../components/home/Conviction.astro';
+import Idea from '../components/home/Idea.astro';
+import Pillars from '../components/home/Pillars.astro';
+import Places from '../components/home/Places.astro';
+import Families from '../components/home/Families.astro';
+import Passport from '../components/home/Passport.astro';
+import Moment from '../components/home/Moment.astro';
+import Stories from '../components/home/Stories.astro';
 
-// Load hero section for OG image
-const heroEntry = await getEntry('hero', 'hero');
-const heroData = heroEntry?.data ?? {};
+const home = (await getEntry('home', 'home'))!.data;
 ---
-<Layout ogImage={heroData.background_image}>
-  <Nav />
+<Base title={home.seo_title} description={home.seo_description} navTheme="overlay">
+  <link slot="head" rel="preload" as="image" href={home.hero.poster} fetchpriority="high" />
   <Hero />
-  <Letter />
+  <Conviction />
+  <Idea />
   <Pillars />
   <Places />
-  <Beyond />
-  <FieldNotes />
-  <Group />
-  <Journal />
-  <Footer />
-</Layout>
+  <Families />
+  <Passport />
+  <Moment />
+  <Stories />
+</Base>

@@ -1,0 +1,13 @@
+{
+  "order": 1,
+  "name": "On foot at first light",
+  "family": "adventure",
+  "stamp": "on-foot",
+  "place": "mara-river-camp",
+  "led_by": "A Maasai guide from the camp",
+  "when": "Early morning, at walking pace",
+  "live": "The grass is still wet and the river is still in mist. Your guide kneels by a fresh track and reads the night that just passed, animal by animal.",
+  "good_to_know": "Comfortable walking shoes and a warm layer. The pace is gentle and set by the group.",
+  "image": "/images/places/mara-river-camp/mara-river-camp-adventure-guides-at-the-river-01.webp",
+  "alt": "A guide and a guest standing among the rocks of the Mara River"
+}

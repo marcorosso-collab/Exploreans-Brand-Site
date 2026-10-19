@@ -1,0 +1,401 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PassportBook from '../../components/PassportBook.astro';
+import MapLines from '../../components/MapLines.astro';
+import Stamp from '../../components/Stamp.astro';
+import Img from '../../components/Img.astro';
+import Icon from '../../components/Icon.astro';
+import Destinations from '../../components/Destinations.astro';
+
+const page = (await getEntry('passport', 'passport'))!.data;
+---
+<Base title={page.seo_title} description={page.seo_description} navTheme="solid">
+  <header class="pp-hero" data-intro>
+    <MapLines variant="c" tone="ochre" reveal />
+    <div class="wrap pp-hero__grid">
+      <div class="pp-hero__text" data-reveal-group>
+        <p class="label muted" data-reveal style="--i:0">The Exploreans Passport <span class="soon">Coming soon</span></p>
+        <h1 class="t-display" data-reveal style="--i:1">{page.title}</h1>
+        <p class="t-lead muted" data-reveal style="--i:2">{page.lead}</p>
+      </div>
+      <div class="pp-hero__book">
+        <PassportBook mode="play" />
+        <p class="label muted pp-hero__caption">Illustration of a Mara River Camp page</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section section--tight steps" aria-labelledby="steps-title">
+    <div class="wrap">
+      <h2 id="steps-title" class="t-headline steps__title" data-reveal>How it works</h2>
+      <ol class="steps__list" role="list" data-reveal-group>
+        {page.steps.map((step, i) => (
+          <li class="step" data-reveal>
+            <span class="step__n" aria-hidden="true">{i + 1}</span>
+            <h3 class="t-subhead">{step.title}</h3>
+            <p class="muted">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight spread" aria-labelledby="spread-title">
+    <div class="wrap spread__grid">
+      <div data-reveal-group>
+        <h2 id="spread-title" class="t-headline" data-reveal>{page.spread.headline}</h2>
+        <p class="t-lead muted measure" data-reveal>{page.spread.body}</p>
+      </div>
+      <div class="rewards">
+        {page.rewards.map((r, i) => (
+          <article class:list={['reward', { 'reward--linen': i === 1 }]} data-reveal>
+            <span class="reward__stamp" data-place={i === 0 ? 'safari' : undefined}>
+              {i === 0 ? <Stamp id="place-mara-river-camp" size={72} label="Mara River Camp place stamp" /> : <Stamp id="tasting" size={72} label="Tasting stamp" />}
+            </span>
+            <div class="reward__text">
+              <p class="label muted">{r.label}</p>
+              <h3 class="t-subhead">{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+          </article>
+        ))}
+        <p class="rewards__note t-lead">{page.rewards_note}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="journal on-basalt section" aria-labelledby="journal-title" data-journal>
+    <MapLines variant="b" tone="light" lantern />
+    <div class="wrap journal__grid">
+      <figure class="journal__media" data-clip>
+        <Img src={page.journal.image} alt={page.journal.alt} position="34% 50%" sizes="(min-width: 1024px) 45vw, 100vw" />
+      </figure>
+      <div class="journal__text">
+        <p class="label accent" data-reveal>The Travel Journal <span class="soon">Coming soon</span></p>
+        <h2 id="journal-title" class="t-headline" data-reveal>{page.journal.headline}</h2>
+        <p class="t-lead muted" data-reveal>{page.journal.body}</p>
+
+        <div class="prompts" data-reveal>
+          <ol class="prompts__list" role="list" aria-label="Journal prompts" data-prompts>
+            {page.journal.prompts.map((p, i) => (
+              <li class:list={['prompt', { 'is-active': i === 0 }]} data-prompt={i} aria-hidden={i === 0 ? undefined : 'true'}>
+                <p class="label accent">{p.direction === 'beyond' ? 'Explore beyond' : 'Explore within'}</p>
+                <p class="t-quote prompt__q">{p.prompt}</p>
+              </li>
+            ))}
+          </ol>
+          <div class="prompts__controls">
+            <button type="button" class="prompts__btn" aria-label="Previous prompt" data-prompt-prev><Icon name="arrow-right" class="flip" /></button>
+            <span class="data muted" aria-live="polite" data-prompt-count>1 of {page.journal.prompts.length}</span>
+            <button type="button" class="prompts__btn" aria-label="Next prompt" data-prompt-next><Icon name="arrow-right" /></button>
+          </div>
+        </div>
+
+        <p class="journal__privacy" data-reveal>{page.journal.privacy}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight pp-cta">
+    <div class="wrap pp-cta__inner" data-reveal-group>
+      <p class="t-headline" data-reveal>Coming soon to every Exploreans.</p>
+      <div class="pp-cta__actions" data-reveal>
+        <Destinations direction="up" />
+        <a href="/experiences/" class="btn btn--outline">See the experiences</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { reduceMotion } from '../../scripts/motion';
+
+  const root = document.querySelector<HTMLElement>('[data-journal]');
+  if (root) {
+    const prompts = Array.from(root.querySelectorAll<HTMLElement>('[data-prompt]'));
+    const count = root.querySelector<HTMLElement>('[data-prompt-count]')!;
+    let i = 0;
+    let timer = 0;
+    const show = (n: number) => {
+      i = (n + prompts.length) % prompts.length;
+      prompts.forEach((p, k) => {
+        p.classList.toggle('is-active', k === i);
+        p.toggleAttribute('aria-hidden', k !== i);
+        if (k !== i) p.setAttribute('aria-hidden', 'true');
+        else p.removeAttribute('aria-hidden');
+      });
+      count.textContent = `${i + 1} of ${prompts.length}`;
+    };
+    const auto = () => {
+      window.clearInterval(timer);
+      if (!reduceMotion) timer = window.setInterval(() => show(i + 1), 6500);
+    };
+    root.querySelector('[data-prompt-prev]')!.addEventListener('click', () => {
+      show(i - 1);
+      auto();
+    });
+    root.querySelector('[data-prompt-next]')!.addEventListener('click', () => {
+      show(i + 1);
+      auto();
+    });
+    // Stop rotating when the reader is interacting with the prompts
+    root.querySelector('.prompts')!.addEventListener('pointerenter', () => window.clearInterval(timer));
+    root.querySelector('.prompts')!.addEventListener('pointerleave', auto);
+    root.querySelector('.prompts')!.addEventListener('focusin', () => window.clearInterval(timer));
+    auto();
+  }
+</script>
+
+<style>
+  .pp-hero {
+    position: relative;
+    overflow: clip;
+    padding-block: calc(var(--nav-h) + clamp(var(--s-5), 6vw, var(--s-7))) clamp(var(--s-6), 8vw, 120px);
+  }
+
+  .pp-hero__grid {
+    position: relative;
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .pp-hero__caption {
+    margin-top: var(--s-2);
+    text-align: center;
+  }
+
+  .pp-hero__text {
+    display: grid;
+    gap: var(--s-4);
+    max-width: 30ch;
+  }
+
+  .pp-hero__text :global(.t-display) {
+    font-size: clamp(2.5rem, 1.5rem + 3vw, 4.25rem);
+  }
+
+  @media (min-width: 1100px) {
+    .pp-hero__grid {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  .steps__title {
+    margin-bottom: var(--s-5);
+  }
+
+  .steps__list {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+  }
+
+  @media (min-width: 700px) {
+    .steps__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .steps__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .step {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .step__n {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--basalt);
+    color: var(--natural-white);
+    font-family: var(--font-label);
+    font-size: 1rem;
+  }
+
+  .spread__grid {
+    display: grid;
+    gap: var(--s-6);
+    align-items: start;
+  }
+
+  @media (min-width: 1100px) {
+    .spread__grid {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  .rewards {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  @media (min-width: 700px) {
+    .rewards {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .rewards__note {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .reward {
+    display: grid;
+    align-content: start;
+    gap: var(--s-4);
+    padding: var(--s-4);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+
+  .reward--linen {
+    background: var(--linen);
+    border-color: var(--linen);
+  }
+
+  .reward__stamp {
+    color: var(--place);
+  }
+
+  .reward__text {
+    display: grid;
+    gap: 8px;
+  }
+
+  .rewards__note {
+    margin-top: var(--s-3);
+  }
+
+  .journal {
+    overflow: clip;
+  }
+
+  .journal__grid {
+    position: relative;
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .journal__grid {
+      grid-template-columns: 5fr 6fr;
+      gap: var(--s-7);
+    }
+  }
+
+  .journal__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .journal__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .journal__text {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .prompts {
+    margin-top: var(--s-4);
+    padding: var(--s-4) 0;
+    border-block: 1px solid rgb(250 250 245 / 0.18);
+  }
+
+  .prompts__list {
+    display: grid;
+    padding: 0;
+    margin: 0;
+  }
+
+  .prompt {
+    grid-area: 1 / 1;
+    display: grid;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 600ms var(--ease),
+      transform 600ms var(--ease);
+    pointer-events: none;
+  }
+
+  .prompt.is-active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .prompt__q {
+    max-width: 26ch;
+    color: var(--natural-white);
+  }
+
+  .prompts__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-top: var(--s-4);
+  }
+
+  .prompts__btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgb(250 250 245 / 0.4);
+    border-radius: 50%;
+    background: none;
+    transition: border-color var(--dur) var(--ease);
+  }
+
+  .prompts__btn:hover {
+    border-color: var(--natural-white);
+  }
+
+  .prompts__btn :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .prompts__btn :global(.flip) {
+    transform: scaleX(-1);
+  }
+
+  .journal__privacy {
+    font-style: italic;
+    color: var(--warm-ochre);
+  }
+
+  .pp-cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+
+  .pp-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

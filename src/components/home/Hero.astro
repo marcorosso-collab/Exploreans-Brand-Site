@@ -1,0 +1,333 @@
+---
+import { getEntry } from 'astro:content';
+import Img from '../Img.astro';
+import Icon from '../Icon.astro';
+
+const home = (await getEntry('home', 'home'))!.data;
+const h = home.hero;
+---
+<section class="hero on-basalt" data-hero data-intro aria-labelledby="hero-title">
+  <div class="hero__media" data-parallax="10">
+    <div class="hero__scene is-active" data-scene="beyond">
+      <video
+        class="hero__video"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={h.poster}
+        aria-label={h.beyond_alt}
+        data-hero-video
+      >
+        <source src={h.video_mobile} type="video/mp4" media="(max-width: 767px)" />
+        <source src={h.video} type="video/mp4" />
+      </video>
+    </div>
+    <div class="hero__scene" data-scene="within">
+      <Img src={h.within_image} alt={h.within_alt} class="hero__img" />
+    </div>
+    <div class="hero__shade" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__content wrap">
+    <h1 id="hero-title" class="t-display hero__title" data-hero-in>
+      <span class="hero__line is-active" data-line="beyond">{h.line_beyond}</span>
+      <span class="hero__line" data-line="within">{h.line_within}</span>
+    </h1>
+  </div>
+
+  <div class="hero__foot wrap" data-hero-in>
+    <p class="hero__caption data" aria-hidden="true">
+      <span class="hero__cap is-active" data-cap="beyond">{h.beyond_caption}</span>
+      <span class="hero__cap" data-cap="within">{h.within_caption}</span>
+    </p>
+    <div class="hero__controls" role="group" aria-label="Hero scene">
+      <button type="button" class="hero__tab label" aria-pressed="true" data-scene-btn="beyond">Beyond</button>
+      <button type="button" class="hero__tab label" aria-pressed="false" data-scene-btn="within">Within</button>
+      <button type="button" class="hero__pause" aria-label="Pause the film" data-hero-pause>
+        <span class="hero__pause-icon" data-icon="pause"><Icon name="pause" /></span>
+        <span class="hero__pause-icon" data-icon="play" hidden><Icon name="play" /></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { reduceMotion } from '../../scripts/motion';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const video = hero.querySelector<HTMLVideoElement>('[data-hero-video]')!;
+    const pauseBtn = hero.querySelector<HTMLButtonElement>('[data-hero-pause]')!;
+    const scenes = hero.querySelectorAll<HTMLElement>('[data-scene]');
+    const lines = hero.querySelectorAll<HTMLElement>('[data-line]');
+    const caps = hero.querySelectorAll<HTMLElement>('[data-cap]');
+    const tabs = hero.querySelectorAll<HTMLButtonElement>('[data-scene-btn]');
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+
+    let current: 'beyond' | 'within' = 'beyond';
+    let paused = reduceMotion || Boolean(saveData);
+    let hovering = false;
+    let timer = 0;
+
+    const show = (scene: 'beyond' | 'within') => {
+      current = scene;
+      const toggle = (els: NodeListOf<HTMLElement>, attr: string) =>
+        els.forEach((el) => el.classList.toggle('is-active', el.dataset[attr] === scene));
+      toggle(scenes, 'scene');
+      toggle(lines, 'line');
+      toggle(caps, 'cap');
+      tabs.forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.sceneBtn === scene)));
+      if (scene === 'beyond' && !paused) video.play().catch(() => {});
+    };
+
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (paused || hovering) return;
+      timer = window.setTimeout(() => {
+        show(current === 'beyond' ? 'within' : 'beyond');
+        schedule();
+      }, current === 'beyond' ? 9400 : 6000);
+    };
+
+    const setPaused = (value: boolean) => {
+      paused = value;
+      pauseBtn.setAttribute('aria-label', value ? 'Play the film' : 'Pause the film');
+      pauseBtn.querySelector<HTMLElement>('[data-icon="pause"]')!.hidden = value;
+      pauseBtn.querySelector<HTMLElement>('[data-icon="play"]')!.hidden = !value;
+      if (value) {
+        video.pause();
+        window.clearTimeout(timer);
+      } else {
+        if (current === 'beyond') video.play().catch(() => {});
+        schedule();
+      }
+    };
+
+    // Hover either half of the master line to see its direction
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      lines.forEach((line) => {
+        line.addEventListener('pointerenter', () => {
+          hovering = true;
+          window.clearTimeout(timer);
+          show(line.dataset.line as 'beyond' | 'within');
+        });
+        line.addEventListener('pointerleave', () => {
+          hovering = false;
+          schedule();
+        });
+      });
+    }
+
+    tabs.forEach((tab) =>
+      tab.addEventListener('click', () => {
+        show(tab.dataset.sceneBtn as 'beyond' | 'within');
+        schedule();
+      }),
+    );
+    pauseBtn.addEventListener('click', () => setPaused(!paused));
+
+    // Only play while the hero is on screen
+    new IntersectionObserver(([entry]) => {
+      if (paused) return;
+      if (entry.isIntersecting) {
+        if (current === 'beyond') video.play().catch(() => {});
+        schedule();
+      } else {
+        video.pause();
+        window.clearTimeout(timer);
+      }
+    }).observe(hero);
+
+    setPaused(paused);
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: -6% 0 0;
+    z-index: -1;
+  }
+
+  .hero__scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1400ms var(--ease);
+  }
+
+  .hero__scene.is-active {
+    opacity: 1;
+  }
+
+  .hero__video,
+  .hero__scene :global(.hero__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__scene :global(.hero__img) {
+    transform: scale(1.08);
+    transition: transform 9000ms linear;
+  }
+
+  .hero__scene.is-active :global(.hero__img) {
+    transform: scale(1);
+  }
+
+  /* Basalt overlay where type sits on a busy image */
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgb(43 43 38 / 0.72) 0%, rgb(43 43 38 / 0.32) 42%, rgb(43 43 38 / 0.12) 70%, rgb(43 43 38 / 0.28) 100%),
+      linear-gradient(to right, rgb(43 43 38 / 0.38), transparent 65%);
+  }
+
+  .hero__content {
+    align-self: end;
+    display: grid;
+    justify-items: start;
+    gap: var(--s-4);
+    padding-top: calc(var(--nav-h) + var(--s-6));
+    padding-bottom: var(--s-5);
+  }
+
+  /* The master line supports the wordmark rather than competing with it */
+  .hero__title {
+    display: grid;
+    max-width: 16ch;
+    font-size: clamp(2.125rem, 1.55rem + 2.2vw, 3.5rem);
+    line-height: 1.12;
+  }
+
+  .hero__line {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    opacity: 0.5;
+    transition: opacity 900ms var(--ease);
+  }
+
+  .hero__line.is-active {
+    opacity: 1;
+  }
+
+  .hero__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+    padding-block: var(--s-3) var(--s-4);
+    border-top: 1px solid rgb(250 250 245 / 0.2);
+  }
+
+  .hero__caption {
+    position: relative;
+    flex: 1;
+    min-height: 1.4em;
+    color: rgb(250 250 245 / 0.86);
+  }
+
+  .hero__cap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity 900ms var(--ease);
+  }
+
+  .hero__cap.is-active {
+    opacity: 1;
+  }
+
+  .hero__controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hero__tab {
+    min-height: 44px;
+    padding: 0 12px;
+    background: none;
+    border: 0;
+    color: rgb(250 250 245 / 0.7);
+    position: relative;
+  }
+
+  .hero__tab::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transition: transform 600ms var(--ease);
+  }
+
+  .hero__tab[aria-pressed='true'] {
+    color: var(--natural-white);
+  }
+
+  .hero__tab[aria-pressed='true']::after {
+    transform: scaleX(1);
+  }
+
+  .hero__pause {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-left: 8px;
+    padding: 0;
+    border: 1px solid rgb(250 250 245 / 0.4);
+    border-radius: 50%;
+    background: none;
+    transition: border-color var(--dur) var(--ease);
+  }
+
+  .hero__pause:hover {
+    border-color: var(--natural-white);
+  }
+
+  .hero__pause :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero__pause-icon {
+    display: grid;
+  }
+
+  .hero__pause-icon[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .hero__caption {
+      display: none;
+    }
+
+    .hero__foot {
+      justify-content: flex-end;
+    }
+  }
+
+  /* Entrance: slow fades in sequence, pure CSS from first paint */
+  .hero__title { --i: 0; }
+  .hero__foot { --i: 2; }
+</style>

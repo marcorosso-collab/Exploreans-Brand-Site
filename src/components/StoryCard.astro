@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Img from './Img.astro';
+import { FAMILY_NAMES } from '../lib/stamps';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  story: CollectionEntry<'stories'>;
+  placeName: string;
+  placeKind: string;
+  size?: 'large' | 'small';
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { story, placeName, placeKind, size = 'small', headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+<article class:list={['story', `story--${size}`]} data-place={placeKind} data-reveal>
+  <a href={`/stories/${story.id}/`} class="story__link" data-follow="Read">
+    <span class="story__media">
+      <Img src={story.data.image} alt={story.data.alt} sizes={size === 'large' ? '(min-width: 1024px) 58vw, 100vw' : '(min-width: 1024px) 30vw, 100vw'} />
+    </span>
+    <span class="story__meta label">
+      {story.data.family && <span>{FAMILY_NAMES[story.data.family]}</span>}
+      <span class="label--place">{placeName}</span>
+    </span>
+    <Heading class:list={['story__title', size === 'large' ? 't-headline' : 't-subhead']}>{story.data.title}</Heading>
+    {size === 'large' && <span class="story__excerpt muted">{story.data.excerpt}</span>}
+    <time class="story__date data muted" datetime={story.data.date.toISOString().slice(0, 10)}>{formatDate(story.data.date)}</time>
+  </a>
+</article>
+
+<style>
+  .story__link {
+    display: grid;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .story__media {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+    aspect-ratio: 4 / 3;
+  }
+
+  .story--large .story__media {
+    aspect-ratio: 3 / 2;
+  }
+
+  .story__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1400ms var(--ease-out);
+  }
+
+  .story__link:hover .story__media :global(img) {
+    transform: scale(1.04);
+  }
+
+  .story__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-top: 6px;
+    color: var(--stone);
+  }
+
+  .story__title {
+    text-wrap: balance;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .story__link:hover .story__title {
+    text-decoration: underline;
+    text-decoration-color: var(--warm-ochre);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .story__excerpt {
+    max-width: 52ch;
+  }
+</style>

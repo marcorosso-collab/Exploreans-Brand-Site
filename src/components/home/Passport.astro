@@ -1,0 +1,68 @@
+---
+import { getEntry } from 'astro:content';
+import PassportBook from '../PassportBook.astro';
+import Icon from '../Icon.astro';
+
+const { passport } = (await getEntry('home', 'home'))!.data;
+---
+<section class="passport" aria-labelledby="passport-title" data-passport-pin>
+  <div class="wrap passport__grid">
+    <div class="passport__text" data-reveal-group>
+      <p data-reveal><span class="soon passport__soon">{passport.label}</span></p>
+      <h2 id="passport-title" class="t-headline" data-reveal>{passport.headline}</h2>
+      {passport.body.split(/\n\s*\n/).map((para) => <p class="t-lead muted" data-reveal>{para}</p>)}
+      <p class="passport__journal" data-reveal>{passport.journal}</p>
+      <a href="/passport/" class="btn btn--outline" data-reveal>A first look <Icon name="arrow-right" class="arrow" /></a>
+    </div>
+    <div class="passport__book">
+      <PassportBook mode="scroll" stamped={4} />
+      <p class="label muted passport__caption">Illustration of a Mara River Camp page</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .passport {
+    padding-block: clamp(var(--s-6), 9vw, 136px);
+    overflow: clip;
+  }
+
+  .passport__grid {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+
+  .passport__text {
+    display: grid;
+    gap: var(--s-4);
+    justify-items: start;
+    max-width: 44ch;
+  }
+
+  .passport__soon {
+    margin-left: 0;
+  }
+
+  .passport__caption {
+    margin-top: var(--s-4);
+    text-align: center;
+  }
+
+  .passport__journal {
+    font-style: italic;
+  }
+
+  @media (min-width: 1024px) {
+    .passport {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+    }
+
+    .passport__grid {
+      grid-template-columns: 4fr 7fr;
+      gap: var(--s-6);
+    }
+  }
+</style>

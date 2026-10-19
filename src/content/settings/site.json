@@ -1,0 +1,47 @@
+{
+  "site_name": "Exploreans",
+  "default_description": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel. Mara River Camp in the Maasai Mara and Watamu Beach Club & Villas on the Kenyan coast.",
+  "og_image": "/images/brand/exploreans-og.jpg",
+  "nav": [
+    {
+      "label": "Places",
+      "href": "/places/"
+    },
+    {
+      "label": "Experiences",
+      "href": "/experiences/"
+    },
+    {
+      "label": "Passport",
+      "href": "/passport/",
+      "badge": "Soon"
+    },
+    {
+      "label": "Stories",
+      "href": "/stories/"
+    }
+  ],
+  "cta": {
+    "label": "Explore destinations",
+    "href": "/places/"
+  },
+  "footer_intro": "A small collection of places with character, where every stay is measured in what you do, discover and feel.",
+  "group_line": "Exploreans is part of Planhotel Hospitality Group.",
+  "contacts": [
+    {
+      "label": "Press",
+      "href": "mailto:press@exploreans.com"
+    },
+    {
+      "label": "Careers",
+      "href": "mailto:careers@exploreans.com"
+    }
+  ],
+  "social": [],
+  "newsletter": {
+    "headline": "A note from someone who was there.",
+    "body": "Occasional letters from our places: one moment, one story, one invitation.",
+    "button": "Subscribe",
+    "success": "Thank you. Your first letter arrives with the next story from our places."
+  }
+}

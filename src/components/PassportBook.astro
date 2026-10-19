@@ -1,0 +1,577 @@
+---
+/**
+ * The Exploreans Passport, illustrated: a Basalt cover that opens onto the Mara River Camp
+ * spread. Left: the place stamp in its type colour. Right: the five families, with the
+ * experiences available at that place as rings. Empty stamps are dashed rings, never greyed icons.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Wordmark from './Wordmark.astro';
+import Stamp from './Stamp.astro';
+import MapLines from './MapLines.astro';
+import { FAMILIES, FAMILY_NAMES, stampLabel, type StampId } from '../lib/stamps';
+
+interface Props {
+  /** 'scroll' opens with the page; 'play' lets the reader stamp it */
+  mode?: 'scroll' | 'play';
+  /** How many experiences show as already stamped */
+  stamped?: number;
+}
+
+const { mode = 'scroll', stamped = 4 } = Astro.props;
+const place = (await getEntry('places', 'mara-river-camp'))!;
+const experiences = (await getCollection('experiences'))
+  .filter((e) => e.data.place === place.id)
+  .sort((a, b) => a.data.order - b.data.order);
+
+// One ring per stamp the place offers, grouped by family
+const rows = FAMILIES.map((family) => {
+  const seen = new Set<StampId>();
+  const stamps = experiences
+    .filter((e) => e.data.family === family)
+    .map((e) => ({ stamp: e.data.stamp as StampId, name: e.data.name }))
+    .filter((s) => (seen.has(s.stamp) ? false : (seen.add(s.stamp), true)));
+  return { family, stamps };
+});
+const total = rows.reduce((n, r) => n + r.stamps.length, 0);
+let k = 0;
+---
+<div class:list={['book', `book--${mode}`]} data-book={mode} data-place={place.data.kind} data-total={total}>
+  <div class="book__stage" data-book-stage>
+    <!-- Right page: the five families -->
+    <div class="book__page book__page--right">
+      <MapLines variant="a" tone="basalt" />
+      <ol class="book__rows" role="list">
+        {rows.map((row) => (
+          <li class="book__row">
+            <span class="book__family">{FAMILY_NAMES[row.family]}</span>
+            <span class="book__rings">
+              {row.stamps.length === 0 && <span class="book__none" aria-hidden="true"></span>}
+              {row.stamps.map((s) => {
+                const isStamped = mode === 'scroll' ? k < stamped : false;
+                const index = k++;
+                return mode === 'play' ? (
+                  <button
+                    type="button"
+                    class="book__slot"
+                    aria-pressed="false"
+                    data-slot={index}
+                    data-name={s.name}
+                    aria-label={`${stampLabel(s.stamp)}, ${s.name}`}
+                  >
+                    <span class="book__ring" aria-hidden="true"></span>
+                    <span class="book__ink" style={`--rot:${((index * 37) % 13) - 6}deg`}><Stamp id={s.stamp} size={46} decorative /></span>
+                    <span class="book__slot-name">{stampLabel(s.stamp)}</span>
+                  </button>
+                ) : (
+                  <span class:list={['book__slot', { 'is-stamped': isStamped }]} data-slot={index} data-will-stamp={isStamped ? '' : undefined}>
+                    <span class="book__ring" aria-hidden="true"></span>
+                    {isStamped && <span class="book__ink" style={`--rot:${((index * 37) % 13) - 6}deg`}><Stamp id={s.stamp} size={46} decorative /></span>}
+                    <span class="book__slot-name">{stampLabel(s.stamp)}</span>
+                  </span>
+                );
+              })}
+            </span>
+          </li>
+        ))}
+      </ol>
+      <p class="book__progress">
+        <span data-book-count>{mode === 'scroll' ? stamped : 0}</span> of {total} {place.data.name} experiences collected
+      </p>
+    </div>
+
+    <!-- The cover: front is the Basalt cover, back is the left page -->
+    <div class="book__cover" data-book-cover>
+      <div class="book__face book__face--front on-basalt">
+        <MapLines variant="b" tone="light" />
+        <Wordmark class="book__wordmark" decorative />
+        <span class="label book__cover-label">Passport</span>
+        <span class="label book__no">No. 0001</span>
+      </div>
+      <div class="book__face book__face--back book__page book__page--left">
+        <MapLines variant="c" tone="basalt" />
+        <span class="book__eyebrow">Exploreans Passport &middot; Page 1</span>
+        <span class="book__place-stamp" data-place-stamp>
+          <Stamp id="place-mara-river-camp" size={132} label="Mara River Camp place stamp" />
+        </span>
+        <span class="book__place-name">{place.data.name}</span>
+        <span class="book__place-meta">Kenya</span>
+        <span class="book__sign">
+          <span class="book__sign-label">Welcomed by</span>
+          <svg class="book__signature" viewBox="0 0 120 24" aria-hidden="true"><path d="M2 16c8-10 12 6 20-2s9-9 13 1 8 7 14-3 9-4 12 3 9 3 15-4 10-1 16 5 9 2 14-2" /></svg>
+          <span class="book__sign-label">Passport holder</span>
+          <span class="book__sign-line"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+  {mode === 'play' && (
+    <p class="book__status" role="status" aria-live="polite" data-book-status>Tap a ring to see how a guide will stamp it.</p>
+  )}
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { reduceMotion } from '../scripts/motion';
+
+  document.querySelectorAll<HTMLElement>('[data-book]').forEach((book) => {
+    const mode = book.dataset.book;
+    const cover = book.querySelector<HTMLElement>('[data-book-cover]')!;
+    const stage = book.querySelector<HTMLElement>('[data-book-stage]')!;
+    const count = book.querySelector<HTMLElement>('[data-book-count]')!;
+    const total = Number(book.dataset.total);
+    const stacked = () => window.matchMedia('(max-width: 699px)').matches;
+
+    if (mode === 'scroll') {
+      const slots = Array.from(book.querySelectorAll<HTMLElement>('[data-will-stamp]'));
+      const placeStamp = book.querySelector<HTMLElement>('[data-place-stamp]')!;
+      if (reduceMotion) {
+        book.classList.add('is-open');
+        return;
+      }
+
+      // One deterministic state for any progress, so scrolling back reads the same as forward
+      const ease = gsap.parseEase('power2.inOut');
+      const apply = (p: number) => {
+        const flat = stacked();
+        const open = flat ? 1 : ease(Math.min(1, p / 0.4));
+        gsap.set(stage, { xPercent: flat ? 0 : -25 * (1 - open) });
+        gsap.set(cover, { rotateY: flat ? 0 : -180 * open, z: flat ? 0 : 2 });
+        placeStamp.classList.toggle('is-waiting', p < (flat ? 0.05 : 0.38));
+        let n = 0;
+        slots.forEach((slot, i) => {
+          const due = (flat ? 0.15 : 0.46) + (i / Math.max(1, slots.length)) * (flat ? 0.75 : 0.44);
+          const on = p >= due;
+          slot.classList.toggle('is-waiting', !on);
+          if (on) n++;
+        });
+        count.textContent = String(n);
+      };
+      apply(0);
+
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 1024px) and (hover: hover)', () => {
+        const host = book.closest<HTMLElement>('[data-passport-pin]') ?? book;
+        const st = ScrollTrigger.create({
+          trigger: host,
+          start: 'top top',
+          end: '+=140%',
+          pin: true,
+          scrub: true,
+          onUpdate: (self) => apply(self.progress),
+        });
+        return () => st.kill();
+      });
+      mm.add('(max-width: 1023px), (hover: none)', () => {
+        const state = { p: 0 };
+        const io = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry.isIntersecting) return;
+            gsap.to(state, { p: 1, duration: 3.2, ease: 'none', onUpdate: () => apply(state.p) });
+            io.disconnect();
+          },
+          { threshold: 0.4 },
+        );
+        io.observe(book);
+        return () => io.disconnect();
+      });
+    }
+
+    if (mode === 'play') {
+      const status = book.querySelector<HTMLElement>('[data-book-status]')!;
+      if (!stacked() && !reduceMotion) {
+        gsap.fromTo(stage, { xPercent: -25 }, { xPercent: 0, duration: 1.2, delay: 0.15, ease: 'power2.inOut' });
+        gsap.fromTo(cover, { rotateY: 0, z: 2 }, { rotateY: -180, z: 2, duration: 1.2, delay: 0.15, ease: 'power2.inOut' });
+      } else {
+        book.classList.add('is-open');
+      }
+      let n = 0;
+      book.querySelectorAll<HTMLButtonElement>('[data-slot]').forEach((slot) => {
+        slot.addEventListener('click', () => {
+          const on = slot.getAttribute('aria-pressed') !== 'true';
+          slot.setAttribute('aria-pressed', String(on));
+          slot.classList.toggle('is-stamped', on);
+          n += on ? 1 : -1;
+          count.textContent = String(n);
+          const name = slot.dataset.name!;
+          status.textContent =
+            n === total
+              ? 'Page complete. In the Passport, a full page will earn the Mara River Camp reward.'
+              : on
+                ? `${name}: here your guide will stamp and sign.`
+                : `${name}: stamp removed.`;
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  .book {
+    --page-ratio: 0.72;
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    perspective: 2200px;
+  }
+
+  .book__stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transform-style: preserve-3d;
+  }
+
+  .book__page {
+    position: relative;
+    overflow: hidden;
+    background: var(--linen);
+    color: var(--basalt);
+    aspect-ratio: var(--page-ratio);
+  }
+
+  .book__page--right {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 6% 6% 5%;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow:
+      inset 18px 0 24px -18px rgb(43 43 38 / 0.25),
+      0 30px 60px -30px rgb(43 43 38 / 0.45);
+  }
+
+  .book__cover {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    transform: translateZ(2px);
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    z-index: 2;
+  }
+
+  .book__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .book__face--front {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 6%;
+    overflow: hidden;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: 0 30px 60px -28px rgb(43 43 38 / 0.6);
+  }
+
+  :global(.book__wordmark) {
+    position: relative;
+    width: 54%;
+  }
+
+  .book__cover-label {
+    position: relative;
+    color: var(--warm-ochre);
+    letter-spacing: 0.3em;
+  }
+
+  .book__no {
+    position: absolute;
+    bottom: 7%;
+    color: rgb(250 250 245 / 0.5);
+    font-size: 0.6875rem;
+  }
+
+  .book__face--back {
+    transform: rotateY(180deg);
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 3%;
+    padding: 7% 8%;
+    border-radius: var(--radius) 0 0 var(--radius);
+    box-shadow: inset -18px 0 24px -18px rgb(43 43 38 / 0.25);
+  }
+
+  .book__eyebrow,
+  .book__place-meta,
+  .book__sign-label,
+  .book__progress,
+  .book__family,
+  .book__slot-name {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .book__eyebrow {
+    position: relative;
+    justify-self: start;
+    font-size: clamp(0.5rem, 0.9vw, 0.625rem);
+    color: var(--stone);
+  }
+
+  .book__place-stamp {
+    position: relative;
+    margin-top: 8%;
+    color: var(--place);
+  }
+
+  .book__place-stamp :global(.stamp) {
+    width: clamp(84px, 16vw, 132px);
+    height: clamp(84px, 16vw, 132px);
+  }
+
+  .book__place-name {
+    position: relative;
+    margin-top: 4%;
+    font-family: var(--font-label);
+    font-size: clamp(0.625rem, 1.1vw, 0.8125rem);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--place);
+  }
+
+  .book__place-meta {
+    position: relative;
+    font-size: clamp(0.5rem, 0.9vw, 0.625rem);
+    color: var(--stone);
+  }
+
+  .book__sign {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: 7%;
+    display: grid;
+    gap: 4px;
+  }
+
+  .book__sign-label {
+    font-size: clamp(0.5rem, 0.85vw, 0.5625rem);
+    color: var(--stone);
+  }
+
+  .book__signature {
+    width: 44%;
+    height: auto;
+    fill: none;
+    stroke: var(--talavera);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 10px;
+  }
+
+  .book__sign-line {
+    height: 1px;
+    margin-top: 18px;
+    background: rgb(43 43 38 / 0.18);
+  }
+
+  .book__rows {
+    position: relative;
+    display: grid;
+    align-content: space-between;
+    padding: 0;
+    margin: 0;
+  }
+
+  .book__row {
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    align-items: center;
+    gap: 4%;
+    padding-block: 3%;
+    border-bottom: 1px solid rgb(43 43 38 / 0.12);
+  }
+
+  .book__family {
+    font-size: clamp(0.5rem, 0.9vw, 0.625rem);
+    color: var(--stone);
+  }
+
+  .book__rings {
+    display: flex;
+    gap: 4%;
+    min-height: clamp(30px, 6vw, 46px);
+  }
+
+  .book__slot {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 3px;
+    width: clamp(44px, 8vw, 60px);
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--basalt);
+  }
+
+  .book__ring {
+    width: clamp(30px, 6vw, 46px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px dashed rgb(43 43 38 / 0.38);
+    transform: scale(0.88);
+  }
+
+  .book__ink {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: calc(clamp(30px, 6vw, 46px) / -2);
+    width: clamp(30px, 6vw, 46px);
+    height: clamp(30px, 6vw, 46px);
+    color: var(--basalt);
+    transform: rotate(var(--rot));
+  }
+
+  .book__ink :global(.stamp) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .book__slot-name {
+    font-size: clamp(0.4375rem, 0.75vw, 0.5rem);
+    line-height: 1.15;
+    letter-spacing: 0.06em;
+    text-align: center;
+    color: var(--stone);
+  }
+
+  .book__progress {
+    position: relative;
+    margin-top: 4%;
+    padding-top: 3%;
+    border-top: 2px solid var(--place);
+    font-size: clamp(0.5rem, 0.85vw, 0.625rem);
+    color: var(--place);
+  }
+
+  /* Ink: pressed in, no bounce */
+  .book__slot .book__ink,
+  .book__place-stamp {
+    transition:
+      opacity 420ms var(--ease-out),
+      transform 420ms var(--ease-out),
+      filter 420ms var(--ease-out);
+  }
+
+  .book__slot.is-waiting .book__ink,
+  .book--play .book__slot:not(.is-stamped) .book__ink,
+  .book__place-stamp.is-waiting {
+    opacity: 0;
+    transform: scale(1.5) rotate(calc(var(--rot, 0deg) - 14deg));
+    filter: blur(3px);
+  }
+
+  .book__slot.is-waiting .book__ring,
+  .book--play .book__slot:not(.is-stamped) .book__ring {
+    opacity: 1;
+  }
+
+  .book__slot.is-stamped:not(.is-waiting) .book__ring {
+    opacity: 0;
+  }
+
+  .book--play .book__slot {
+    cursor: pointer;
+  }
+
+  .book--play .book__slot:hover .book__ring {
+    border-color: var(--basalt);
+    transform: scale(0.94);
+    transition: transform 300ms var(--ease);
+  }
+
+  .book__status {
+    margin-top: var(--s-4);
+    text-align: center;
+    font-style: italic;
+    color: var(--stone);
+    min-height: 1.6em;
+  }
+
+  /* Small screens: the two pages stack, no 3D */
+  @media (max-width: 699px) {
+    .book {
+      perspective: none;
+    }
+
+    .book__stage {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .book__page--right {
+      grid-column: 1;
+      grid-row: 2;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: 0 30px 60px -30px rgb(43 43 38 / 0.45);
+    }
+
+    .book__cover {
+      grid-column: 1;
+      grid-row: 1;
+      aspect-ratio: var(--page-ratio);
+      transform: none !important;
+    }
+
+    .book__face--front {
+      display: none;
+    }
+
+    .book__face--back {
+      transform: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+      box-shadow: inset 0 -18px 24px -18px rgb(43 43 38 / 0.25);
+    }
+
+    .book__ring,
+    .book__ink {
+      width: 40px;
+    }
+
+    .book__slot {
+      width: 58px;
+    }
+
+    .book__rings {
+      min-height: 40px;
+    }
+
+    .book__ink {
+      height: 40px;
+      margin-left: -20px;
+    }
+
+    .book__slot-name {
+      font-size: 0.5rem;
+    }
+
+    .book__family,
+    .book__eyebrow,
+    .book__place-meta,
+    .book__progress {
+      font-size: 0.625rem;
+    }
+
+    .book__sign-label {
+      font-size: 0.5625rem;
+    }
+  }
+
+  /* Reduced motion and no-JS: shown open */
+  .book.is-open .book__cover,
+  :global(html:not(.js)) .book__cover {
+    transform: translateZ(2px) rotateY(-180deg);
+  }
+</style>

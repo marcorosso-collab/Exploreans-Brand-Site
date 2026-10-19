@@ -1,0 +1,199 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Img from '../Img.astro';
+import Icon from '../Icon.astro';
+
+const home = (await getEntry('home', 'home'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+const cardImage: Record<string, { src: string; alt: string; position?: string }> = {
+  'mara-river-camp': {
+    position: '18% 50%',
+    src: '/images/places/mara-river-camp/mara-river-camp-stay-river-tent-01.webp',
+    alt: 'A guest on the terrace of a river tent, with the lawn running down to the Mara River',
+  },
+  'watamu-beach-club-and-villas': {
+    src: '/images/places/watamu/watamu-wellness-beach-club-01.webp',
+    alt: 'Thatched gazebos and sunbeds under the palms at the beach club on Mayungu Bay',
+  },
+};
+---
+<section class="places section" aria-labelledby="places-title">
+  <div class="wrap">
+    <header class="places__head" data-reveal-group>
+      <h2 id="places-title" class="t-headline" data-reveal>{home.places.headline}</h2>
+      <p class="t-lead muted measure" data-reveal>{home.places.body}</p>
+    </header>
+
+    <ul role="list" class="places__list">
+      {places.map((p) => {
+        const img = cardImage[p.id] ?? { src: p.data.hero_image, alt: p.data.hero_alt };
+        return (
+          <li class="place" data-place={p.data.kind} data-reveal>
+            <a href={`/places/#${p.id}`} class="place__link" data-follow="Explore">
+              <span class="place__media">
+                <Img src={img.src} alt={img.alt} position={img.position} sizes="(min-width: 900px) 50vw, 100vw" />
+              </span>
+              <span class="place__shade" aria-hidden="true"></span>
+              <span class="place__text">
+                <span class="label place__kind">{p.data.kind_label} &middot; {p.data.region}</span>
+                <span class="place__name t-headline">{p.data.name}</span>
+                <span class="place__summary">{p.data.summary}</span>
+                <span class="place__more label">Explore the place <Icon name="arrow-right" class="arrow" /></span>
+              </span>
+              <span class="place__bar" aria-hidden="true"></span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .places__head {
+    display: grid;
+    gap: var(--s-3);
+    margin-bottom: var(--s-6);
+  }
+
+  .places__head h2 {
+    max-width: 14ch;
+  }
+
+  .places__list {
+    display: grid;
+    gap: var(--gutter);
+  }
+
+  .place__link {
+    position: relative;
+    display: block;
+    height: clamp(460px, 120vw, 620px);
+    overflow: hidden;
+    border-radius: var(--radius);
+    color: var(--natural-white);
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  .place__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .place__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+    transition: transform 1400ms var(--ease-out);
+  }
+
+  .place__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(43 43 38 / 0.78), rgb(43 43 38 / 0.18) 55%, transparent);
+  }
+
+  .place__text {
+    position: absolute;
+    inset: auto 0 0;
+    display: grid;
+    gap: 10px;
+    padding: var(--s-4) var(--s-4) calc(var(--s-4) + 8px);
+  }
+
+  .place__kind {
+    color: rgb(250 250 245 / 0.86);
+  }
+
+  .place__summary {
+    max-width: 38ch;
+    color: rgb(250 250 245 / 0.9);
+  }
+
+  .place__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  /* The colour of the place's type, along the foot of the image */
+  .place__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    background: var(--place);
+    transform-origin: left;
+    transition: height 600ms var(--ease);
+  }
+
+  .place__link:hover .place__media :global(img),
+  .place__link:focus-visible .place__media :global(img) {
+    transform: scale(1.07);
+  }
+
+  .place__link:hover .place__bar {
+    height: 12px;
+  }
+
+  @media (min-width: 900px) {
+    .places__list {
+      display: flex;
+      gap: var(--gutter);
+    }
+
+    .place {
+      flex: 1 1 0;
+      min-width: 0;
+      transition: flex-grow 900ms var(--ease-out);
+    }
+
+    /* The panel under the cursor opens up; its neighbour gives way */
+    .places__list:hover .place {
+      flex-grow: 0.78;
+    }
+
+    .places__list .place:hover {
+      flex-grow: 1.35;
+    }
+
+    .place__link {
+      height: min(78vh, 720px);
+    }
+
+    .place__text {
+      padding: var(--s-5) var(--s-5) calc(var(--s-5) + 8px);
+    }
+
+    .place__summary,
+    .place__more {
+      opacity: 0.0001;
+      transform: translateY(10px);
+      transition:
+        opacity 600ms var(--ease),
+        transform 600ms var(--ease);
+    }
+
+    .place:hover .place__summary,
+    .place:hover .place__more,
+    .place__link:focus-visible .place__summary,
+    .place__link:focus-visible .place__more {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (hover: none) and (min-width: 900px) {
+    .place__summary,
+    .place__more {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
