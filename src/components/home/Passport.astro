@@ -10,7 +10,7 @@ const { passport } = (await getEntry('home', 'home'))!.data;
     <div class="passport__text" data-reveal-group>
       <p data-reveal><span class="soon passport__soon">{passport.label}</span></p>
       <h2 id="passport-title" class="t-headline" data-reveal>{passport.headline}</h2>
-      <p class="t-lead muted" data-reveal>{passport.body}</p>
+      {passport.body.split(/\n\s*\n/).map((para) => <p class="t-lead muted" data-reveal>{para}</p>)}
       <p class="passport__journal" data-reveal>{passport.journal}</p>
       <a href="/passport/" class="btn btn--outline" data-reveal>A first look <Icon name="arrow-right" class="arrow" /></a>
     </div>
