@@ -36,6 +36,7 @@ const year = new Date().getFullYear();
             </button>
           </div>
           <p class="footer__status" role="status" data-form-status data-success={site.newsletter.success}></p>
+          <p class="data muted footer__consent">We use your email only to send these letters. You can unsubscribe at any time. See our <a class="link" href="/privacy/">Privacy Policy</a>.</p>
         </form>
       </div>
     </section>
@@ -82,6 +83,11 @@ const year = new Date().getFullYear();
 
     <div class="footer__base">
       <p class="data muted">{site.group_line}</p>
+      <nav class="footer__legal" aria-label="Legal">
+        <a class="link data" href="/privacy/">Privacy</a>
+        <a class="link data" href="/cookies/">Cookies</a>
+        <button type="button" class="link data footer__settings" data-consent-open>Cookie settings</button>
+      </nav>
       <p class="data muted">&copy; {year} Exploreans</p>
     </div>
   </div>
@@ -280,5 +286,25 @@ const year = new Date().getFullYear();
     gap: var(--s-2) var(--s-4);
     padding-top: var(--s-4);
     border-top: 1px solid rgb(250 250 245 / 0.16);
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-4);
+  }
+
+  .footer__settings {
+    border: 0;
+    background-color: transparent;
+    color: inherit;
+    padding-inline: 0;
+    cursor: pointer;
+  }
+
+  .footer__consent {
+    margin-top: var(--s-2);
+    max-width: 52ch;
   }
 </style>

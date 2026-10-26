@@ -9,6 +9,7 @@ import '../styles/global.css';
 import { getEntry, getCollection } from 'astro:content';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -95,22 +96,44 @@ const graph = [
 
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')} />
 
-    <!-- Google Tag Manager -->
+    <!-- Consent Mode v2: everything denied until the visitor accepts (see ConsentBanner.astro) -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+      // Google Analytics 4 (Exploreans brand site) loads only after consent
+      window.exploreansLoadAnalytics = function () {
+        if (window.exploreansAnalyticsLoaded) return;
+        window.exploreansAnalyticsLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-RX50FM3PQE';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-RX50FM3PQE');
+      };
+      try {
+        var c = JSON.parse(localStorage.getItem('exploreans-consent') || 'null');
+        if (c && c.analytics && Date.now() - c.at < 365 * 864e5) {
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+          window.exploreansLoadAnalytics();
+        }
+      } catch (e) {}
+    </script>
+
+    <!-- Google Tag Manager: tags inside respect the consent state above -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-TSSCSR5C');</script>
     <!-- End Google Tag Manager -->
-
-    <!-- Google Analytics (GA4) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-QV5BLB9NV3"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-QV5BLB9NV3');
-    </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -122,6 +145,7 @@ const graph = [
       <slot />
     </main>
     <Footer />
+    <ConsentBanner />
 
     <div id="follower" class="follower" aria-hidden="true"><span class="follower__label"></span></div>
 
