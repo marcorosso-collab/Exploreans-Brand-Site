@@ -51,7 +51,7 @@ Netlify and Google may process data outside Switzerland and the European Economi
 ## How long we keep it
 
 - Newsletter email addresses: until you unsubscribe.
-- Analytics data: no longer than 14 months.
+- Analytics data: 14 months from your last visit. Each visit starts the 14 months again.
 - Messages: as long as needed to answer you and for any follow-up, and no longer than the law allows.
 
 ## Your rights
