@@ -111,6 +111,16 @@ const stories = defineCollection({
   }),
 });
 
+// Privacy and cookie policies, one Markdown file each, served at /<id>/
+const legal = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/legal' }),
+  schema: z.object({
+    title: z.string(),
+    seo_description: z.string(),
+    updated: z.coerce.date(),
+  }),
+});
+
 const home = defineCollection({
   loader: glob(page('home.json')),
   schema: z.object({
@@ -213,6 +223,7 @@ export const collections = {
   experiences,
   families,
   stories,
+  legal,
   home,
   about,
   passport,

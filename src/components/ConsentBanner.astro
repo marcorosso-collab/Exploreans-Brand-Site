@@ -1,0 +1,150 @@
+---
+/**
+ * Cookie consent. Analytics stays off until the visitor accepts; declining is as easy as
+ * accepting. The choice lives in localStorage ('exploreans-consent') for 12 months, and the
+ * head script in Base.astro reads it before any Google tag loads. Any element with
+ * [data-consent-open] (the footer's "Cookie settings") reopens the banner.
+ */
+---
+<section class="consent on-basalt" data-consent hidden aria-labelledby="consent-title">
+  <h2 id="consent-title" class="label accent">Cookies</h2>
+  <p class="consent__text">
+    With your permission, we use analytics cookies to see how guests find their way around this site.
+    Nothing is set unless you accept.
+    <a class="consent__more" href="/cookies/">Cookie policy</a>
+  </p>
+  <div class="consent__actions">
+    <button type="button" class="btn btn--light" data-consent-choice="accept">Accept</button>
+    <button type="button" class="btn btn--ghost-light" data-consent-choice="decline">Decline</button>
+  </div>
+</section>
+
+<script>
+  const KEY = 'exploreans-consent';
+  const banner = document.querySelector<HTMLElement>('[data-consent]');
+
+  type Gtag = (...args: unknown[]) => void;
+  const w = window as unknown as { gtag?: Gtag; exploreansLoadAnalytics?: () => void };
+
+  function stored(): { analytics: boolean; at: number } | null {
+    try {
+      const c = JSON.parse(localStorage.getItem(KEY) ?? 'null');
+      return c && Date.now() - c.at < 365 * 864e5 ? c : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function show() {
+    if (!banner) return;
+    banner.hidden = false;
+    requestAnimationFrame(() => banner.classList.add('is-open'));
+  }
+
+  function hide() {
+    if (!banner) return;
+    banner.classList.remove('is-open');
+    banner.hidden = true;
+  }
+
+  // Remove Google Analytics cookies left from an earlier "Accept"
+  function clearAnalyticsCookies() {
+    const host = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').forEach((c) => {
+      const name = c.split('=')[0].trim();
+      if (!name.startsWith('_ga')) return;
+      for (const domain of ['', `; domain=.${host}`, `; domain=${host}`]) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
+      }
+    });
+  }
+
+  function choose(analytics: boolean) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ analytics, at: Date.now() }));
+    } catch {
+      // Storage blocked: the choice holds for this page only
+    }
+    w.gtag?.('consent', 'update', { analytics_storage: analytics ? 'granted' : 'denied' });
+    if (analytics) w.exploreansLoadAnalytics?.();
+    else clearAnalyticsCookies();
+    hide();
+  }
+
+  banner?.querySelectorAll<HTMLButtonElement>('[data-consent-choice]').forEach((button) => {
+    button.addEventListener('click', () => choose(button.dataset.consentChoice === 'accept'));
+  });
+
+  document.addEventListener('click', (e) => {
+    const opener = (e.target as Element | null)?.closest('[data-consent-open]');
+    if (!opener) return;
+    e.preventDefault();
+    show();
+    banner?.querySelector<HTMLButtonElement>('[data-consent-choice="accept"]')?.focus();
+  });
+
+  if (!stored()) show();
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    z-index: var(--z-consent);
+    inset: auto var(--s-3) var(--s-3) var(--s-3);
+    display: grid;
+    gap: var(--s-3);
+    max-width: 440px;
+    padding: var(--s-4);
+    border-radius: var(--radius);
+    box-shadow: 0 18px 48px color-mix(in srgb, var(--basalt) 28%, transparent);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+
+  .consent.is-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .consent__text {
+    font-size: var(--text-data);
+    line-height: 1.55;
+  }
+
+  .consent__more {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--warm-ochre);
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  .consent__more:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-2);
+  }
+
+  @media (min-width: 768px) {
+    .consent {
+      inset: auto auto var(--s-4) var(--s-4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .consent {
+      transition: none;
+    }
+  }
+</style>

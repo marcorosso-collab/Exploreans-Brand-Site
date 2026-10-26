@@ -443,6 +443,24 @@ collections:
       - { label: "Image alt text", name: "alt", widget: "string" }
 
   # ═══════════════════════════════════════════════════════════
+  # LEGAL
+  # ═══════════════════════════════════════════════════════════
+  - name: "legal"
+    label: "Legal pages"
+    label_singular: "Legal page"
+    folder: "src/content/legal"
+    extension: md
+    format: frontmatter
+    create: false
+    delete: false
+    summary: "{{title}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Search description", name: "seo_description", widget: "text" }
+      - { label: "Last updated", name: "updated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Change this whenever the policy changes." }
+      - { label: "Policy", name: "body", widget: "markdown" }
+
+  # ═══════════════════════════════════════════════════════════
   # STORIES
   # ═══════════════════════════════════════════════════════════
   - name: "stories"
