@@ -1,0 +1,196 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import MapLines from '../../components/MapLines.astro';
+import Icon from '../../components/Icon.astro';
+
+const page = (await getEntry('press', 'press'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={page.seo_title} description={page.seo_description} ogImage={page.image}>
+  <PageHeader title={page.title} lead={page.lead} image={page.image} alt={page.alt} kicker="Press" />
+
+  <section class="section facts" aria-labelledby="facts-title">
+    <div class="wrap facts__grid">
+      <div class="facts__main">
+        <h2 id="facts-title" class="t-headline" data-reveal>{page.facts.headline}</h2>
+        <dl class="facts__list" data-reveal-group>
+          <div class="facts__row" data-reveal>
+            <dt class="label muted">The places</dt>
+            <dd>
+              <ul role="list" class="facts__places">
+                {places.map((p) => (
+                  <li data-place={p.data.kind}>
+                    <span class="facts__bar" aria-hidden="true"></span>
+                    <span>
+                      <a class="link" href={p.data.website} rel="noopener">{p.data.name}</a>
+                      <span class="muted">, {p.data.region}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+          {page.facts.items.map((item) => (
+            <div class="facts__row" data-reveal>
+              <dt class="label muted">{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <aside class="contact on-basalt" aria-labelledby="contact-title" data-reveal>
+        <MapLines variant="c" tone="light" />
+        <div class="contact__inner">
+          <p class="label accent">Press contact</p>
+          <h2 id="contact-title" class="t-subhead">{page.contact.headline}</h2>
+          <p class="contact__body">{page.contact.body}</p>
+          <p class="data"><a class="link" href={`mailto:${page.contact.email}`}>{page.contact.email}</a></p>
+          <a href={`mailto:${page.contact.email}`} class="btn btn--light contact__btn">
+            {page.contact.email_label} <Icon name="envelope-simple" class="arrow" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--tight on-linen boilerplate" aria-labelledby="boilerplate-title">
+    <div class="wrap boilerplate__grid">
+      <h2 id="boilerplate-title" class="t-headline" data-reveal>{page.boilerplate.headline}</h2>
+      <p class="t-lead boilerplate__body" data-reveal>{page.boilerplate.body}</p>
+    </div>
+  </section>
+
+  <section class="section section--tight media" aria-labelledby="media-title">
+    <div class="wrap media__inner" data-reveal-group>
+      <div class="media__text">
+        <h2 id="media-title" class="t-headline" data-reveal>{page.media.headline}</h2>
+        <p class="muted" data-reveal>{page.media.body}</p>
+      </div>
+      <a href={page.media.url} class="btn btn--outline" rel="noopener" data-reveal>
+        {page.media.label} <Icon name="arrow-up-right" class="arrow" />
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .facts__grid {
+    display: grid;
+    gap: var(--s-6);
+  }
+
+  @media (min-width: 1024px) {
+    .facts__grid {
+      grid-template-columns: 7fr 4fr;
+      gap: var(--s-7);
+      align-items: start;
+    }
+
+    .contact {
+      position: sticky;
+      top: calc(var(--nav-h-compact) + var(--s-5));
+    }
+  }
+
+  .facts__main {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .facts__list {
+    display: grid;
+  }
+
+  .facts__row {
+    display: grid;
+    gap: 6px var(--s-4);
+    padding-block: var(--s-3);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .facts__row:first-child {
+    border-top: 1px solid var(--hairline);
+  }
+
+  @media (min-width: 700px) {
+    .facts__row {
+      grid-template-columns: 14rem 1fr;
+      align-items: baseline;
+    }
+  }
+
+  .facts__row dd {
+    margin: 0;
+  }
+
+  .facts__places {
+    display: grid;
+    gap: 10px;
+  }
+
+  .facts__places li {
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 12px;
+  }
+
+  .facts__bar {
+    border-radius: 2px;
+    background: var(--place);
+  }
+
+  .contact {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .contact__inner {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: var(--s-3);
+    padding: clamp(var(--s-4), 4vw, var(--s-5));
+  }
+
+  .contact__body {
+    color: rgb(250 250 245 / 0.88);
+  }
+
+  .contact__btn {
+    margin-top: var(--s-2);
+  }
+
+  .boilerplate__grid {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  @media (min-width: 1100px) {
+    .boilerplate__grid {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+  }
+
+  .boilerplate__body {
+    max-width: 52ch;
+  }
+
+  .media__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+
+  .media__text {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 52ch;
+  }
+</style>

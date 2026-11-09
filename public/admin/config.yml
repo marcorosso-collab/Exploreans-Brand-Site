@@ -60,7 +60,7 @@ collections:
             widget: "list"
             fields:
               - { label: "Label", name: "label", widget: "string" }
-              - { label: "Link (mailto: or https://)", name: "href", widget: "string" }
+              - { label: "Link (a page such as /press/, mailto: or https://)", name: "href", widget: "string" }
           - label: "Social accounts"
             name: "social"
             widget: "list"
@@ -228,6 +228,86 @@ collections:
                 fields:
                   - { label: "Criterion", name: "name", widget: "string" }
                   - { label: "Question", name: "question", widget: "string" }
+
+      - name: "careers"
+        label: "Careers"
+        file: "src/content/pages/careers.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title (up to eight words)", name: "title", widget: "string" }
+          - { label: "Lead (up to 40 words)", name: "lead", widget: "text" }
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Image alt text", name: "alt", widget: "string" }
+          - label: "Roles"
+            name: "roles"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - label: "Roles"
+                name: "items"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Description", name: "body", widget: "text" }
+          - { label: "Places headline", name: "places_headline", widget: "string", hint: "The places themselves come from the Places collection." }
+          - label: "How to apply"
+            name: "apply"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Careers email", name: "email", widget: "string" }
+              - { label: "Email button label", name: "email_label", widget: "string" }
+              - { label: "Open roles link", name: "jobs_url", widget: "string" }
+              - { label: "Open roles button label", name: "jobs_label", widget: "string" }
+
+      - name: "press"
+        label: "Press"
+        file: "src/content/pages/press.json"
+        format: json
+        fields:
+          - { label: "SEO title", name: "seo_title", widget: "string" }
+          - { label: "SEO description", name: "seo_description", widget: "text" }
+          - { label: "Title (up to eight words)", name: "title", widget: "string" }
+          - { label: "Lead (up to 40 words)", name: "lead", widget: "text" }
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Image alt text", name: "alt", widget: "string" }
+          - label: "Press contact"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Press email", name: "email", widget: "string" }
+              - { label: "Button label", name: "email_label", widget: "string" }
+          - label: "Key facts"
+            name: "facts"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - label: "Facts"
+                name: "items"
+                widget: "list"
+                hint: "The places are listed automatically from the Places collection."
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Value", name: "value", widget: "string" }
+          - label: "About Exploreans (boilerplate)"
+            name: "boilerplate"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+          - label: "Images and news"
+            name: "media"
+            widget: "object"
+            fields:
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Text", name: "body", widget: "text" }
+              - { label: "Link", name: "url", widget: "string" }
+              - { label: "Button label", name: "label", widget: "string" }
 
       - name: "passport"
         label: "Passport"

@@ -1,0 +1,26 @@
+{
+  "seo_title": "Careers | Exploreans",
+  "seo_description": "Work with Exploreans at Mara River Camp and Watamu Beach Club & Villas. Guides, hosts, makers and naturalists who know their place by heart.",
+  "title": "Share the place you know by heart",
+  "lead": "Every Exploreans experience is led by someone who belongs to the place. If you know a river, a reef or a kitchen by heart and love showing it to others, we would like to hear from you.",
+  "image": "/images/places/mara-river-camp/mara-river-camp-adventure-guides-at-the-river-01.webp",
+  "alt": "A guide and a guest standing among the rocks of the Mara River",
+  "roles": {
+    "headline": "The people who lead the way",
+    "items": [
+      { "name": "Guides", "body": "They lead the walks, the drives and the mornings on the water, and know every track and tide." },
+      { "name": "Hosts", "body": "They welcome guests by name and look after every detail of the stay, from first light to the last fire." },
+      { "name": "Makers", "body": "Cooks, craftspeople and artisans who bring the place to the table and into guests' hands." },
+      { "name": "Naturalists", "body": "They read the land, the river and the reef, and share what they know with curiosity and care." }
+    ]
+  },
+  "places_headline": "Where you could work",
+  "apply": {
+    "headline": "Send us your story",
+    "body": "Write to us with your CV and a few lines about the place you know best. Open roles across Exploreans are listed on the Planhotel Hospitality Group careers page.",
+    "email": "careers@planhotel.com",
+    "email_label": "Email your CV",
+    "jobs_url": "https://www.planhotel.com/careers/",
+    "jobs_label": "See open roles"
+  }
+}

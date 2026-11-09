@@ -182,6 +182,51 @@ const about = defineCollection({
   }),
 });
 
+const careers = defineCollection({
+  loader: glob(page('careers.json')),
+  schema: z.object({
+    ...seo,
+    title: z.string(),
+    lead: z.string(),
+    ...image,
+    roles: z.object({
+      headline: z.string(),
+      items: z.array(z.object({ name: z.string(), body: z.string() })),
+    }),
+    places_headline: z.string(),
+    apply: z.object({
+      headline: z.string(),
+      body: z.string(),
+      email: z.string(),
+      email_label: z.string(),
+      jobs_url: z.string(),
+      jobs_label: z.string(),
+    }),
+  }),
+});
+
+const press = defineCollection({
+  loader: glob(page('press.json')),
+  schema: z.object({
+    ...seo,
+    title: z.string(),
+    lead: z.string(),
+    ...image,
+    contact: z.object({
+      headline: z.string(),
+      body: z.string(),
+      email: z.string(),
+      email_label: z.string(),
+    }),
+    facts: z.object({
+      headline: z.string(),
+      items: z.array(z.object({ label: z.string(), value: z.string() })),
+    }),
+    boilerplate: z.object({ headline: z.string(), body: z.string() }),
+    media: z.object({ headline: z.string(), body: z.string(), url: z.string(), label: z.string() }),
+  }),
+});
+
 const passport = defineCollection({
   loader: glob(page('passport.json')),
   schema: z.object({
@@ -226,6 +271,8 @@ export const collections = {
   legal,
   home,
   about,
+  careers,
+  press,
   passport,
   placesPage,
   experiencesPage,

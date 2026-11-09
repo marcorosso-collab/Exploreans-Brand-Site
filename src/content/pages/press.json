@@ -1,0 +1,34 @@
+{
+  "seo_title": "Press | Exploreans",
+  "seo_description": "Press information for Exploreans: the press contact, key facts about the brand and its places, and where to find images and group news.",
+  "title": "News and facts for the press",
+  "lead": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel. Here are the essentials, and the people to ask for more.",
+  "image": "/images/places/mara-river-camp/mara-river-camp-nature-river-bend-aerial-01.webp",
+  "alt": "The Mara River curving between grassland and trees, seen from above",
+  "contact": {
+    "headline": "Ask the press team",
+    "body": "For interviews, images, visits and news, write to the press team. We will come back to you as soon as we can.",
+    "email": "press@planhotel.com",
+    "email_label": "Email the press team"
+  },
+  "facts": {
+    "headline": "Exploreans at a glance",
+    "items": [
+      { "label": "Master line", "value": "Explore beyond. Explore within." },
+      { "label": "Concept", "value": "A³: Adventure × Awe × Authentic" },
+      { "label": "Five ways to explore", "value": "Adventure, Nature, Culture, Taste and Wellness" },
+      { "label": "Coming soon", "value": "The Exploreans Passport, stamped by a guide, and the Travel Journal, written by the guest" },
+      { "label": "Owner and operator", "value": "Exploreans is part of Planhotel Hospitality Group." }
+    ]
+  },
+  "boilerplate": {
+    "headline": "About Exploreans",
+    "body": "Exploreans is a small collection of places with character, where every stay is measured in what you do, discover and feel. Every experience is led by someone who belongs to the place. Mara River Camp in the Maasai Mara and Watamu Beach Club & Villas on the Kenyan coast are the first places to carry the name. Exploreans is part of Planhotel Hospitality Group."
+  },
+  "media": {
+    "headline": "Images and group news",
+    "body": "Photography and the latest group news are in the Planhotel Media Centre. For Exploreans images in high resolution, ask the press team.",
+    "url": "https://www.planhotel.com/media-centre/",
+    "label": "Visit the Media Centre"
+  }
+}

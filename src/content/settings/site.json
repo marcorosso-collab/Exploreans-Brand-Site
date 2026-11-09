@@ -30,11 +30,11 @@
   "contacts": [
     {
       "label": "Press",
-      "href": "mailto:press@exploreans.com"
+      "href": "/press/"
     },
     {
       "label": "Careers",
-      "href": "mailto:careers@exploreans.com"
+      "href": "/careers/"
     }
   ],
   "social": [],
