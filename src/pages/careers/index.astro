@@ -1,0 +1,206 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import MapLines from '../../components/MapLines.astro';
+import Icon from '../../components/Icon.astro';
+
+const page = (await getEntry('careers', 'careers'))!.data;
+const site = (await getEntry('settings', 'site'))!.data;
+const places = (await getCollection('places')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title={page.seo_title} description={page.seo_description} ogImage={page.image}>
+  <PageHeader title={page.title} lead={page.lead} image={page.image} alt={page.alt} kicker="Careers" />
+
+  <section class="section roles" aria-labelledby="roles-title">
+    <div class="wrap roles__grid">
+      <h2 id="roles-title" class="t-headline roles__title" data-reveal>{page.roles.headline}</h2>
+      <ul class="roles__list" role="list" data-reveal-group>
+        {page.roles.items.map((role) => (
+          <li class="role" data-reveal>
+            <h3 class="t-subhead">{role.name}</h3>
+            <p class="muted">{role.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight on-linen where" aria-labelledby="where-title">
+    <div class="wrap where__grid">
+      <h2 id="where-title" class="t-headline" data-reveal>{page.places_headline}</h2>
+      <ul class="where__list" role="list" data-reveal-group>
+        {places.map((p) => (
+          <li data-place={p.data.kind} data-reveal>
+            <a class="where__place" href={`/places/#${p.id}`}>
+              <span class="where__bar" aria-hidden="true"></span>
+              <span class="where__text">
+                <span class="label label--place">{p.data.kind_label} &middot; {p.data.region}</span>
+                <span class="t-subhead">{p.data.name}</span>
+                <span class="muted">{p.data.summary}</span>
+              </span>
+              <Icon name="arrow-right" class="where__arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section apply" aria-labelledby="apply-title">
+    <div class="wrap">
+      <div class="apply__card on-basalt" data-reveal>
+        <MapLines variant="b" tone="light" lantern />
+        <div class="apply__text">
+          <h2 id="apply-title" class="t-headline">{page.apply.headline}</h2>
+          <p class="t-lead apply__body">{page.apply.body}</p>
+          <p class="apply__email data">
+            <a class="link" href={`mailto:${page.apply.email}`}>{page.apply.email}</a>
+          </p>
+        </div>
+        <div class="apply__actions">
+          <a href={`mailto:${page.apply.email}`} class="btn btn--light">
+            {page.apply.email_label} <Icon name="envelope-simple" class="arrow" />
+          </a>
+          <a href={page.apply.jobs_url} class="btn btn--ghost-light" rel="noopener">
+            {page.apply.jobs_label} <Icon name="arrow-up-right" class="arrow" />
+          </a>
+        </div>
+        <p class="data apply__group">{site.group_line}</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .roles__grid {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 1100px) {
+    .roles__grid {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+  }
+
+  .roles__title {
+    max-width: 14ch;
+  }
+
+  .roles__list {
+    display: grid;
+    gap: var(--s-5) var(--gutter);
+  }
+
+  @media (min-width: 768px) {
+    .roles__list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .role {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--basalt);
+  }
+
+  .role p {
+    max-width: 36ch;
+  }
+
+  .where__grid {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  @media (min-width: 1100px) {
+    .where__grid {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+  }
+
+  .where__list {
+    display: grid;
+  }
+
+  .where__place {
+    display: grid;
+    grid-template-columns: 4px 1fr auto;
+    gap: var(--s-3);
+    align-items: start;
+    padding-block: var(--s-4);
+    border-bottom: 1px solid color-mix(in srgb, var(--basalt) 16%, transparent);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .where__list li:first-child .where__place {
+    border-top: 1px solid color-mix(in srgb, var(--basalt) 16%, transparent);
+  }
+
+  .where__bar {
+    align-self: stretch;
+    border-radius: 2px;
+    background: var(--place);
+  }
+
+  .where__text {
+    display: grid;
+    gap: 6px;
+  }
+
+  .where__text .muted {
+    max-width: 48ch;
+  }
+
+  .where__place :global(.where__arrow) {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.5em;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .where__place:hover :global(.where__arrow) {
+    transform: translateX(4px);
+  }
+
+  .apply__card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: var(--s-5);
+    padding: clamp(var(--s-5), 7vw, var(--s-7));
+    border-radius: var(--radius);
+  }
+
+  .apply__text,
+  .apply__actions,
+  .apply__group {
+    position: relative;
+  }
+
+  .apply__text {
+    display: grid;
+    gap: var(--s-3);
+    max-width: 52ch;
+  }
+
+  .apply__body {
+    color: rgb(250 250 245 / 0.88);
+  }
+
+  .apply__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .apply__group {
+    color: rgb(250 250 245 / 0.6);
+  }
+</style>
