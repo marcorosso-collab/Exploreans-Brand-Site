@@ -17,6 +17,11 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
           <span class="families__key-beyond label">Explore beyond</span>
           <span class="families__key-within label">Explore within</span>
         </div>
+        <!-- Shown only while the track is a native sideways scroller (phones, tablets, reduced motion) -->
+        <p class="families__cue label" aria-hidden="true" data-families-cue>
+          <span data-families-cue-text>Swipe to explore</span>
+          <span class="families__cue-arrow"><Icon name="arrow-right" /></span>
+        </p>
       </div>
 
       {families.map((f) => (
@@ -48,6 +53,7 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
         <a href="/experiences/" class="btn">Browse every experience <Icon name="arrow-right" class="arrow" /></a>
       </div>
     </div>
+    <div class="families__progress" aria-hidden="true"><span></span></div>
   </div>
 </section>
 
@@ -79,6 +85,40 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
       });
       return () => section.classList.remove('is-pinned');
     });
+  }
+
+  // Wherever the track is a native sideways scroller, say so: a swipe cue under the key that
+  // fades once the visitor moves, and a progress rail under the cards.
+  if (section) {
+    const track = section.querySelector<HTMLElement>('[data-families-track]')!;
+    const cueText = section.querySelector<HTMLElement>('[data-families-cue-text]')!;
+    const pinnedQuery = window.matchMedia('(min-width: 1024px) and (hover: hover)');
+    const coarseQuery = window.matchMedia('(pointer: coarse)');
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const pinned = !reduceMotion && pinnedQuery.matches;
+      const max = track.scrollWidth - track.clientWidth;
+      const scrollable = !pinned && max > 1;
+      section.classList.toggle('has-cue', scrollable);
+      if (!scrollable) return;
+      cueText.textContent = coarseQuery.matches ? 'Swipe to explore' : 'Scroll to explore';
+      section.classList.toggle('is-scrolled', track.scrollLeft > 24);
+      const ratio = track.clientWidth / track.scrollWidth;
+      const progress = Math.min(1, Math.max(0, track.scrollLeft / max));
+      section.style.setProperty('--families-ratio', ratio.toFixed(4));
+      section.style.setProperty('--families-shift', `${((1 / ratio - 1) * progress * 100).toFixed(2)}%`);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    track.addEventListener('scroll', schedule, { passive: true });
+    new ResizeObserver(schedule).observe(track);
+    pinnedQuery.addEventListener('change', schedule);
+    coarseQuery.addEventListener('change', schedule);
+    update();
   }
 </script>
 
@@ -147,6 +187,73 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
     background: var(--basalt);
     color: var(--natural-white);
     white-space: nowrap;
+  }
+
+  /* Swipe cue: present only while the track scrolls sideways natively (script sets .has-cue) */
+  .families__cue {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    justify-self: start;
+    margin-top: var(--s-4);
+    color: var(--basalt);
+    transition: opacity var(--dur) var(--ease);
+  }
+
+  .families.has-cue .families__cue,
+  :global(html:not(.js)) .families__cue {
+    display: inline-flex;
+  }
+
+  .families.has-cue.is-scrolled .families__cue {
+    opacity: 0;
+  }
+
+  .families__cue-arrow {
+    display: inline-flex;
+    width: 40px;
+  }
+
+  .families__cue-arrow :global(svg) {
+    width: 20px;
+    height: 20px;
+    animation: families-cue-drift 2200ms var(--ease) infinite;
+  }
+
+  @keyframes families-cue-drift {
+    0% {
+      transform: translateX(-4px);
+      opacity: 0;
+    }
+    25%,
+    65% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(18px);
+      opacity: 0;
+    }
+  }
+
+  /* Progress rail under the cards: how far along the five you are */
+  .families__progress {
+    display: none;
+    height: 2px;
+    margin: var(--s-3) var(--margin) 0;
+    background: rgb(43 43 38 / 0.12);
+    overflow: hidden;
+  }
+
+  .families.has-cue .families__progress {
+    display: block;
+  }
+
+  .families__progress span {
+    display: block;
+    width: calc(var(--families-ratio, 0.25) * 100%);
+    height: 100%;
+    background: var(--basalt);
+    transform: translateX(var(--families-shift, 0%));
   }
 
   .family {
@@ -299,6 +406,10 @@ const families = (await getCollection('families')).sort((a, b) => a.data.order -
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .families__cue-arrow :global(svg) {
+      animation: none;
+    }
+
     .family :global([data-stamp-ink]) {
       opacity: 1;
       transform: none;
