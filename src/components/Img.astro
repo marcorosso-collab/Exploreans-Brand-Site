@@ -7,10 +7,12 @@ interface Props {
   sizes?: string;
   class?: string;
   priority?: boolean;
+  /** For images that sit near the top of the page but stay hidden until a menu opens */
+  lowPriority?: boolean;
   position?: string;
 }
 
-const { src, alt, sizes = '100vw', class: className, priority = false, position } = Astro.props;
+const { src, alt, sizes = '100vw', class: className, priority = false, lowPriority = false, position } = Astro.props;
 const srcset = srcsetFor(src);
 const dims = dimensionsOf(src);
 ---
@@ -24,6 +26,6 @@ const dims = dimensionsOf(src);
   height={dims?.height}
   loading={priority ? 'eager' : 'lazy'}
   decoding={priority ? 'sync' : 'async'}
-  fetchpriority={priority ? 'high' : undefined}
+  fetchpriority={priority ? 'high' : lowPriority ? 'low' : undefined}
   style={position ? `object-position:${position}` : undefined}
 />
