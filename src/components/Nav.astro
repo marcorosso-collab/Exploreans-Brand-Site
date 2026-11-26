@@ -46,7 +46,7 @@ const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
                         <li class="panel__place" data-place={p.data.kind}>
                           <a href={`/places/#${p.id}`} class="panel__card">
                             <span class="panel__media">
-                              <Img src={p.data.hero_image} alt="" sizes="360px" />
+                              <Img src={p.data.hero_image} alt="" sizes="148px" lowPriority />
                             </span>
                             <span class="panel__text">
                               <span class="label label--place">{p.data.region}</span>

@@ -31,26 +31,32 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Baseline CSP: no framing by other sites, no plugins, no <base> hijacking.
+    # Script and style sources are not restricted yet (GTM and inline scripts need a fuller policy).
+    Content-Security-Policy = "frame-ancestors 'self'; object-src 'none'; base-uri 'self'"
 
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Photography, stamps and film: a month, then refreshed in the background. Not immutable, because
+# the file names are not hashed and the CMS can replace them. No Cross-Origin-Resource-Policy here:
+# watamu.exploreans.com loads these images.
 [[headers]]
   for = "/images/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/stamps/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/video/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 # Keep the CMS out of search results. robots.txt lets crawlers in so they can read this header
 [[headers]]

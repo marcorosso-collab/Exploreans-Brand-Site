@@ -3,16 +3,22 @@ import { join } from 'node:path';
 
 const PUBLIC_DIR = join(process.cwd(), 'public');
 
+/** Smaller copies made by scripts/image-variants.mjs (plus the original -960) */
+const VARIANT_WIDTHS = [480, 720, 960];
+
 /**
- * Processed photography ships as `name.webp` (up to 1920 wide) plus `name-960.webp`.
- * Images uploaded through the CMS have no small variant and are served as they are.
+ * Processed photography ships as `name.webp` (up to 1920 wide) plus `name-480`, `-720` and
+ * `-960.webp`. Only the copies that exist on disk are offered. Images uploaded through the
+ * CMS have no small variants and are served as they are.
  */
 export function srcsetFor(src: string): string | undefined {
   if (!src.startsWith('/') || !src.endsWith('.webp')) return undefined;
-  const small = src.replace(/\.webp$/, '-960.webp');
-  if (!existsSync(join(PUBLIC_DIR, small))) return undefined;
+  const variants = VARIANT_WIDTHS.map((w) => ({ w, path: src.replace(/\.webp$/, `-${w}.webp`) })).filter((v) =>
+    existsSync(join(PUBLIC_DIR, decodeURI(v.path))),
+  );
+  if (!variants.length) return undefined;
   const size = dimensionsOf(src);
-  return `${small} 960w, ${src} ${size?.width ?? 1920}w`;
+  return [...variants.map((v) => `${v.path} ${v.w}w`), `${src} ${size?.width ?? 1920}w`].join(', ');
 }
 
 const dimsCache = new Map<string, { width: number; height: number } | null>();

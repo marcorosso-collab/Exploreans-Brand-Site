@@ -10,6 +10,7 @@ import { getEntry, getCollection } from 'astro:content';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import { dimensionsOf } from '../lib/images';
 
 interface Props {
   title: string;
@@ -28,6 +29,7 @@ const { title, description, ogImage = site.og_image, navTheme = 'overlay', type 
 const siteUrl = Astro.site!.toString().replace(/\/$/, '');
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+const ogDims = ogImage.startsWith('/') ? dimensionsOf(ogImage) : null;
 
 const graph = [
   {
@@ -79,6 +81,7 @@ const graph = [
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="Exploreans" />
@@ -87,6 +90,8 @@ const graph = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    {ogDims && <meta property="og:image:width" content={String(ogDims.width)} />}
+    {ogDims && <meta property="og:image:height" content={String(ogDims.height)} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

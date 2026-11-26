@@ -16,13 +16,20 @@ const STATIC_PAGES = [
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site!.toString().replace(/\/$/, '');
-  const today = new Date().toISOString().split('T')[0];
   const stories = await getCollection('stories', ({ data }) => !data.draft);
-  const urls = [
-    ...STATIC_PAGES.map((p) => ({ loc: `${base}${p.path}`, lastmod: today, ...p })),
+  const day = (d: Date) => d.toISOString().split('T')[0];
+  const newestStory = stories.length ? day(new Date(Math.max(...stories.map((s) => s.data.date.getTime())))) : undefined;
+  // lastmod only where the date is real: a build date on every page teaches crawlers to ignore it
+  const urls: { loc: string; lastmod?: string; priority: number; changefreq: string }[] = [
+    ...STATIC_PAGES.map((p) => ({
+      loc: `${base}${p.path}`,
+      lastmod: p.path === '/stories/' ? newestStory : undefined,
+      priority: p.priority,
+      changefreq: p.changefreq,
+    })),
     ...stories.map((s) => ({
       loc: `${base}/stories/${s.id}/`,
-      lastmod: s.data.date.toISOString().split('T')[0],
+      lastmod: day(s.data.date),
       priority: 0.6,
       changefreq: 'yearly',
     })),
@@ -33,8 +40,7 @@ ${urls
   .map(
     (u) => `  <url>
     <loc>${u.loc}</loc>
-    <lastmod>${u.lastmod}</lastmod>
-    <changefreq>${u.changefreq}</changefreq>
+${u.lastmod ? `    <lastmod>${u.lastmod}</lastmod>\n` : ''}    <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority.toFixed(1)}</priority>
   </url>`,
   )

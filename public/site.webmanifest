@@ -1,0 +1,14 @@
+{
+  "name": "Exploreans",
+  "short_name": "Exploreans",
+  "description": "Camps, lodges and retreats in Kenya, part of Planhotel Hospitality Group.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#fafaf5",
+  "theme_color": "#2b2b26",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
